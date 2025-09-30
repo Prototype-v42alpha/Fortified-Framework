@@ -15,13 +15,13 @@ public class ModExt_EnvironmentalBill : DefModExtension
     {
         List<string> reportTexts = new();
         if (OnlyInCleanliness)
-            reportTexts.Add("Clean");
+            reportTexts.Add("FFF.CleanRoom".Translate());
         if (OnlyInDarkness)
-            reportTexts.Add("Darkness");
+            reportTexts.Add("FFF.Darkness".Translate());
         if (OnlyInVacuum)
-            reportTexts.Add("Vacuum");
+            reportTexts.Add("FFF.Vacuum".Translate());
         if (OnlyInMicroGravity)
-            reportTexts.Add("MicroGravity");
+            reportTexts.Add("FFF.MicroGravity".Translate());
 
         yield return new StatDrawEntry(
             StatCategoryDefOf.Basics,

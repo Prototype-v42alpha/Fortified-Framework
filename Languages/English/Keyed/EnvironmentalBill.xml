@@ -4,7 +4,18 @@
   <FFF.Message.BillSuspendedInNonVacuum>{0} on {1} is suspended: require Vacuum environment</FFF.Message.BillSuspendedInNonVacuum>
   <FFF.Cannot.TableNotInVacuum>Cannot operate: require in vacuum environment</FFF.Cannot.TableNotInVacuum>
 
-  <FFF.Message.BillSuspendedInNonMicroGravity>{0} on {1} is suspended: require in Orbit or Microgravity environment</FFF.Message.BillSuspendedInNonMicroGravity>
+  <FFF.Message.BillSuspendedInNonMicroGravity>{0} on {1} is suspended: require Micro gravity environment</FFF.Message.BillSuspendedInNonMicroGravity>
   <FFF.Cannot.TableNotInMicroGravity>Cannot operate: require micro gravity environment</FFF.Cannot.TableNotInMicroGravity>
 
+    <FFF.Message.BillSuspendedInLight>{0} on {1} is suspended: require Dark room environment</FFF.Message.BillSuspendedInLight>
+  <FFF.Cannot.TableNotInDarkness>Cannot operate: require dark environment</FFF.Cannot.TableNotInDarkness>
+
+  <FFF.Message.BillSuspendedInDirtiness>{0} on {1} is suspended: require Clean room environment</FFF.Message.BillSuspendedInDirtiness>
+  <FFF.Cannot.TableNotInCleanRoom>Cannot operate: require clean environment</FFF.Cannot.TableNotInCleanRoom>
+
+  <FFF.EnvironmentRestriction>required environment</FFF.EnvironmentRestriction>
+  <FFF.CleanRoom>clean room</FFF.CleanRoom>
+  <FFF.Darkness>darkness</FFF.Darkness>
+  <FFF.Vacuum>vacuum</FFF.Vacuum>
+  <FFF.MicroGravity>micro gravity</FFF.MicroGravity>
 </LanguageData>

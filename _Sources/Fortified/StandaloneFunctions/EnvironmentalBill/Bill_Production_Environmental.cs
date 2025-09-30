@@ -42,41 +42,29 @@ namespace Fortified
         protected bool CheckEnvironment()
         {
             if (Extension == null) return true;
-            if (Extension.OnlyInVacuum)
+            if (Extension.OnlyInVacuum && !(WorkBench.Map.Biome.inVacuum || OrbitUtility.InVacuum(WorkBench)))
             {
-                if (!this.WorkBench.Map.Biome.inVacuum || !OrbitUtility.InVacuum(this.WorkBench))
-                {
-                    suspended = true;
-                    Messages.Message("FFF.Message.BillSuspendedInNonVacuum".Translate(Label, WorkBench.Label), MessageTypeDefOf.CautionInput);
-                    return false;
-                }
+                suspended = true;
+                Messages.Message("FFF.Message.BillSuspendedInNonVacuum".Translate(Label, WorkBench.Label), MessageTypeDefOf.CautionInput);
+                return false;
             }
-            if (Extension.OnlyInMicroGravity)
+            if (Extension.OnlyInMicroGravity && !OrbitUtility.InMicroGravity(WorkBench))
             {
-                if (!OrbitUtility.InMicroGravity(this.WorkBench))
-                {
-                    suspended = true;
-                    Messages.Message("FFF.Message.BillSuspendedInNonMicroGravity".Translate(Label, WorkBench.Label), MessageTypeDefOf.CautionInput);
-                    return false;
-                }
+                suspended = true;
+                Messages.Message("FFF.Message.BillSuspendedInNonMicroGravity".Translate(Label, WorkBench.Label), MessageTypeDefOf.CautionInput);
+                return false;
             }
-            if (Extension.OnlyInDarkness)
+            if (Extension.OnlyInDarkness && !OrbitUtility.InDarkness(WorkBench))
             {
-                if (Mathf.Clamp01(WorkBench.Map.glowGrid.GroundGlowAt(WorkBench.Position)) > 0.25f)
-                {
-                    suspended = true;
-                    Messages.Message("FFF.Message.BillSuspendedInLight".Translate(Label, WorkBench.Label), MessageTypeDefOf.CautionInput);
-                    return false;
-                }
+                suspended = true;
+                Messages.Message("FFF.Message.BillSuspendedInLight".Translate(Label, WorkBench.Label), MessageTypeDefOf.CautionInput);
+                return false;
             }
-            if (Extension.OnlyInCleanliness)
+            if (Extension.OnlyInCleanliness && !OrbitUtility.InCleanRoom(WorkBench))
             {
-                if (WorkBench.GetStatValue(StatDefOf.Cleanliness) < 0)
-                {
-                    suspended = true;
-                    Messages.Message("FFF.Message.BillSuspendedInDirtiness".Translate(Label, WorkBench.Label), MessageTypeDefOf.CautionInput);
-                    return false;
-                }
+                suspended = true;
+                Messages.Message("FFF.Message.BillSuspendedInDirtiness".Translate(Label, WorkBench.Label), MessageTypeDefOf.CautionInput);
+                return false;
             }
             return true;
         }

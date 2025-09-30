@@ -57,8 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="CombatExtended">
-      <HintPath>..\..\..\..\..\..\workshop\content\294100\3495749827\Assemblies\CombatExtended.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\CombatExtended.dll</HintPath>
     </Reference>
     <Reference Include="Fortified">
       <HintPath>..\..\1.6\Assemblies\Fortified.dll</HintPath>

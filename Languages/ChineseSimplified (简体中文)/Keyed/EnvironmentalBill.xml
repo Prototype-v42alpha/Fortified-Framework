@@ -7,4 +7,16 @@
   <FFF.Message.BillSuspendedInNonMicroGravity>{1}无法执行{0}: 需要在微重力环境中</FFF.Message.BillSuspendedInNonMicroGravity>
   <FFF.Cannot.TableNotInMicroGravity>无法运行: 需要在微重力环境中</FFF.Cannot.TableNotInMicroGravity>
 
+  <FFF.Message.BillSuspendedInLight>{1}无法执行{0}: 需要在黑暗环境中</FFF.Message.BillSuspendedInLight>
+  <FFF.Cannot.TableNotInDarkness>无法运行: 需要在黑暗环境中</FFF.Cannot.TableNotInDarkness>
+
+  <FFF.Message.BillSuspendedInDirtiness>{1}无法执行{0}: 需要在无尘环境中</FFF.Message.BillSuspendedInDirtiness>
+  <FFF.Cannot.TableNotInCleanRoom>无法运行: 需要在无尘环境中</FFF.Cannot.TableNotInCleanRoom>
+
+  <FFF.EnvironmentRestriction>生产环境需求</FFF.EnvironmentRestriction>
+  <FFF.CleanRoom>无尘</FFF.CleanRoom>
+  <FFF.Darkness>暗室</FFF.Darkness>
+  <FFF.Vacuum>真空</FFF.Vacuum>
+  <FFF.MicroGravity>微重力</FFF.MicroGravity>
+
 </LanguageData>
