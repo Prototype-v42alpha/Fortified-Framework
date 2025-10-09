@@ -34,7 +34,12 @@ public static class Patch_IncidentWorkerForDevice
         }
 
         // 啟動裝置（進入冷卻）
-        comp.TriggerCooldown();
+        if (comp.Props.coolDownPerRaidPoint != 0)
+        {
+            comp.TriggerCooldown((int)parms.points);
+        }
+        else comp.TriggerCooldown();
+        
 
         // 視覺與訊息（盡量用安全、普遍存在的 Fleck / Message）
         try

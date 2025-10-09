@@ -9,6 +9,7 @@ public class CompProperties_ShieldingDevice : CompProperties
 {
     public List<IncidentDef> incidentsWhitelist;
     public int coolDownTicks = 60000;
+    public int coolDownPerRaidPoint = 0;
     public int powerCostPerColonist = 500;
 
     public EffecterDef activeEffecter;
@@ -125,6 +126,11 @@ public class CompShieldingDevice : ThingComp
         if (!Active) text += "\n"+"FFF.MessageCooldownRemaining".Translate(remainingTicks.ToStringTicksToPeriod());
         return base.CompInspectStringExtra() + text;
     }
+    public void TriggerCooldown(int raidPoint)
+    {
+        Props.triggerEffecter.Spawn().Trigger(parent, parent);
+        remainingTicks = raidPoint * Props.coolDownPerRaidPoint;
+    }
     public void TriggerCooldown()
     {
         Props.triggerEffecter.Spawn().Trigger(parent, parent);
@@ -146,7 +152,7 @@ public class CompShieldingDevice : ThingComp
         colonistCountCache = colonistCount;
 
         if (CompPower == null) return;
-        CompPower.PowerOutput = 0 - (Props.powerCostPerColonist * colonistCount - CompPower.Props.PowerConsumption);//人數*500+基礎耗電
+        CompPower.PowerOutput = 0 - (Props.powerCostPerColonist * colonistCount + CompPower.Props.PowerConsumption);//人數*500+基礎耗電
     }
 
     public static IEnumerable<Thing> GetTowerByIncident(IncidentDef def)
