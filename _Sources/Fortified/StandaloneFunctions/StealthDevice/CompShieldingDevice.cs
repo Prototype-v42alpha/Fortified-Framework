@@ -81,6 +81,10 @@ public class CompShieldingDevice : ThingComp
         }
         cache.Remove(this);
     }
+    public override void CompTickInterval(int delta)
+    {
+        if (DebugSettings.godMode) Log.Message("CompTickInterval " + delta);
+    }
     public override void CompTick()
     {
         if (!HasPower) return;
@@ -117,11 +121,13 @@ public class CompShieldingDevice : ThingComp
     }
     public override string CompInspectStringExtra()
     {
-        return base.CompInspectStringExtra() + "FFF.MessageCooldownRemaining".Translate(remainingTicks.ToStringTicksToPeriod());
+        string text = "FFF.ColonistCount".Translate(colonistCountCache);
+        if (!Active) text += "\n"+"FFF.MessageCooldownRemaining".Translate(remainingTicks.ToStringTicksToPeriod());
+        return base.CompInspectStringExtra() + text;
     }
     public void TriggerCooldown()
     {
-        Props.triggerEffecter.Spawn();
+        Props.triggerEffecter.Spawn().Trigger(parent, parent);
         remainingTicks = Props.coolDownTicks;
     }
     public override void PostExposeData()
@@ -134,10 +140,13 @@ public class CompShieldingDevice : ThingComp
             if (!cache.Contains(this)) cache.Add(this);
         }
     }
+    private int colonistCountCache = 0;
     private void HandleColonistCountChanged(int colonistCount)
     {
+        colonistCountCache = colonistCount;
+
         if (CompPower == null) return;
-        CompPower.PowerOutput = 0 - (Props.powerCostPerColonist * colonistCount + CompPower.Props.PowerConsumption);//人數*500+基礎耗電
+        CompPower.PowerOutput = 0 - (Props.powerCostPerColonist * colonistCount - CompPower.Props.PowerConsumption);//人數*500+基礎耗電
     }
 
     public static IEnumerable<Thing> GetTowerByIncident(IncidentDef def)

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <FFF.ColonistCount>Colonist counts:{0}</FFF.ColonistCount>
+
+  <FFF.MessageCooldownRemaining>Device cooling: remain {0}</FFF.MessageCooldownRemaining>
+
+  <FFF.MessageDeviceReady>{0} has finished cooling and back operational.</FFF.MessageDeviceReady>
+
+  <FFF.DeviceIntercepted>Shielding device intercepted: {0}</FFF.DeviceIntercepted>
+  
+  <FFF.Shielded>Shielded</FFF.Shielded>
+</LanguageData>

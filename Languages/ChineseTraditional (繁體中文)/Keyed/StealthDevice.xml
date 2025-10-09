@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <FFF.ColonistCount>本地殖民者數量:{0}</FFF.ColonistCount>
+
+  <FFF.MessageCooldownRemaining>裝置冷卻中:剩餘{0}</FFF.MessageCooldownRemaining>
+
+  <FFF.MessageDeviceReady>{0}完成了冷卻並且已重新開始運作</FFF.MessageDeviceReady>
+
+  <FFF.DeviceIntercepted>一座匿蹤裝置成功屏蔽了{0}</FFF.DeviceIntercepted>
+  
+  <FFF.Shielded>屏蔽成功</FFF.Shielded>
+</LanguageData>

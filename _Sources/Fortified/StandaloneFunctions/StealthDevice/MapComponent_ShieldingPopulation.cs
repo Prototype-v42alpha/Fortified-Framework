@@ -52,5 +52,6 @@ public class MapComponent_Population : MapComponent
             lastColonistCount = current;
             OnColonistCountChanged?.Invoke(lastColonistCount);
         }
+        if(DebugSettings.godMode) Log.Message($"[MapComponent_Population] Colonist count changed: {lastColonistCount}");
     }
 }

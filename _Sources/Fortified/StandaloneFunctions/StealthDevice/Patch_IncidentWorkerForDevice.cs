@@ -43,15 +43,16 @@ public static class Patch_IncidentWorkerForDevice
             {
                 // 小型火花效果做為觸發提示
                 FleckMaker.Static(towerThing.Position, towerThing.Map, FleckDefOf.PsycastAreaEffect, 1.2f);
-                MoteMaker.ThrowText(towerThing.DrawPos, towerThing.Map, "Shielded", 2f);
+                MoteMaker.ThrowText(towerThing.DrawPos, towerThing.Map, "FFF.Shielded".Translate(), 2f);
             }
         }
         catch { /* 忽略美術特效失敗 */ }
 
         // 對玩家顯示攔截訊息
         string label = __instance.def.label ?? "incident";
+        
         Messages.Message(
-            "Shielding device intercepted: " + label.CapitalizeFirst(),
+            "FFF.DeviceIntercepted".Translate(label.CapitalizeFirst()),
             new TargetInfo(towerThing.Position, towerThing.Map, false),
             MessageTypeDefOf.PositiveEvent
         );
