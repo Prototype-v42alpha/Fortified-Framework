@@ -54,11 +54,13 @@ namespace Fortified
             }
             yield return gotoBillGiver;
             Toil toil = Toils_General.WaitWith(TargetIndex.A, building.GetWorkTime(), useProgressBar: true, maintainPosture: true);
-            toil.AddFinishAction(delegate
-            {
-                building.StartBill((Bill_Production)job.bill, TargetThingA, pawn);
-            });
             yield return toil;
+            var t = new Toil();
+            t.AddPreInitAction(() =>
+            {
+                building.StartBill((Bill_Production)job.bill, base.TargetThingA, pawn);
+            });
+            yield return t;
         }
     }
 }

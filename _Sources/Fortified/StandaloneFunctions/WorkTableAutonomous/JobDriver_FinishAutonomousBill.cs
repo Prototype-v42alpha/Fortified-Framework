@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using RimWorld;
+using System.Collections.Generic;
 using Verse;
 using Verse.AI;
 
@@ -25,15 +26,13 @@ namespace Fortified
             Building_WorkTableAutonomous building = base.TargetThingA as Building_WorkTableAutonomous;
             yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.InteractionCell);
             Toil toil = Toils_General.WaitWith(TargetIndex.A, building.GetWorkTime(), useProgressBar: true, maintainPosture: true);
-            toil.AddFinishAction(delegate
-            {
-                if (building.activeBill != null)
-                {
-                    building.Finish(pawn);
-                }
-            });
             yield return toil;
+            var t = new Toil();
+            t.AddPreInitAction(() =>
+            {
+                building.StartBill((Bill_Production)job.bill, base.TargetThingA, pawn);
+            });
+            yield return t;
         }
     }
-
 }

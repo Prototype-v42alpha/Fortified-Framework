@@ -69,7 +69,6 @@ namespace Fortified
                 story.headType ??= Extension.headTypeOverride;
                 story.SkinColorBase = Color.white;
 
-
                 style ??= new Pawn_StyleTracker(this)
                 {
                     beardDef = BeardDefOf.NoBeard,
