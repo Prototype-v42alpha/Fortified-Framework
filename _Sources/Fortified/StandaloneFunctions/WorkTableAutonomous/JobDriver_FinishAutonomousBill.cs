@@ -30,7 +30,7 @@ namespace Fortified
             var t = new Toil();
             t.AddPreInitAction(() =>
             {
-                building.Finish((pawn));
+                building.Finish(pawn);
             });
             yield return t;
         }
