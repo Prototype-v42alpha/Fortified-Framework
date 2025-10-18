@@ -4,13 +4,10 @@ using System.Linq;
 using System.Collections.Generic;
 using RimWorld;
 using System;
-using static HarmonyLib.Code;
-using static UnityEngine.GraphicsBuffer;
 using UnityEngine;
 
 public static partial class CheckUtility
 {
-
     public static bool InRange(LocalTargetInfo A, LocalTargetInfo B, float squaredRange)
     {
         if ((float)IntVec3Utility.DistanceToSquared(A.Cell, B.Cell) <= squaredRange)
@@ -66,34 +63,11 @@ public static partial class CheckUtility
         }
         return false;
     }
-    public static bool IsMechUseable(MechWeaponExtension extension, ThingWithComps thing)
+    internal static bool IsMechUseable(MechWeaponExtension extension, ThingWithComps thing)
     {
-        if (extension == null)
-        {
-            return false;
-        }
-        if (thing == null)
-        {
-            return false;
-        }
-        if (thing.def.weaponTags.NullOrEmpty()) return false;
-
-        if (BypassedUseable(extension, thing.def.defName)) return true; //指定可用
-
-        if (!InTechLevel(extension, thing)) return false;//科技等級可用
-
-        if (extension.EnableWeaponFilter)
-        {
-            if (thing.def.weaponTags.ContainsAny(t => extension.UsableWeaponTags.Contains(t)))
-            {
-                return true;
-            }
-        }
-        else //Filter沒開的狀況下就單純看武器重量。
-        {
-            HeavyEquippableExtension heavyEquippableExtension = thing.def.GetModExtension<HeavyEquippableExtension>();
-            if (heavyEquippableExtension == null) return true;
-        }
+        if (extension == null) return false;
+        if (thing == null) return false;
+        if (extension.CanUse(thing)) return true;
         return false;
     }
     public static bool UseableInRuntime(Thing mech, ThingWithComps weapon)//透過改造或別的因素所以可以用的狀況
@@ -135,10 +109,13 @@ public static partial class CheckUtility
             throw new ArgumentNullException(nameof(pawn));
         }
 
-        if (apparels.NullOrEmpty()) return false; 
+        if (apparels.NullOrEmpty()) return false;
         foreach (ThingDef apparel in apparels)//裝備上可用
         {
-            if (CheckUtility.WearsApparel(pawn, apparel)) return true;
+            if (WearsApparel(pawn, apparel))
+            {
+                return true;
+            }
         }
         return false;
     }
@@ -155,11 +132,6 @@ public static partial class CheckUtility
         }
         return true;
     }
-    public static bool InTechLevel(MechWeaponExtension extension, ThingWithComps thing)//為可用的科技等級。
-    {
-        if (!extension.EnableTechLevelFilter || (extension.EnableTechLevelFilter && extension.UsableTechLevels.NullOrEmpty())) return true;
-        else return extension.UsableTechLevels.NotNullAndContains(thing.def.techLevel);
-    }
 
     public static bool IsMannable(TurretMannableExtension extension, Building_Turret turret)
     {
@@ -168,16 +140,27 @@ public static partial class CheckUtility
         if (extension.mannableByDefault) return true;
         return extension.BypassMannable.NotNullAndContains(turret.def.defName);
     }
-    public static bool BypassedUseable(MechWeaponExtension extension, string defName)//白名單直接可用
-    {
-        if (extension.BypassUsableWeapons.NullOrEmpty()) return false;
-        return extension.BypassUsableWeapons.Contains(defName);
-    }
+
     public static bool WearsApparel(Pawn pawn, ThingDef thingDef)
     {
         if (pawn.apparel?.WornApparel != null)
         {
             return (pawn.apparel.WornApparel.Where(e => e.def == thingDef).FirstOrDefault() != null);
+        }
+        return false;
+    }
+
+    public static bool HasAnyGeneOf(Pawn pawn, List<GeneDef> equippableWithGene)
+    {
+        if (pawn is null)
+        {
+            throw new ArgumentNullException(nameof(pawn));
+        }
+        if (equippableWithGene.NullOrEmpty()) return false;
+        if (pawn.genes == null) return false;
+        foreach (var item in equippableWithGene)
+        {
+            if (pawn.genes.HasActiveGene(item)) return true;
         }
         return false;
     }

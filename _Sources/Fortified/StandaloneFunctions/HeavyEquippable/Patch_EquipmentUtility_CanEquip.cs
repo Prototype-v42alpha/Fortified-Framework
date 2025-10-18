@@ -14,7 +14,7 @@ namespace Fortified
     {
         static void Postfix(ref bool __result, Thing __0, Pawn __1, ref string __2, bool __3)
         {
-            if (__result != true) return;//因為其他原因的不可行(生物鎖之類的)
+            if (!__result) return;//因為其他原因的不可行(生物鎖之類的)
             if (!(__0 is Thing thing) || !(__1 is Pawn pawn)) return;//天知道拿了個不知道啥的鬼東西，反正也跳過。
             if (thing.TryGetComp<CompEquippable>() == null) return; //沒有comp
 

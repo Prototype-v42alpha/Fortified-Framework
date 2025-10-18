@@ -100,7 +100,7 @@ namespace Fortified
             foreach (ThingDef mech in WeaponUseableMechs)
             {
                 MechWeaponExtension ext = mech.GetModExtension<MechWeaponExtension>();
-                if (ext != null && CheckUtility.IsMechUseable(ext, weapon))
+                if (ext != null && ext.CanUse(weapon))
                 {
                     list.AddDistinct(mech);
                 }

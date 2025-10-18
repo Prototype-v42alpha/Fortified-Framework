@@ -16,5 +16,50 @@ namespace Fortified
         public List<WeaponClassDef> UsableWeaponClasses = new List<WeaponClassDef>();
 
         public List<string> BypassUsableWeapons = new List<string>();
+
+        /// <summary>
+        /// 處理以下狀況：
+        /// 1.可直接使用的武器白名單
+        /// 2.啟用武器標籤篩選，且武器標籤符合
+        /// 3.啟用科技等級篩選，且武器科技等級符合
+        /// 4.啟用武器分類篩選，且武器分類符合
+        /// 5.武器沒有被HeavyEquippableExtension限制體型
+        /// 6.以上皆符合則回傳true，否則false
+        /// </summary>
+        public bool CanUse(ThingWithComps weapon)
+        {
+            if (BypassUsableWeapons.Contains(weapon.def.defName)) return true;
+            if (EnableWeaponFilter)
+            {
+                if (!UsableWeaponTags.NullOrEmpty()) Log.Warning("MechWeaponExtension has EnableWeaponFilter enabled but UsableWeaponTags is empty!");
+                bool tagMatch = false;
+                foreach (string tag in UsableWeaponTags)
+                {
+                    if (weapon.def.weaponTags.Contains(tag))
+                    {
+                        tagMatch = true;
+                        break;
+                    }
+                }
+                if (!tagMatch) return false;
+            }
+            if (EnableTechLevelFilter && !UsableTechLevels.Contains(weapon.def.techLevel))
+            {
+                return false;
+            }
+            if (EnableClassFilter)
+            {
+                if (weapon.def.weaponClasses.NullOrEmpty() || !weapon.def.weaponClasses.ContainsAny(p => UsableWeaponClasses.Contains(p)))
+                {
+                    return false;
+                }
+            }
+            if (weapon.def.HasModExtension<HeavyEquippableExtension>())
+            {
+                var ext = weapon.def.GetModExtension<HeavyEquippableExtension>();
+                if (ext.EquippableDef.EquippableBaseBodySize == -1) return false;
+            }
+            return true;
+        }
     }
 }

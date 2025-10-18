@@ -25,7 +25,7 @@ namespace Fortified
         public override IEnumerable<FloatMenuOption> GetOptionsFor(Thing clickedThing, FloatMenuContext context)
         {
             var ext = context.FirstSelectedPawn.def.GetModExtension<MechWeaponExtension>();
-            foreach (var item in Fortified.FloatMenuUtility.GetExtraFloatMenuOptionsFor(context, clickedThing, ext))
+            foreach (FloatMenuOption item in FloatMenuUtility.GetExtraFloatMenuOptionsFor(context, clickedThing, ext))
             {
                 yield return item;
             }
