@@ -17,5 +17,6 @@
 
     <!-- EN: bodysize not supported (need:{0}) -->
     <FFF.BodysizeNotSupported>bodysize not supported (need:{0})</FFF.BodysizeNotSupported>
-
+    
+    <FFF.ViewUsableWeapons>View Usable Weapons</FFF.ViewUsableWeapons>
 </LanguageData>

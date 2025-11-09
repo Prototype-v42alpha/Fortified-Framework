@@ -8,6 +8,10 @@ namespace Fortified
 {
     public class StatWorker_MechWeapon : StatWorker
     {
+        public override string GetStatDrawEntryLabel(StatDef stat, float value, ToStringNumberSense numberSense, StatRequest optionalReq, bool finalized = true)
+        {
+            return "FFF.ViewUsableWeapons".TranslateSimple();
+        }
         public override bool ShouldShowFor(StatRequest req)
         {
             return base.ShouldShowFor(req) && req.Def.HasModExtension<MechWeaponExtension>();

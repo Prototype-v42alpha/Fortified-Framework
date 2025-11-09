@@ -23,4 +23,5 @@
     <!-- EN: bodysize not supported (need:{0}) -->
     <FFF.BodysizeNotSupported>體型尺寸不支持(需要:{0})</FFF.BodysizeNotSupported>
 
+    <FFF.ViewUsableWeapons>查看可用武器</FFF.ViewUsableWeapons>
 </LanguageData>
