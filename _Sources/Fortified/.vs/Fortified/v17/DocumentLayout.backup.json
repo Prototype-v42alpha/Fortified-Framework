@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{42386F22-1DFB-5DB7-665F-DF3880365B65}|Fortified.csproj|d:\\steam\\steamapps\\common\\rimworld\\mods\\_fortified-framework\\_sources\\fortified\\utility\\statworker_heavygear.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{42386F22-1DFB-5DB7-665F-DF3880365B65}|Fortified.csproj|solutionrelative:utility\\statworker_heavygear.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{42386F22-1DFB-5DB7-665F-DF3880365B65}|Fortified.csproj|d:\\steam\\steamapps\\common\\rimworld\\mods\\_fortified-framework\\_sources\\fortified\\mech\\drone\\compmechplatform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{42386F22-1DFB-5DB7-665F-DF3880365B65}|Fortified.csproj|solutionrelative:mech\\drone\\compmechplatform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -165,17 +169,8 @@
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Patch_CanDropWeapon.cs",
-              "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\Mech\\Patches\\Patch_CanDropWeapon.cs",
-              "RelativeDocumentMoniker": "Mech\\Patches\\Patch_CanDropWeapon.cs",
-              "ToolTip": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\Mech\\Patches\\Patch_CanDropWeapon.cs",
-              "RelativeToolTip": "Mech\\Patches\\Patch_CanDropWeapon.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAUwCEAAAAvAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-08T21:32:33.011Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
             },
             {
               "$type": "Bookmark",
@@ -184,19 +179,43 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "StatWorker_HeavyGear.cs",
+              "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\Utility\\StatWorker_HeavyGear.cs",
+              "RelativeDocumentMoniker": "Utility\\StatWorker_HeavyGear.cs",
+              "ToolTip": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\Utility\\StatWorker_HeavyGear.cs",
+              "RelativeToolTip": "Utility\\StatWorker_HeavyGear.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-09T15:03:07.514Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Patch_CanDropWeapon.cs",
+              "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\Mech\\Patches\\Patch_CanDropWeapon.cs",
+              "RelativeDocumentMoniker": "Mech\\Patches\\Patch_CanDropWeapon.cs",
+              "ToolTip": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\Mech\\Patches\\Patch_CanDropWeapon.cs",
+              "RelativeToolTip": "Mech\\Patches\\Patch_CanDropWeapon.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAUwCEAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-08T21:32:33.011Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "CompMechPlatform.cs",
               "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\Mech\\Drone\\CompMechPlatform.cs",
               "RelativeDocumentMoniker": "Mech\\Drone\\CompMechPlatform.cs",
               "ToolTip": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\Mech\\Drone\\CompMechPlatform.cs",
               "RelativeToolTip": "Mech\\Drone\\CompMechPlatform.cs",
-              "ViewState": "AgIAAKwBAAAAAAAAAAApwLgBAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAJEBAAAAAAAAAAAkwLgBAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-08T21:31:45.076Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-08T21:31:45.076Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "CompDrone.cs",
               "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\Mech\\Drone\\CompDrone.cs",
               "RelativeDocumentMoniker": "Mech\\Drone\\CompDrone.cs",
@@ -204,12 +223,11 @@
               "RelativeToolTip": "Mech\\Drone\\CompDrone.cs",
               "ViewState": "AgIAACIAAAAAAAAAAAAkwDEAAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-08T21:27:57.234Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-08T21:27:57.234Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "DamageWorker_CountByBodysize.cs",
               "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\DamageWorker\\DamageWorker_CountByBodysize.cs",
               "RelativeDocumentMoniker": "DamageWorker\\DamageWorker_CountByBodysize.cs",
@@ -217,12 +235,11 @@
               "RelativeToolTip": "DamageWorker\\DamageWorker_CountByBodysize.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-25T00:48:01.127Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-25T00:48:01.127Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Projectile_ConeExplosive.cs",
               "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\Thing\\Projectile\\SpecialExplosions\\Projectile_ConeExplosive.cs",
               "RelativeDocumentMoniker": "Thing\\Projectile\\SpecialExplosions\\Projectile_ConeExplosive.cs",
@@ -230,12 +247,11 @@
               "RelativeToolTip": "Thing\\Projectile\\SpecialExplosions\\Projectile_ConeExplosive.cs",
               "ViewState": "AgIAABEAAAAAAAAAAAAgwBcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-24T22:52:00.868Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-24T22:52:00.868Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "Projectile_Parabola.cs",
               "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\Thing\\Projectile\\MissileProjectile\\Projectile_Parabola.cs",
               "RelativeDocumentMoniker": "Thing\\Projectile\\MissileProjectile\\Projectile_Parabola.cs",
@@ -243,12 +259,11 @@
               "RelativeToolTip": "Thing\\Projectile\\MissileProjectile\\Projectile_Parabola.cs",
               "ViewState": "AgIAABwAAAAAAAAAAAAkwCQAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-24T22:41:36.784Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-24T22:41:36.784Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "CompAfterBurner.cs",
               "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\Thing\\Projectile\\MissileProjectile\\CompAfterBurner.cs",
               "RelativeDocumentMoniker": "Thing\\Projectile\\MissileProjectile\\CompAfterBurner.cs",
@@ -260,7 +275,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "Verb_ArcSprayProjectile.cs",
               "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\Verb\\Verb_ArcSprayProjectile.cs",
               "RelativeDocumentMoniker": "Verb\\Verb_ArcSprayProjectile.cs",
@@ -272,7 +287,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "GameComponent_DMS.cs",
               "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\GameComponent\\GameComponent_DMS.cs",
               "RelativeDocumentMoniker": "GameComponent\\GameComponent_DMS.cs",
@@ -284,7 +299,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "Harmony_BillUtility.cs",
               "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\StandaloneFunctions\\EnvironmentalBill\\Harmony_BillUtility.cs",
               "RelativeDocumentMoniker": "StandaloneFunctions\\EnvironmentalBill\\Harmony_BillUtility.cs",
@@ -296,7 +311,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "ModExt_EnvironmentalBill.cs",
               "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\StandaloneFunctions\\EnvironmentalBill\\ModExt_EnvironmentalBill.cs",
               "RelativeDocumentMoniker": "StandaloneFunctions\\EnvironmentalBill\\ModExt_EnvironmentalBill.cs",
@@ -308,7 +323,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "Bill_Production_Environmental.cs",
               "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\StandaloneFunctions\\EnvironmentalBill\\Bill_Production_Environmental.cs",
               "RelativeDocumentMoniker": "StandaloneFunctions\\EnvironmentalBill\\Bill_Production_Environmental.cs",
@@ -320,7 +335,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "Building_WorkTableAutonomous.cs",
               "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\StandaloneFunctions\\WorkTableAutonomous\\Building_WorkTableAutonomous.cs",
               "RelativeDocumentMoniker": "StandaloneFunctions\\WorkTableAutonomous\\Building_WorkTableAutonomous.cs",
@@ -332,7 +347,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "EnvironmentUtility.cs",
               "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\StandaloneFunctions\\EnvironmentalBill\\EnvironmentUtility.cs",
               "RelativeDocumentMoniker": "StandaloneFunctions\\EnvironmentalBill\\EnvironmentUtility.cs",
@@ -344,7 +359,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "JobDriver_DoAutonomousBill.cs",
               "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\StandaloneFunctions\\WorkTableAutonomous\\JobDriver_DoAutonomousBill.cs",
               "RelativeDocumentMoniker": "StandaloneFunctions\\WorkTableAutonomous\\JobDriver_DoAutonomousBill.cs",
@@ -356,7 +371,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 16,
               "Title": "JobDriver_FinishAutonomousBill.cs",
               "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\StandaloneFunctions\\WorkTableAutonomous\\JobDriver_FinishAutonomousBill.cs",
               "RelativeDocumentMoniker": "StandaloneFunctions\\WorkTableAutonomous\\JobDriver_FinishAutonomousBill.cs",
@@ -368,7 +383,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 17,
               "Title": "FloatMenuOptionProvider_UseStylingStation.cs",
               "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\Mech\\WeaponUsable\\FloatMenuOptionProvider_UseStylingStation.cs",
               "RelativeDocumentMoniker": "Mech\\WeaponUsable\\FloatMenuOptionProvider_UseStylingStation.cs",
@@ -380,7 +395,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 22,
               "Title": "PawnRenderNode.cs",
               "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\Mech\\HumanlikeMech\\PawnRenderNode.cs",
               "RelativeDocumentMoniker": "Mech\\HumanlikeMech\\PawnRenderNode.cs",
@@ -392,7 +407,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 19,
               "Title": "Command_SelectApparelOutfit.cs",
               "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\Mech\\UI\\Command_SelectApparelOutfit.cs",
               "RelativeDocumentMoniker": "Mech\\UI\\Command_SelectApparelOutfit.cs",
@@ -404,7 +419,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 18,
               "Title": "Patch_Pawn_StyleTracker_CanDesireLookChange.cs",
               "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\Mech\\HumanlikeMech\\Patch_Pawn_StyleTracker_CanDesireLookChange.cs",
               "RelativeDocumentMoniker": "Mech\\HumanlikeMech\\Patch_Pawn_StyleTracker_CanDesireLookChange.cs",
@@ -416,7 +431,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 20,
               "Title": "HumanlikeMech.cs",
               "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\Mech\\HumanlikeMech\\HumanlikeMech.cs",
               "RelativeDocumentMoniker": "Mech\\HumanlikeMech\\HumanlikeMech.cs",
@@ -428,7 +443,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 21,
               "Title": "PawnRenderTree_SetupDynamicNodes_Patch.cs",
               "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\Mech\\HumanlikeMech\\PawnRenderTree_SetupDynamicNodes_Patch.cs",
               "RelativeDocumentMoniker": "Mech\\HumanlikeMech\\PawnRenderTree_SetupDynamicNodes_Patch.cs",
@@ -440,7 +455,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 23,
               "Title": "Patch_StatWorker_IsDisabledFor.cs",
               "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\Mech\\Patches\\Patch_StatWorker_IsDisabledFor.cs",
               "RelativeDocumentMoniker": "Mech\\Patches\\Patch_StatWorker_IsDisabledFor.cs",
@@ -452,7 +467,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 24,
               "Title": "Patch_Replace.cs",
               "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\StandaloneFunctions\\PawnReplace\\Patch_Replace.cs",
               "RelativeDocumentMoniker": "StandaloneFunctions\\PawnReplace\\Patch_Replace.cs",
@@ -464,7 +479,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 25,
               "Title": "JobDriver_ReturnToPlatform.cs",
               "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\Mech\\Drone\\JobDriver_ReturnToPlatform.cs",
               "RelativeDocumentMoniker": "Mech\\Drone\\JobDriver_ReturnToPlatform.cs",
@@ -476,7 +491,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 26,
               "Title": "JobDriver_MechLeave.cs",
               "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\Mech\\Awaken\\Job\\JobDriver_MechLeave.cs",
               "RelativeDocumentMoniker": "Mech\\Awaken\\Job\\JobDriver_MechLeave.cs",
@@ -488,7 +503,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 27,
               "Title": "HumanlikeMechApparelUtility.cs",
               "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\Mech\\HumanlikeMech\\HumanlikeMechApparelUtility.cs",
               "RelativeDocumentMoniker": "Mech\\HumanlikeMech\\HumanlikeMechApparelUtility.cs",
@@ -500,7 +515,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 28,
               "Title": "FlyByThing.cs",
               "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\StandaloneFunctions\\AirSupport\\FlyByThing.cs",
               "RelativeDocumentMoniker": "StandaloneFunctions\\AirSupport\\FlyByThing.cs",
@@ -512,7 +527,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 29,
               "Title": "CompWeaponImprint.cs",
               "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\Components\\Pawn\\CompWeaponImprint.cs",
               "RelativeDocumentMoniker": "Components\\Pawn\\CompWeaponImprint.cs",
@@ -524,7 +539,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 30,
               "Title": "CompSubRelay.cs",
               "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\Components\\CompSubRelay.cs",
               "RelativeDocumentMoniker": "Components\\CompSubRelay.cs",
@@ -536,7 +551,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 31,
               "Title": "CompMultipleTurretGun.cs",
               "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\StandaloneFunctions\\MultiTurrets\\CompMultipleTurretGun.cs",
               "RelativeDocumentMoniker": "StandaloneFunctions\\MultiTurrets\\CompMultipleTurretGun.cs",
@@ -548,7 +563,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 32,
               "Title": "CompDeadManSwitch.cs",
               "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\Mech\\Awaken\\CompDeadManSwitch.cs",
               "RelativeDocumentMoniker": "Mech\\Awaken\\CompDeadManSwitch.cs",
@@ -560,7 +575,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 33,
               "Title": "CompCommandRelay.cs",
               "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\Mech\\MechanitorCommand\\CompCommandRelay.cs",
               "RelativeDocumentMoniker": "Mech\\MechanitorCommand\\CompCommandRelay.cs",
@@ -572,7 +587,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 34,
               "Title": "CompCastFlecker.cs",
               "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\Components\\CompCastFlecker.cs",
               "RelativeDocumentMoniker": "Components\\CompCastFlecker.cs",
@@ -584,7 +599,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 35,
               "Title": "AirSupportData_LaunchProjectile.cs",
               "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\StandaloneFunctions\\AirSupport\\AirSupportData_LaunchProjectile.cs",
               "RelativeDocumentMoniker": "StandaloneFunctions\\AirSupport\\AirSupportData_LaunchProjectile.cs",
@@ -596,7 +611,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
+              "DocumentIndex": 37,
               "Title": "MapComponent_ShieldingPopulation.cs",
               "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\StandaloneFunctions\\StealthDevice\\MapComponent_ShieldingPopulation.cs",
               "RelativeDocumentMoniker": "StandaloneFunctions\\StealthDevice\\MapComponent_ShieldingPopulation.cs",
@@ -608,7 +623,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 35,
+              "DocumentIndex": 36,
               "Title": "CompShieldingDevice.cs",
               "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\StandaloneFunctions\\StealthDevice\\CompShieldingDevice.cs",
               "RelativeDocumentMoniker": "StandaloneFunctions\\StealthDevice\\CompShieldingDevice.cs",
