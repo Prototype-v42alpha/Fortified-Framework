@@ -23,6 +23,13 @@ namespace Fortified
 
         protected override IEnumerable<Toil> MakeNewToils()
         {
+            this.AddFinishAction(a => 
+            {
+                if (a != JobCondition.Succeeded && this.TargetThingA is Building_WorkTableAutonomous b) 
+                {
+                    b.Cancel();
+                }
+            });
             this.FailOnDestroyedOrNull(TargetIndex.A);
             this.FailOnBurningImmobile(TargetIndex.A);
             this.FailOn(delegate

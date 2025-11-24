@@ -809,21 +809,20 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\user\\.nuget\\packages\\": {}
+    "C:\\Users\\HaiLu\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\FortifiedCE\\FortifiedCE.csproj",
+      "projectUniqueName": "D:\\Game\\Steam\\steamapps\\common\\RimWorld\\Mods\\Fortified-Framework\\_Sources\\FortifiedCE\\FortifiedCE.csproj",
       "projectName": "FortifiedCE",
-      "projectPath": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\FortifiedCE\\FortifiedCE.csproj",
-      "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-      "outputPath": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\FortifiedCE\\obj\\",
+      "projectPath": "D:\\Game\\Steam\\steamapps\\common\\RimWorld\\Mods\\Fortified-Framework\\_Sources\\FortifiedCE\\FortifiedCE.csproj",
+      "packagesPath": "C:\\Users\\HaiLu\\.nuget\\packages\\",
+      "outputPath": "D:\\Game\\Steam\\steamapps\\common\\RimWorld\\Mods\\Fortified-Framework\\_Sources\\FortifiedCE\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
-      "UsingMicrosoftNETSdk": false,
       "configFilePaths": [
-        "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\HaiLu\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net472"
