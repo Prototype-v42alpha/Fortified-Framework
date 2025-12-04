@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN: environmental recipe -->
+  <FFF_EnvironmentalBill.label>特殊環境配方</FFF_EnvironmentalBill.label>
+  <!-- EN: Some recipes require a production building to be in a vacuum, clean, or microgravity environment. This means that the production building must be in a specific environment to use these recipes.\n\nYou can view the special environment requirements of a recipe in the infocard. -->
+  <FFF_EnvironmentalBill.helpText>在FFF框架新增的系統中一些配方要求生產建築處於真空、潔淨或微重力等環境使用。這意味著生產建築必須處於特定環境才能使用這些配方。 \n\n在選擇這些配方時將會有提示，也可以事先在資訊卡中查看配方的特殊環境需求。</FFF_EnvironmentalBill.helpText>
+  
+</LanguageData>

@@ -88,6 +88,7 @@
 
   <!-- EN: {1} from {0} is inbound. -->
   <FFF.AirSupportFromClosestBase>來自{0}的{1}正在抵達。</FFF.AirSupportFromClosestBase>
+  
   <!-- UNUSED -->
   <FFF.ScenPart_SelectPrefabDef>選擇結構</FFF.ScenPart_SelectPrefabDef>
   <FFF.Message.CannotPlaceWithoutWall>需要放置於牆體或門上</FFF.Message.CannotPlaceWithoutWall>

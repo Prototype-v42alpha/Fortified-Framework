@@ -330,6 +330,7 @@ namespace Fortified
         }
         public void Notify_HauledTo(Pawn hauler, Thing thing, int count)
         {
+            this.innerContainer.TryAddOrTransfer(thing,count);
         }
     }
 }

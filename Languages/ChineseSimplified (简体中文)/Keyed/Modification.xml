@@ -2,26 +2,34 @@
 <LanguageData>
   
   <!-- EN: Weapon system not supported -->
+  <!-- EN: Weapon system not supported -->
   <FFF.Reason.WeaponNotSupported>机体系统不支持</FFF.Reason.WeaponNotSupported>
   <!-- EN: Mech frame not supported -->
+  <!-- EN: Mech frame not supported  -->
   <FFF.Reason.FrameNotSupported>机体框架不支持</FFF.Reason.FrameNotSupported>
   
   <!-- EN: model not supported -->
+  <!-- EN: model not supported -->
   <FFF.Modification_RaceNotSupported>机械体型号不支持安装该改装件</FFF.Modification_RaceNotSupported>
   <!-- EN: no body part to attach modification -->
+  <!-- EN: no body part to attach modification -->
   <FFF.Modification_NoValidPart>机械体没有供改装件安装的空余部位</FFF.Modification_NoValidPart>
-
   
+  <!-- EN: remove {0} -->
   <!-- EN: remove {0} -->
   <FFF.Modification_Remove>移除{0}</FFF.Modification_Remove>
   
   <!-- EN: The modification durability on one of your mechs has exhausted -->
+  <!-- EN: A modification durability on one of your mechs has exhausted -->
   <FFF.Message.AddonBroken>安装于机械体上的改装模块已完全损坏</FFF.Message.AddonBroken>
+  <!-- EN: Modification applied -->
   <!-- EN: Modification applied -->
   <FFF.Message.Modification.Applied>{0}已完成改装件安装</FFF.Message.Modification.Applied>
   <!-- EN: Modification removed -->
+  <!-- EN: Modification removed -->
   <FFF.Message.Modification.Removed>{0}已完成改装件移除</FFF.Message.Modification.Removed>
   
+  <!-- EN: Disposable ceramic armor protects the mecha from damage as ablative armor until its durability is exhausted and needs replacement. -->
   <!-- EN: Disposable ceramic armor protects the mecha from damage as ablative armor until its durability is exhausted and needs replacement. -->
   <FFF.PlatingTooltip>能够抵御大多数伤害的一次性防护片，其上限值与机械体体型正相关，无法自然恢复耐久。</FFF.PlatingTooltip>
 

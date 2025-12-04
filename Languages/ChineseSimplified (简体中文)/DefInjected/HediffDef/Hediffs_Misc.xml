@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN: camouflage -->
+  <FFF_Camouflage.label>光学迷彩</FFF_Camouflage.label>
+  <!-- EN: This mech is invisible. -->
+  <FFF_Camouflage.description>这个机械体正处于隐身状态。</FFF_Camouflage.description>
+  <!-- EN: hidden -->
+  <FFF_Camouflage.stages.hidden.label>隐藏</FFF_Camouflage.stages.hidden.label>
+  
+</LanguageData>

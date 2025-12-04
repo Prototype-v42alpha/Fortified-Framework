@@ -2,16 +2,22 @@
 <LanguageData>
   
   <!-- EN: Operator: -->
+  <!-- EN: Operator: -->
   <FFF.CurrentOperator>操作者:</FFF.CurrentOperator>
   <!-- EN: Requires operator -->
-  <FFF.CurrentOperator>需要操作者</FFF.CurrentOperator>
+  <!-- EN: Requires operator -->
+  <FFF.RequireOperator>需要操作者</FFF.RequireOperator>
+  <!-- EN: Enter fortification -->
   <!-- EN: Enter fortification -->
   <FFF.BunkerFacility_EnterText>进入建筑工事</FFF.BunkerFacility_EnterText>
   <!-- EN: Exit fortification -->
+  <!-- EN: Exit fortification -->
   <FFF.BunkerFacility_ExitText>离开建筑工事</FFF.BunkerFacility_ExitText>
   <!-- EN: Not drafted -->
+  <!-- EN: not drafted -->
   <FFF.DisabledUndrafted>未征召</FFF.DisabledUndrafted>
 
+  <!-- EN: area blocked -->
   <FFF.MinifiedDeployable.SelectedAreaBlocked>位置被阻挡</FFF.MinifiedDeployable.SelectedAreaBlocked>
 
 </LanguageData>

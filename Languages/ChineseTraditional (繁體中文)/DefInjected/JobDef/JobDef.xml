@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <LanguageData>
   
-  <!-- EN: do. -->
+  <!-- EN: working. -->
   <FFF_DoAutonomousBill.reportString>處理生產</FFF_DoAutonomousBill.reportString>
   
   <!-- EN: disabling mech -->
@@ -10,7 +10,7 @@
   <!-- EN: entering facility -->
   <FFF_EnterBunkerFacility.reportString>進入設施</FFF_EnterBunkerFacility.reportString>
   
-  <!-- EN: do. -->
+  <!-- EN: working. -->
   <FFF_FinishAutonomousBill.reportString>完成生產</FFF_FinishAutonomousBill.reportString>
   
   <!-- EN: hacking mech -->
