@@ -81,6 +81,9 @@ namespace Fortified
         public override void CompTick()
         {
             base.CompTick();
+            // 确保 pawn 已完全初始化且已 Spawn（不在孵化器中）
+            if (this.ParentPawn?.Spawned != true) return;
+            if (this.ParentPawn.mindState == null) return;
             if (this.ParentPawn.Drafted) return;
             if (!this.parent.IsHashIntervalTick(REFRESH_INTERVAL)) return;
             if (this.ParentPawn.CurJobDef == JobDefOf.Wear) return;

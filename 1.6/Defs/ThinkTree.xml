@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
-
-  <!-- ============= FFF_DroneMain - 主思维树 ============= -->
+  <!-- FFF_DroneMain-->
   <!-- 处理日常行为：工作、征召命令、闲置等 -->
   <ThinkTreeDef>
     <defName>FFF_DroneMain</defName>

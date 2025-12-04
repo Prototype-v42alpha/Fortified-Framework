@@ -68,7 +68,7 @@ namespace Fortified
                     thingDefs.AddRange(AllTags[s]);
                 }
             }
-            
+
             return thingDefs.Distinct();
         }
         public static bool WeaponExists(string defname, out ThingDef thing)
@@ -100,7 +100,7 @@ namespace Fortified
             foreach (ThingDef mech in WeaponUseableMechs)
             {
                 MechWeaponExtension ext = mech.GetModExtension<MechWeaponExtension>();
-                if (ext != null && ext.CanUse(weapon))
+                if (ext != null && ext.CanUse(weapon, mech.race.baseBodySize))
                 {
                     list.AddDistinct(mech);
                 }

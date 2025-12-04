@@ -277,7 +277,7 @@ namespace Fortified
             {
                 return;
             }
-            
+
             if (CheckTarget())
             {
                 this.curRotation = (this.currentTarget.Cell.ToVector3Shifted() - PawnOwner.DrawPos).AngleFlat() + this.TurretProp.angleOffset;
@@ -288,7 +288,7 @@ namespace Fortified
                 {
                     Log.Message("null TurretProp");
                 }
-                if (parent==null)
+                if (parent == null)
                 {
                     Log.Message("null parent");
                 }
@@ -318,19 +318,34 @@ namespace Fortified
                     {
                         if (this.TurretProp.autoAttack && !this.forcedTarget.IsValid)
                         {
-                            this.currentTarget = (Thing)AttackTargetFinder.BestShootTargetFromCurrentPosition(this, TargetScanFlags.NeedThreat | TargetScanFlags.NeedAutoTargetable, null, 0f, 9999f);
+                            if (!IsPlayerPawn || (IsPlayerPawn && Drafted))
+                            {
+                                this.currentTarget = (Thing)AttackTargetFinder.BestShootTargetFromCurrentPosition(this, TargetScanFlags.NeedThreat | TargetScanFlags.NeedAutoTargetable, null, 0f, 9999f);
+                            }
                         }
                         if (this.currentTarget.IsValid)
                         {
                             this.burstWarmupTicksLeft = this.TurretProp.warmingTime.SecondsToTicks();
                             return;
                         }
-                        
                         this.ResetCurrentTarget();
                     }
                 }
             }
         }
+        private bool IsPlayerPawn
+        {
+            get
+            {
+                if (this.parent is Pawn pawn && pawn.Faction != null && pawn.Faction.IsPlayer)
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+        private bool Drafted => (this.parent is Pawn pawn) && pawn.Drafted;
+
         private bool CheckTarget()
         {
             if (!currentTarget.IsValid )

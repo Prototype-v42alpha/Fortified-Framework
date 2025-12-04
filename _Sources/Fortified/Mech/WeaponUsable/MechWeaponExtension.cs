@@ -26,12 +26,12 @@ namespace Fortified
         /// 5.武器沒有被HeavyEquippableExtension限制體型
         /// 6.以上皆符合則回傳true，否則false
         /// </summary>
-        public bool CanUse(ThingWithComps weapon)
+        public bool CanUse(ThingWithComps weapon, float PawnBodysize = 1)
         {
             if (BypassUsableWeapons.Contains(weapon.def.defName)) return true;
             if (EnableWeaponFilter)
             {
-                if (!UsableWeaponTags.NullOrEmpty()) Log.Warning("MechWeaponExtension has EnableWeaponFilter enabled but UsableWeaponTags is empty!");
+                if (UsableWeaponTags.NullOrEmpty()) Log.Warning("MechWeaponExtension has EnableWeaponFilter enabled but UsableWeaponTags is empty!");
                 bool tagMatch = false;
                 foreach (string tag in UsableWeaponTags)
                 {
@@ -58,6 +58,7 @@ namespace Fortified
             {
                 var ext = weapon.def.GetModExtension<HeavyEquippableExtension>();
                 if (ext.EquippableDef.EquippableBaseBodySize == -1) return false;
+                if (ext.EquippableDef.EquippableBaseBodySize > PawnBodysize) return false; //這裡是因為沒法再ModExt獲取到對象BosySize，所以只能透過這個方式在UseableInRuntime檢查。
             }
             return true;
         }

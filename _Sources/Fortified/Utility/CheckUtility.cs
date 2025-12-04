@@ -53,22 +53,25 @@ public static partial class CheckUtility
     }
     public static bool IsMechUseable(Thing mech, ThingWithComps weapon)
     {
-        if (IsMechUseable(mech.def.GetModExtension<MechWeaponExtension>(), weapon))
+        if (UseableInStatic(mech, weapon))
         {
+            Log.Message("IsMechUseable");
             return true;
         }
         else if (UseableInRuntime(mech, weapon))//遊戲中透過改造所定義的可用
         {
+            Log.Message("UseableInRuntime");
             return true;
         }
         return false;
     }
-    internal static bool IsMechUseable(MechWeaponExtension extension, ThingWithComps thing)
+    internal static bool UseableInStatic(Thing mech, ThingWithComps thing)
     {
+        var extension = mech.def.GetModExtension<MechWeaponExtension>();
         if (extension == null) return false;
         if (thing == null) return false;
-        if (extension.CanUse(thing)) return true;
-        return false;
+        if (!extension.CanUse(thing, (mech as Pawn).BodySize)) return false;
+        return true;
     }
     public static bool UseableInRuntime(Thing mech, ThingWithComps weapon)//透過改造或別的因素所以可以用的狀況
     {
@@ -79,7 +82,7 @@ public static partial class CheckUtility
         }
         else //非重型武器的狀況
         {
-            MechWeaponExtension _extension = weapon.def.GetModExtension<MechWeaponExtension>();
+            MechWeaponExtension _extension = mech.def.GetModExtension<MechWeaponExtension>();
             if (_extension != null)
             {
                 if (_extension.EnableTechLevelFilter && !_extension.UsableTechLevels.Contains(weapon.def.techLevel)) return false;
@@ -132,7 +135,6 @@ public static partial class CheckUtility
         }
         return true;
     }
-
     public static bool IsMannable(TurretMannableExtension extension, Building_Turret turret)
     {
         if (extension == null) return false;
@@ -140,7 +142,6 @@ public static partial class CheckUtility
         if (extension.mannableByDefault) return true;
         return extension.BypassMannable.NotNullAndContains(turret.def.defName);
     }
-
     public static bool WearsApparel(Pawn pawn, ThingDef thingDef)
     {
         if (pawn.apparel?.WornApparel != null)
@@ -149,7 +150,6 @@ public static partial class CheckUtility
         }
         return false;
     }
-
     public static bool HasAnyGeneOf(Pawn pawn, List<GeneDef> equippableWithGene)
     {
         if (pawn is null)
