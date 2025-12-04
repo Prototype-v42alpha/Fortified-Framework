@@ -1,27 +1,31 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <LanguageData>
     <!-- EN: Mounted weapon -->
-    <FFF.MountedWeapon>掛載型武器</FFF.MountedWeapon>
+    <!-- EN: Mounted weapon -->
+  <FFF.MountedWeapon>掛載型武器</FFF.MountedWeapon>
+    <!-- EN: This weapon can only be equipped with listed automatroid or mechframe -->
     <!-- EN: This weapon can only be equipped with listed automatroid or mech frame -->
-    <FFF.MountedWeaponCanOnlyBeEquippedBySpecificApparelOrRaces>此掛載型武器只能由下列機械體或裝備衣物與仿生後所使用</FFF.MountedWeaponCanOnlyBeEquippedBySpecificApparelOrRaces>
-
+  <FFF.MountedWeaponCanOnlyBeEquippedBySpecificApparelOrRaces>此掛載型武器只能由下列機械體或裝備衣物與仿生後所使用</FFF.MountedWeaponCanOnlyBeEquippedBySpecificApparelOrRaces>
     <!-- EN: This weapon can be equipped with listed specific apparel or bionics -->
-    <FFF.WeaponCanBeEquippedBySpecificApparelOrRaces>此武器也可以由下列機械體或裝備衣物與仿生後所使用</FFF.WeaponCanBeEquippedBySpecificApparelOrRaces>
+    <!-- EN: This weapon can be equipped with listed specific apparel or bionics -->
+  <FFF.WeaponCanBeEquippedBySpecificApparelOrRaces>此武器也可以由下列機械體或裝備衣物與仿生後所使用</FFF.WeaponCanBeEquippedBySpecificApparelOrRaces>
 
     <!-- EN: Must be in listed tech level: -->
-    <FFF.Req_TechLevel>必須是下列科技等級的裝備</FFF.Req_TechLevel>
+  <FFF.Req_TechLevel>必須是下列科技等級的裝備</FFF.Req_TechLevel>
 
     <!-- EN: Can equip heavy weapon with bodysize requirement below:{0} -->
-    <FFF.Req_BodySize>可直接裝備支援體型要求不高於: {0} 的重型武器</FFF.Req_BodySize>
+  <FFF.Req_BodySize>可直接裝備支援體型要求不高於: {0} 的重型武器</FFF.Req_BodySize>
 
     <!-- EN: Limited to use listed weapon below -->
-    <FFF.Req_WeaponFilter>僅能夠使用下列的武器</FFF.Req_WeaponFilter>
+  <FFF.Req_WeaponFilter>僅能夠使用下列的武器</FFF.Req_WeaponFilter>
 
     <!-- EN: No other weapon restrictions -->
-    <FFF.Req_NoWeaponFilter>沒有其他裝備限制</FFF.Req_NoWeaponFilter>
+  <FFF.Req_NoWeaponFilter>沒有其他裝備限制</FFF.Req_NoWeaponFilter>
 
     <!-- EN: bodysize not supported (need:{0}) -->
-    <FFF.BodysizeNotSupported>體型尺寸不支持(需要:{0})</FFF.BodysizeNotSupported>
-
-    <FFF.ViewUsableWeapons>查看可用武器</FFF.ViewUsableWeapons>
+    <!-- EN: bodysize not supported (need:{0}) -->
+  <FFF.BodysizeNotSupported>體型尺寸不支持(需要:{0})</FFF.BodysizeNotSupported>
+    
+    <!-- EN: View Usable Weapons -->
+  <FFF.ViewUsableWeapons>查看可用武器</FFF.ViewUsableWeapons>
 </LanguageData>

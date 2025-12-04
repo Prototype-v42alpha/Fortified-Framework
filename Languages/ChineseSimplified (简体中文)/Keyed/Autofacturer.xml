@@ -1,15 +1,24 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <LanguageData>
 
+<!-- EN: Cancel proccess -->
   <FFF.CancelActiveBill>取消运行</FFF.CancelActiveBill>
+<!-- EN: Cancel the current process, which will return resources and stop consuming power. -->
   <FFF.CancelActiveBillDesc>取消当前运行的工序，这将返还资源并停止消耗电力。</FFF.CancelActiveBillDesc>
 
+<!-- EN: The currently executing work list has been canceled, but it needs to stop running. -->
   <FFF.Autofacturer.WorkerCanceled>当前执行的工作清单已取消，但需要停止运行。</FFF.Autofacturer.WorkerCanceled>
 
+<!-- EN: {0} Completed -->
   <FFF.Autofacturer.WorkerDone>{0}已完成</FFF.Autofacturer.WorkerDone>
+
+  <!-- EN: current bill: {0} -->
   <FFF.Autofacturer.CurrentRecipe>当前进行中: {0}</FFF.Autofacturer.CurrentRecipe>
+<!-- EN: current processes have completed, require colonist to work -->
   <FFF.Autofacturer.WorkerFinished>所有工序已完成，需要殖民者进行工作</FFF.Autofacturer.WorkerFinished>
+<!-- EN: Remaining work amount: {0}\nRemaining stages: {1} -->
   <FFF.Autofacturer.Information>当前阶段剩余工作时间：{0}\n剩余阶段：{1}</FFF.Autofacturer.Information>
+<!-- EN: Completed, require colonist to work -->
   <FFF.Autofacturer.Prepared>已完成，需要殖民者进行工作</FFF.Autofacturer.Prepared>
 
 </LanguageData>

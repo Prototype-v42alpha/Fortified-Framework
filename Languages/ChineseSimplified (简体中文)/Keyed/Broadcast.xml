@@ -1,14 +1,18 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <LanguageData>
-<!--++++ Broadcast ++++-->
+  <!-- EN: Stop broadcast -->
   <!-- EN: Stop broadcast -->
   <FFF.StopWarmup>中止广播</FFF.StopWarmup>
   <!-- EN: Start broadcast -->
+  <!-- EN: Start broadcast -->
   <FFF.StartWarmup>开始广播</FFF.StartWarmup>
+  <!-- EN: Unable to start: not cooled yet -->
   <!-- EN: Unable to start: not cooled yet -->
   <FFF.NotCooldown>无法启动:尚未冷却</FFF.NotCooldown>
   <!-- EN: will complete broadcast at: -->
+  <!-- EN: will complete broadcast at: -->
   <FFF.WillReadyAt>将完成广播于:</FFF.WillReadyAt>
+  <!-- EN: will complete cooling at: -->
   <!-- EN: will complete cooling at: -->
   <FFF.WillCooldownAt>将完成冷却于:</FFF.WillCooldownAt>
 </LanguageData>

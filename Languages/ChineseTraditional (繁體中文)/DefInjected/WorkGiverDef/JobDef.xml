@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <LanguageData>
   
-  <!-- EN: make things at mech gestator -->
+  <!-- EN: make things -->
   <FFF_DoAutonomousBill.label>使用自動化生產機器</FFF_DoAutonomousBill.label>
   <!-- EN: working at -->
   <FFF_DoAutonomousBill.gerund>工作中</FFF_DoAutonomousBill.gerund>

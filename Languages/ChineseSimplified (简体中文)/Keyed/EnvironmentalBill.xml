@@ -1,34 +1,54 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <LanguageData>
 
+  <!-- EN: {0} on {1} were suspended -->
   <FFF.Message.BillSuspended>{1}无法在当前环境执行{0}</FFF.Message.BillSuspended>
 
+  <!-- EN: require dust-free environment with a cleanliness level higher than {1}. Current: {0} -->
   <FFF.Cannot.TableNotInCleanRoom>生产建筑需要维持在清洁度高于{1}的无尘环境中，当前: {0}</FFF.Cannot.TableNotInCleanRoom>
+  <!-- EN: require temperature environment between {1} and {2}. Current: {0} -->
   <FFF.Cannot.TableNotInTemperatureBetween>生产建筑需要维持在室温{1}~{2}之间的恒温环境中，当前: {0}</FFF.Cannot.TableNotInTemperatureBetween>
 
+  <!-- EN: require light environment between {1} and {2}. Current: {0} -->
   <FFF.Cannot.TableNotInLightnessBetween>生产建筑需要维持在光照介于{1}~{2}之间的恒光环境中，当前: {0}</FFF.Cannot.TableNotInLightnessBetween>
+  <!-- EN: require bright environment with light level higher than {1}. Current: {0} -->
   <FFF.Cannot.TableNotInLightness>生产建筑需要维持在光照高于{1}的明亮环境中，当前: {0}</FFF.Cannot.TableNotInLightness>
+  <!-- EN: require dark environment with light level lower than {1}. Current: {0} -->
   <FFF.Cannot.TableNotInDarkness>生产建筑需要维持在光照低于{1}的无光环境中，当前: {0}</FFF.Cannot.TableNotInDarkness>
 
+  <!-- EN: require pressurized environment with a vacuum between {1} and {2}. Current: {0} -->
   <FFF.Cannot.TableNotInPressureBetween>生产建筑需要维持在真空介于{1}~{2}之间的加压环境中，当前: {0}</FFF.Cannot.TableNotInPressureBetween>
+  <!-- EN: require pressurized environment with vacuum rate lower than {1}. Current: {0} -->
   <FFF.Cannot.TableNotInPressure>生产建筑需要维持在真空率低于{1}的加压环境中，当前: {0}</FFF.Cannot.TableNotInPressure>
+  <!-- EN: require low-pressure environment with vacuum rate higher than {1}. Current: {0} -->
   <FFF.Cannot.TableNotInVacuum>生产建筑需要维持在真空率高于{1}的低压环境中，当前: {0}</FFF.Cannot.TableNotInVacuum>
 
+  <!-- EN: require in a microgravity environment. -->
   <FFF.Cannot.TableNotInMicroGravity>生产建筑需要维持在微重力环境中</FFF.Cannot.TableNotInMicroGravity>
 
+  <!-- EN: required environment -->
   <FFF.EnvironmentRestriction>生产环境需求</FFF.EnvironmentRestriction>
 
+  <!-- EN: Indoor cleanliness above: {0} -->
   <FFF.CleanRoom>室内清洁度高于: {0}</FFF.CleanRoom>
+  <!-- EN: Indoor temperature between: {0} ~ {1} -->
   <FFF.Temperature>室内温度介于: {0}~{1}之间</FFF.Temperature>
-  
+
+  <!-- EN: indoor brightness between: {0} ~ {1} -->
   <FFF.LightnessDarkness>光照处于: {0}~{1}之间</FFF.LightnessDarkness>
+  <!-- EN: Indoor brightness above: {0} -->
   <FFF.Lightness>光照高于: {0}</FFF.Lightness>
+  <!-- EN: Indoor brightness below: {0} -->
   <FFF.Darkness>光照低于: {0}</FFF.Darkness>
 
+  <!-- EN: Vacuum between: {0} ~ {1} -->
   <FFF.PressureVacuum>室内真空处于: {0}~{1}之间</FFF.PressureVacuum>
+  <!-- EN: Vacuum below: {0} -->
   <FFF.Pressure>室内真空低于: {0}</FFF.Pressure>
+  <!-- EN: Vacuum above: {0} -->
   <FFF.Vacuum>室内真空高于: {0}</FFF.Vacuum>
 
+  <!-- EN: Microgravity -->
   <FFF.MicroGravity>微重力环境</FFF.MicroGravity>
-  
+
 </LanguageData>

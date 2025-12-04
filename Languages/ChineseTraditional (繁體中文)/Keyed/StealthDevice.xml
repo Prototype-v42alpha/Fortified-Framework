@@ -1,14 +1,19 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <LanguageData>
   
+  <!-- EN: Colonist counts:{0} -->
   <FFF.ColonistCount>本地殖民者數量:{0}</FFF.ColonistCount>
 
+  <!-- EN: Device cooling: remain {0} -->
   <FFF.MessageCooldownRemaining>裝置冷卻中:剩餘{0}</FFF.MessageCooldownRemaining>
 
+  <!-- EN: {0} has finished cooling and back operational. -->
   <FFF.MessageDeviceReady>{0}完成了冷卻並且已重新開始運作</FFF.MessageDeviceReady>
 
+  <!-- EN: Shielding device intercepted: {0} -->
   <FFF.DeviceIntercepted>一座匿蹤裝置成功屏蔽了{0}</FFF.DeviceIntercepted>
   
+  <!-- EN: Shielded -->
   <FFF.Shielded>屏蔽成功</FFF.Shielded>
   
 </LanguageData>

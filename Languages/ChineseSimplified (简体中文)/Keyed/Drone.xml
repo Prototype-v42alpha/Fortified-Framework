@@ -1,33 +1,55 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <LanguageData>
+
+  <!-- EN: Unrestricted -->
   <FFF.Drone.NoRestrict>无限制</FFF.Drone.NoRestrict>
+  <!-- EN: Allowed area -->
   <FFF.Drone.AllowedArea>允许活动区</FFF.Drone.AllowedArea>
+  <!-- EN: Set the allow area for Drones, deployed Drone will comply with the platform's area settings. -->
   <FFF.Drone.AllowedAreaDesc>设置许可活动区域，新部属以及部属中的无人机将自动同步平台的活动区设置。</FFF.Drone.AllowedAreaDesc>
 
+  <!-- EN: control platform unavailable -->
   <FFF.Drone.NoControlPlatform>主控平台不可用</FFF.Drone.NoControlPlatform>
+  <!-- EN: No control -->
   <FFF.Drone.NoController>没有主控</FFF.Drone.NoController>
+  <!-- EN: platform not controlled -->
   <FFF.Drone.ControllerNotInControl>主控不受控制</FFF.Drone.ControllerNotInControl>
+  <!-- EN: platform not drafted -->
   <FFF.Drone.ControllerNotDrafted>主控未受征招</FFF.Drone.ControllerNotDrafted>
+  <!-- EN: platform not exist in the map -->
   <FFF.Drone.ControllerNotInMap>主控不存在于地图内</FFF.Drone.ControllerNotInMap>
 
+  <!-- EN: Will detonate explosives payloads after collision -->
   <FFF.ExplosiveOnDead>机体在碰撞后会引爆携带的爆炸物</FFF.ExplosiveOnDead>
 
+  <!-- EN: Prioritize filling {0}x{1} -->
   <FFF.FillMechPlatform>优先填充{0}x{1}</FFF.FillMechPlatform>
 
+  <!-- EN: Return to platform -->
   <FFF.Drone.Return>返回部署平台</FFF.Drone.Return>
+  <!-- EN: Commands drone return to the deployment platform and shut down, which will restore the consumed resources. -->
   <FFF.Drone.ReturnDesc>命令该无人机返回部署平台并关机，这将恢复部署无人机时的资源消耗。</FFF.Drone.ReturnDesc>
 
+  <!-- EN: The deployment platform for {0} is unavailable -->
   <FFF.Drone.NoPlatform>{0}的部署平台不可用</FFF.Drone.NoPlatform>
 
+  <!-- EN: Deploy {0} -->
   <FFF.DeployDrone>部署 {0}</FFF.DeployDrone>
+  <!-- EN: Consume stored {0} to deploy up to {1} {2} drones. If the platform is destroyed, all {3} controlled by it will shut down. {4} operates on internal batteries and automatically returns to the platform when the battery is low. -->
   <FFF.DeployDroneDesc>命令平台消耗储存的{0}来部署最多{1}架的{2}无人机。如果部署平台被破坏，所有受其控制的{3}都会关停。{4}使用内置电池运作，并在电量不足时自动返回平台来回收部署时的消耗。</FFF.DeployDroneDesc>
 
+  <!-- EN: Auto Deploy -->
   <FFF.AutoDeploy>自动部署</FFF.AutoDeploy>
+  <!-- EN: Command this platform to automatically deploy and undeploy drones at a stable interval. -->
   <FFF.AutoDeployDesc>命令此平台以稳定的间隔周期自动部署与部署无人机。</FFF.AutoDeployDesc>
+  <!-- EN: Auto Deploy Enable -->
   <FFF.AutoDeployEnabled>自动部署激活</FFF.AutoDeployEnabled>
+  <!-- EN: Deployment interval: {0} -->
   <FFF.WillDeployAt>部署间隔: {0}</FFF.WillDeployAt>
 
+  <!-- EN: Retract all {0} -->
   <FFF.RetractDrones>收回所有 {0}</FFF.RetractDrones>
+  <!-- EN: Command all {0} controlled by this platform to withdraw, which will replenish the {1} consumption. -->
   <FFF.RetractDronesDesc>命令所有由此平台所控制的{0}撤回部署平台，这将补充平台部署无人机时的{1}消耗。</FFF.RetractDronesDesc>
-  
+
 </LanguageData>
