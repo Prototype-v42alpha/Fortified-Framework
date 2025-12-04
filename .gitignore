@@ -38,3 +38,6 @@ UnityEngine.dll
 *.json
 *.v2
 *.db
+*.json
+*.cache
+*.props
