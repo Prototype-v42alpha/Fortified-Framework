@@ -45,7 +45,7 @@ namespace Fortified
                             pawn.inventory.TryAddItemNotForSale(item);
                         }
                     }
-                    if (CheckUtility.IsMech(pawn) && pawn.Faction.IsPlayer)
+                    if (CheckUtility.IsPlayerMech(pawn) && pawn.Faction.IsPlayer)
                     {
                         pawn.relations.AddDirectRelation(PawnRelationDefOf.Overseer, this.parent.pawn.GetOverseer().mechanitor.Pawn);
                     }
@@ -62,7 +62,7 @@ namespace Fortified
                     List<Thing> list = new List<Thing>();
                     {
                         Pawn pawn = PawnGenerator.GeneratePawn(Props.KindDef, this.parent.pawn.Faction);
-                        if (CheckUtility.IsMech(pawn) && CheckUtility.MechanitorCheck(this.parent.pawn.Map, out mechanitor))
+                        if (CheckUtility.IsPlayerMech(pawn) && CheckUtility.MechanitorCheck(this.parent.pawn.Map, out mechanitor))
                         {
                             pawn.relations.AddDirectRelation(PawnRelationDefOf.Overseer, this.parent.pawn.GetOverseer().mechanitor.Pawn);
                         }
@@ -96,7 +96,7 @@ namespace Fortified
 
                 return false;
             }
-            if (CheckUtility.IsMech(parent.pawn))
+            if (CheckUtility.IsPlayerMech(parent.pawn))
             {
                 if (CheckUtility.MechanitorCheck(parent.pawn.Map, out Pawn pawn))
                 {

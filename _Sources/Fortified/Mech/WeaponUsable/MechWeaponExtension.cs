@@ -26,7 +26,7 @@ namespace Fortified
         /// 5.武器沒有被HeavyEquippableExtension限制體型
         /// 6.以上皆符合則回傳true，否則false
         /// </summary>
-        public bool CanUse(ThingWithComps weapon, float PawnBodysize = 1)
+        public bool CanUse(ThingWithComps weapon)
         {
             if (BypassUsableWeapons.Contains(weapon.def.defName)) return true;
             if (EnableWeaponFilter)
@@ -54,11 +54,15 @@ namespace Fortified
                     return false;
                 }
             }
-            if (weapon.def.HasModExtension<HeavyEquippableExtension>())
+            return true;
+        }
+
+        public bool CanUseAsHeavyWeapon(ThingWithComps weapon, float PawnBodysize = 1)//這裡是因為沒法再ModExt獲取到對象BosySize，所以只能透過這個方式在UseableInRuntime檢查。
+        {
+            if (weapon.def.TryGetModExtension<HeavyEquippableExtension>(out var ext))
             {
-                var ext = weapon.def.GetModExtension<HeavyEquippableExtension>();
-                if (ext.EquippableDef.EquippableBaseBodySize == -1) return false;
-                if (ext.EquippableDef.EquippableBaseBodySize > PawnBodysize) return false; //這裡是因為沒法再ModExt獲取到對象BosySize，所以只能透過這個方式在UseableInRuntime檢查。
+                if (ext.EquippableDef.EquippableBaseBodySize == -1) return false;//無體型限制的武器不適用於此處理。
+                return ext.EquippableDef.EquippableBaseBodySize < PawnBodysize;
             }
             return true;
         }

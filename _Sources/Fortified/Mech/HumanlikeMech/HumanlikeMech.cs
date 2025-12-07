@@ -5,9 +5,6 @@ using RimWorld;
 using UnityEngine;
 using Verse.AI;
 using System.Linq;
-using RimWorld.Planet;
-using static RimWorld.MechClusterSketch;
-using Fortified;
 
 namespace Fortified
 {

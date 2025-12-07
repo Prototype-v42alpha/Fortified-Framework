@@ -10,158 +10,227 @@ public static partial class CheckUtility
 {
     public static bool InRange(LocalTargetInfo A, LocalTargetInfo B, float squaredRange)
     {
-        if ((float)IntVec3Utility.DistanceToSquared(A.Cell, B.Cell) <= squaredRange)
-        {
-            return true;
-        }
-        return false;
+        return IntVec3Utility.DistanceToSquared(A.Cell, B.Cell) <= squaredRange;
     }
     public static bool HasSubRelayInMapAndInbound(Pawn pawn, LocalTargetInfo target)
     {
-        if (pawn == null) return false;
-        if (CompSubRelay.allSubRelays.NullOrEmpty()) return false;
-        foreach (var item in CompSubRelay.allSubRelays.Where(s => s.IsActive && s.Position != IntVec3.Invalid))
+        if (pawn == null || CompSubRelay.allSubRelays.NullOrEmpty())
         {
-            if (item.parent.Spawned && item.Map != pawn.MapHeld) continue;
-            if (CheckUtility.InRange(item.Position, target, item.SquaredDistance))
+            return false;
+        }
+
+        foreach (var relay in CompSubRelay.allSubRelays)
+        {
+            if (!relay.IsActive || relay.Position == IntVec3.Invalid)
+            {
+                continue;
+            }
+
+            if (relay.parent.Spawned && relay.Map != pawn.MapHeld)
+            {
+                continue;
+            }
+
+            if (!InRange(relay.Position, target, relay.SquaredDistance))
             {
                 return true;
             }
         }
+
         return false;
     }
-    public static bool IsMech(Pawn pawn)
+    public static bool IsPlayerMech(Pawn pawn)
     {
-        bool flag1 = pawn.GetComp<CompOverseerSubject>() != null;
-        bool flag2 = pawn.Faction == Faction.OfPlayer;
-        return flag1 && flag2;
+        return pawn.GetComp<CompOverseerSubject>() != null && pawn.Faction == Faction.OfPlayer;
     }
     public static bool MechanitorCheck(Map map, out Pawn mechanitor)
     {
         mechanitor = null;
-        if (map == null) return false;
-        List<Pawn> colonists = map.mapPawns.FreeColonists;
-        for (int i = 0; i < colonists.Count; i++)
+
+        if (map == null)
         {
-            if (MechanitorUtility.IsMechanitor(colonists[i]))
+            return false;
+        }
+
+        foreach (Pawn colonist in map.mapPawns.FreeColonists)
+        {
+            if (MechanitorUtility.IsMechanitor(colonist))
             {
-                mechanitor = colonists[i];
+                mechanitor = colonist;
                 return true;
             }
         }
+
         return false;
     }
     public static bool IsMechUseable(Thing mech, ThingWithComps weapon)
     {
         if (UseableInStatic(mech, weapon))
         {
-            Log.Message("IsMechUseable");
             return true;
         }
-        else if (UseableInRuntime(mech, weapon))//遊戲中透過改造所定義的可用
-        {
-            Log.Message("UseableInRuntime");
-            return true;
-        }
-        return false;
+
+        return UseableInRuntime(mech, weapon);
     }
-    internal static bool UseableInStatic(Thing mech, ThingWithComps thing)
+    internal static bool UseableInStatic(Thing mech, ThingWithComps weapon)
     {
-        var extension = mech.def.GetModExtension<MechWeaponExtension>();
-        if (extension == null) return false;
-        if (thing == null) return false;
-        if (!extension.CanUse(thing, (mech as Pawn).BodySize)) return false;
+        if (mech == null || weapon == null)
+        {
+            return false;
+        }
+
+        if (!mech.def.TryGetModExtension<MechWeaponExtension>(out var extension))
+        {
+            return false;
+        }
+        if (extension.EnableWeaponFilter)
+        {
+            Log.Message("EnableWeaponFilter");
+            return extension.CanUse(weapon);
+        }
+        else 
+        {
+            Log.Message("Heavy");
+           return extension.CanUseAsHeavyWeapon(weapon, (mech as Pawn).BodySize);
+        }
+    }
+    public static bool UseableInRuntime(Thing mech, ThingWithComps weapon)
+    {
+        if (mech == null || weapon == null)
+        {
+            return false;
+        }
+
+        // 優先檢查重型武器擴展
+        if (weapon.def.TryGetModExtension<HeavyEquippableExtension>(out var heavyExtension))
+        {
+            return heavyExtension.CanEquippedBy(mech as Pawn);
+        }
+
+        // 檢查機械體武器擴展
+        if (!mech.def.TryGetModExtension<MechWeaponExtension>(out var mechExtension))
+        {
+            return false;
+        }
+
+        // 檢查科技等級過濾
+        if (mechExtension.EnableTechLevelFilter && !mechExtension.UsableTechLevels.Contains(weapon.def.techLevel))
+        {
+            return false;
+        }
+
+        // 如果啟用了武器過濾，則只允許通過白名單
+        if (mechExtension.EnableWeaponFilter)
+        {
+            return false;
+        }
+
+        // 當 EnableWeaponFilter 為 false 時，允許根據 HeavyEquippableExtension 進行裝備量級檢查
+        if (weapon.def.TryGetModExtension<HeavyEquippableExtension>(out var weaponHeavyExtension))
+        {
+            return weaponHeavyExtension.CanEquippedBy(mech as Pawn);
+        }
+
         return true;
-    }
-    public static bool UseableInRuntime(Thing mech, ThingWithComps weapon)//透過改造或別的因素所以可以用的狀況
-    {
-        HeavyEquippableExtension extension = weapon.def.GetModExtension<HeavyEquippableExtension>();
-        if (extension != null)//如果是重型武器
-        {
-            return extension.CanEquippedBy(mech as Pawn);
-        }
-        else //非重型武器的狀況
-        {
-            MechWeaponExtension _extension = mech.def.GetModExtension<MechWeaponExtension>();
-            if (_extension != null)
-            {
-                if (_extension.EnableTechLevelFilter && !_extension.UsableTechLevels.Contains(weapon.def.techLevel)) return false;
-                if (_extension.EnableWeaponFilter == false) return true;
-            }
-        }
-        return false;
     }
     public static bool HasAnyHediffOf(Pawn pawn, List<HediffDef> hediffDefs)
     {
-        if (pawn is null)
+        if (pawn == null)
         {
             throw new ArgumentNullException(nameof(pawn));
         }
 
-        if (hediffDefs.NullOrEmpty()) return false;
-        foreach (var item in hediffDefs)
+        if (hediffDefs.NullOrEmpty())
         {
-            if (pawn.health.hediffSet.HasHediff(item)) return true;
-        }
-        return false;
-    }
-    public static bool HasAnyApparelOf(Pawn pawn, List<ThingDef> apparels)
-    {
-        if (pawn is null)
-        {
-            throw new ArgumentNullException(nameof(pawn));
+            return false;
         }
 
-        if (apparels.NullOrEmpty()) return false;
-        foreach (ThingDef apparel in apparels)//裝備上可用
+        foreach (var hediffDef in hediffDefs)
         {
-            if (WearsApparel(pawn, apparel))
+            if (pawn.health.hediffSet.HasHediff(hediffDef))
             {
                 return true;
             }
         }
+
         return false;
     }
-    public static bool Wearable(CompMechApparel comp, ThingWithComps equipment)//為可用的衣服層。
+    public static bool HasAnyApparelOf(Pawn pawn, List<ThingDef> apparels)
     {
-        if (comp.Props.ApparelLayerBlackLists.NullOrEmpty()) return true;
-        foreach (ApparelLayerDef item in comp.Props.ApparelLayerBlackLists)
+        if (pawn == null)
         {
-            if (equipment.def.apparel.layers.NullOrEmpty()) return true;
-            if (equipment.def.apparel.layers.Contains(item))
+            throw new ArgumentNullException(nameof(pawn));
+        }
+
+        if (apparels.NullOrEmpty())
+        {
+            return false;
+        }
+
+        return apparels.Any(apparel => WearsApparel(pawn, apparel));
+    }
+    public static bool Wearable(CompMechApparel comp, ThingWithComps equipment)
+    {
+        if (comp.Props.ApparelLayerBlackLists.NullOrEmpty())
+        {
+            return true;
+        }
+
+        if (equipment.def.apparel.layers.NullOrEmpty())
+        {
+            return true;
+        }
+
+        foreach (ApparelLayerDef blacklistedLayer in comp.Props.ApparelLayerBlackLists)
+        {
+            if (equipment.def.apparel.layers.Contains(blacklistedLayer))
             {
                 return false;
             }
         }
+
         return true;
     }
     public static bool IsMannable(TurretMannableExtension extension, Building_Turret turret)
     {
-        if (extension == null) return false;
-        if (turret is Building_Turret && turret.GetComp<CompMannable>() == null) return false;
-        if (extension.mannableByDefault) return true;
-        return extension.BypassMannable.NotNullAndContains(turret.def.defName);
+        if (extension == null || turret == null)
+        {
+            return false;
+        }
+
+        if (turret.GetComp<CompMannable>() == null)
+        {
+            return false;
+        }
+
+        if (extension.mannableByDefault)
+        {
+            return true;
+        }
+
+        return extension.BypassMannable != null && extension.BypassMannable.Contains(turret.def.defName);
     }
     public static bool WearsApparel(Pawn pawn, ThingDef thingDef)
     {
-        if (pawn.apparel?.WornApparel != null)
-        {
-            return (pawn.apparel.WornApparel.Where(e => e.def == thingDef).FirstOrDefault() != null);
-        }
-        return false;
+        return pawn?.apparel?.WornApparel != null && pawn.apparel.WornApparel.Any(apparel => apparel.def == thingDef);
     }
     public static bool HasAnyGeneOf(Pawn pawn, List<GeneDef> equippableWithGene)
     {
-        if (pawn is null)
+        if (pawn == null)
         {
             throw new ArgumentNullException(nameof(pawn));
         }
-        if (equippableWithGene.NullOrEmpty()) return false;
-        if (pawn.genes == null) return false;
-        foreach (var item in equippableWithGene)
+
+        if (equippableWithGene.NullOrEmpty() || pawn.genes == null)
         {
-            if (pawn.genes.HasActiveGene(item)) return true;
+            return false;
         }
-        return false;
+
+        return equippableWithGene.Any(gene => pawn.genes.HasActiveGene(gene));
+    }
+    public static bool TryGetModExtension<T>(this ThingDef def, out T result) where T : DefModExtension
+    {
+        result = def.GetModExtension<T>();
+        return result != null;
     }
 }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
-using Verse.Noise;
 
 namespace Fortified;
 public class CompProperties_ShieldingDevice : CompProperties
@@ -123,7 +122,7 @@ public class CompShieldingDevice : ThingComp
     public override string CompInspectStringExtra()
     {
         string text = "FFF.ColonistCount".Translate(colonistCountCache);
-        if (!Active) text += "\n"+"FFF.MessageCooldownRemaining".Translate(remainingTicks.ToStringTicksToPeriod());
+        if (!Active) text += "\n" + "FFF.MessageCooldownRemaining".Translate(remainingTicks.ToStringTicksToPeriod());
         return base.CompInspectStringExtra() + text;
     }
     public void TriggerCooldown(int raidPoint)

@@ -40,9 +40,9 @@ namespace Fortified
         public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {
             base.SpawnSetup(map, respawningAfterLoad);
-            this.TryGetComp<CompPowerTrader>(out Power);
-            this.TryGetComp<CompBreakdownable>(out CompBreakdownable);
-            this.TryGetComp<CompAffectedByFacilities>(out compFacility);
+            this.TryGetComp(out Power);
+            this.TryGetComp(out CompBreakdownable);
+            this.TryGetComp(out compFacility);
             modExtension = def.GetModExtension<ModExtension_AutoWorkTable>();
             maintainTick = Rand.Range(0, 120);
         }
@@ -72,13 +72,12 @@ namespace Fortified
                 innerContainer.CopyToList(list);
                 foreach (Thing item in GenRecipe.MakeRecipeProducts(activeBill.recipe, handler, list, CalculateDominantIngredient(list), this))
                 {
-                    CompQuality comp = item.TryGetComp<CompQuality>();
-                    if (comp != null)
+                    if (item.TryGetComp<CompQuality>(out var q))
                     {
-                        SetQuality(comp);
+                        SetQuality(q);
                     }
-                    GenPlace.TryPlaceThing(item, this.InteractionCell ,
-                        base.Map, ThingPlaceMode.Near,null,null,null,30);
+                    GenPlace.TryPlaceThing(item, this.InteractionCell,
+                        base.Map, ThingPlaceMode.Near, null, null, null, 30);
                 }
                 if (activeBill.repeatMode == BillRepeatModeDefOf.RepeatCount)
                 {
@@ -113,7 +112,7 @@ namespace Fortified
                 if (!li.Any()) return;
                 foreach (Thing building in li)
                 {
-                    if (building.TryGetComp<CompPowerTrader>() != null && !building.TryGetComp<CompPowerTrader>().PowerOn) continue;
+                    if (building.TryGetComp<CompPowerTrader>(out var c) && !c.PowerOn) continue;
 
                     if (q != QualityCategory.Legendary && Rand.Chance(building.def.GetModExtension<ModExtension_QualityChance>().qualityChance))
                     {

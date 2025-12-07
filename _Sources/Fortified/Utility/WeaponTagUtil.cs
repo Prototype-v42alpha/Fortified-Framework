@@ -5,118 +5,207 @@ using RimWorld;
 
 namespace Fortified
 {
+    /// <summary>
+    /// 武器標籤工具類，用於管理和查詢武器定義及其關聯資料
+    /// </summary>
     [StaticConstructorOnStartup]
     public static class WeaponTagUtil
     {
-        static readonly Dictionary<string, List<ThingDef>> AllTags = new Dictionary<string, List<ThingDef>>();//AllTags;
-        static readonly ThingDef[] Turrets = new ThingDef[0];
-        static readonly ThingDef[] WeaponUseableMechs = new ThingDef[0];//所有能切裝備的機兵
-        static readonly ThingDef[] AllWeaponDefs = new ThingDef[0];//所有武器
+        private static readonly Dictionary<string, List<ThingDef>> AllTags = new Dictionary<string, List<ThingDef>>();
+        private static ThingDef[] _turrets = new ThingDef[0];
+        private static ThingDef[] _weaponUseableMechs = new ThingDef[0];
+        private static ThingDef[] _allWeaponDefs = new ThingDef[0];
+        private static readonly List<ThingDef> _caches = new List<ThingDef>();
 
-        private static List<ThingDef> caches;
-        public static ThingDef[] GetTurrets => Turrets;
+        public static ThingDef[] GetTurrets => _turrets;
+
         static WeaponTagUtil()
         {
-            caches = new List<ThingDef>();
-            AllWeaponDefs = DefDatabase<ThingDef>.AllDefs.Where((ThingDef def) => def.IsWeapon).ToArray();
-            foreach (ThingDef def in AllWeaponDefs)//整理所有Tag與對應的所有武器
+            InitializeAllWeapons();
+            InitializeTurrets();
+            InitializeWeaponUseableMechs();
+        }
+
+        /// <summary>
+        /// 初始化所有武器及其標籤映射
+        /// </summary>
+        private static void InitializeAllWeapons()
+        {
+            _allWeaponDefs = DefDatabase<ThingDef>.AllDefs
+                .Where(def => def.IsWeapon)
+                .ToArray();
+
+            foreach (ThingDef weaponDef in _allWeaponDefs)
             {
-                if (def.weaponTags.NullOrEmpty())
+                RegisterWeaponTags(weaponDef);
+            }
+        }
+
+        /// <summary>
+        /// 註冊單個武器的所有標籤
+        /// </summary>
+        private static void RegisterWeaponTags(ThingDef weaponDef)
+        {
+            if (weaponDef.weaponTags.NullOrEmpty())
+            {
+                return;
+            }
+
+            foreach (string tag in weaponDef.weaponTags.Distinct())
+            {
+                if (string.IsNullOrEmpty(tag))
                 {
                     continue;
                 }
-                foreach (string tag in def.weaponTags.Distinct())
+
+                if (AllTags.ContainsKey(tag))
                 {
-                    if (AllTags.ContainsKey(tag))//如果已經有了。
-                    {
-                        AllTags[tag].AddDistinct(def);
-                    }
-                    else if (!string.IsNullOrEmpty(tag))//如果是新的，且Tag非Null或空值
-                    {
-                        AllTags.AddDistinct(tag, new List<ThingDef>() { def });
-                    }
+                    AllTags[tag].AddDistinct(weaponDef);
+                }
+                else
+                {
+                    AllTags.Add(tag, new List<ThingDef> { weaponDef });
                 }
             }
-
-            List<ThingDef> _ts = new List<ThingDef>();//砲塔
-            foreach (ThingDef def in DefDatabase<ThingDef>.AllDefs.Where((ThingDef a) => a.building?.turretGunDef != null))
-            {
-                if (def.GetCompProperties<CompProperties_Mannable>() != null)
-                {
-                    _ts.AddDistinct(def);
-                }
-            }
-            _ts.SortBy(v => v.BaseMass);
-            Turrets = _ts.ToArray();
-            _ts = new List<ThingDef>();
-
-            foreach (ThingDef def in DefDatabase<ThingDef>.AllDefs.Where((ThingDef a) => a.GetModExtension<MechWeaponExtension>() != null))
-            {
-                _ts.AddDistinct(def);
-            }
-            _ts.SortBy(v => v.BaseMass);
-            WeaponUseableMechs = _ts.ToArray();
         }
 
+        /// <summary>
+        /// 初始化可操作的砲塔
+        /// </summary>
+        private static void InitializeTurrets()
+        {
+            var turretList = DefDatabase<ThingDef>.AllDefs
+                .Where(def => def.building?.turretGunDef != null && HasMannableComponent(def))
+                .ToList();
+
+            turretList.SortBy(def => def.BaseMass);
+            _turrets = turretList.ToArray();
+        }
+
+        /// <summary>
+        /// 初始化機械體可用的重型裝備
+        /// </summary>
+        private static void InitializeWeaponUseableMechs()
+        {
+            var mechList = DefDatabase<ThingDef>.AllDefs
+                .Where(def => def.GetModExtension<MechWeaponExtension>() != null)
+                .ToList();
+
+            mechList.SortBy(def => def.BaseMass);
+            _weaponUseableMechs = mechList.ToArray();
+        }
+
+        /// <summary>
+        /// 檢查定義是否具有可操作元件
+        /// </summary>
+        private static bool HasMannableComponent(ThingDef def)
+        {
+            return def.GetCompProperties<CompProperties_Mannable>() != null;
+        }
+
+        /// <summary>
+        /// 根據標籤列表獲取所有匹配的武器
+        /// </summary>
         public static IEnumerable<ThingDef> GetWeapons(List<string> tags)
         {
-            List<ThingDef> thingDefs = new List<ThingDef>();
-            foreach (string s in tags)
+            var weapons = new List<ThingDef>();
+
+            foreach (string tag in tags)
             {
-                if (AllTags.ContainsKey(s))
+                if (AllTags.ContainsKey(tag))
                 {
-                    thingDefs.AddRange(AllTags[s]);
+                    weapons.AddRange(AllTags[tag]);
                 }
             }
 
-            return thingDefs.Distinct();
+            return weapons.Distinct();
         }
-        public static bool WeaponExists(string defname, out ThingDef thing)
+
+        /// <summary>
+        /// 檢查武器是否存在
+        /// </summary>
+        public static bool WeaponExists(string defName, out ThingDef weaponDef)
         {
-            thing = caches.Where((ThingDef def) => def.defName == defname).FirstOrDefault();
-            if (thing != null)
+            weaponDef = _caches.FirstOrDefault(def => def.defName == defName);
+
+            if (weaponDef != null)
             {
                 return true;
             }
-            else
+
+            weaponDef = _allWeaponDefs.FirstOrDefault(def => def.defName == defName);
+
+            if (weaponDef != null)
             {
-                thing = DefDatabase<ThingDef>.AllDefs.Where((ThingDef def) => def.IsWeapon && def.defName == defname).FirstOrDefault();
-                if (thing != null)
-                {
-                    caches.Add(thing);
-                    return true;
-                }
+                _caches.Add(weaponDef);
+                return true;
             }
+
             return false;
         }
-        public static bool WeaponExistsInTurretDict(string defname, out ThingDef thing)
+
+        /// <summary>
+        /// 檢查砲塔定義是否存在
+        /// </summary>
+        public static bool WeaponExistsInTurretDict(string defName, out ThingDef weaponDef)
         {
-            thing = Turrets.Where(t => t.defName == defname).FirstOrDefault();
-            return thing != null;
+            weaponDef = _turrets.FirstOrDefault(t => t.defName == defName);
+            return weaponDef != null;
         }
-        public static ThingDef[] UseableByListsOfMechs(ThingWithComps weapon)//重型裝備判斷是否能夠被機械體使用
+
+        /// <summary>
+        /// 獲取能使用指定武器的機械體列表
+        /// </summary>
+        public static ThingDef[] UseableByListsOfMechs(ThingWithComps weapon)
         {
-            List<ThingDef> list = new List<ThingDef>();
-            foreach (ThingDef mech in WeaponUseableMechs)
+            var compatibleMechs = new List<ThingDef>();
+
+            foreach (ThingDef mechDef in _weaponUseableMechs)
             {
-                MechWeaponExtension ext = mech.GetModExtension<MechWeaponExtension>();
-                if (ext != null && ext.CanUse(weapon, mech.race.baseBodySize))
+                if (CanMechUseWeapon(mechDef, weapon))
                 {
-                    list.AddDistinct(mech);
-                }
-                else if (!ext.EnableWeaponFilter)
-                {
-                    var _ext = weapon.def.GetModExtension<HeavyEquippableExtension>();
-                    if (_ext != null && _ext.EquippableDef != null)
-                    {
-                        if (_ext.CanEquippedBy(mech))
-                        {
-                            list.AddDistinct(mech);
-                        }
-                    }
+                    compatibleMechs.AddDistinct(mechDef);
                 }
             }
-            return list.ToArray();
+
+            return compatibleMechs.ToArray();
+        }
+
+        /// <summary>
+        /// 檢查機械體是否可以使用指定武器
+        /// </summary>
+        public static bool CanMechUseWeapon(ThingDef mechDef, ThingWithComps weapon)
+        {
+            var mechExtension = mechDef.GetModExtension<MechWeaponExtension>();
+
+            if (mechExtension == null || weapon == null)
+            {
+                return false;
+            }
+
+            if (mechExtension.CanUse(weapon) || mechExtension.CanUseAsHeavyWeapon(weapon, mechDef.race.baseBodySize))
+            {
+                return true;
+            }
+
+            if (!mechExtension.EnableWeaponFilter)
+            {
+                return CanEquipAsHeavyWeapon(weapon, mechDef);
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// 檢查武器是否可作為重型裝備安裝
+        /// </summary>
+        private static bool CanEquipAsHeavyWeapon(ThingWithComps weapon, ThingDef mechDef)
+        {
+            var heavyEquipExtension = weapon.def.GetModExtension<HeavyEquippableExtension>();
+
+            return heavyEquipExtension != null &&
+                   heavyEquipExtension.EquippableDef != null &&
+                   heavyEquipExtension.CanEquippedBy(mechDef);
         }
     }
 }
