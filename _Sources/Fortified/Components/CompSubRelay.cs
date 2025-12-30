@@ -101,7 +101,7 @@ namespace Fortified
         public override void PostDraw()
         {
             base.PostDraw();
-            if (parent.Map != Find.CurrentMap) return;
+            if (parent.Map != Find.CurrentMap || Props.coverWholeMap) return;
             if (parent is Building && !isActive) return;
 
             if (AnySelectedDraftedMechs)
@@ -112,7 +112,7 @@ namespace Fortified
         public override void CompDrawWornExtras()
         {
             base.CompDrawWornExtras();
-            if (AnySelectedDraftedMechs)
+            if (!Props.coverWholeMap && AnySelectedDraftedMechs)
             {
                 GenDraw.DrawRadiusRing(Position, CurrentRadius, Color.white);
             }
@@ -145,6 +145,7 @@ namespace Fortified
     public class CompProperties_SubRelay : CompProperties
     {
         public float relayRange = 10f;
+        public bool coverWholeMap;
         public CompProperties_SubRelay() => this.compClass = typeof(CompSubRelay);
     }
 }
