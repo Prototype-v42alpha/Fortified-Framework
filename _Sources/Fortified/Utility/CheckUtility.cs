@@ -31,7 +31,7 @@ public static partial class CheckUtility
                 continue;
             }
 
-            if (!InRange(relay.Position, target, relay.SquaredDistance))
+            if (relay.Props.coverWholeMap || InRange(relay.Position, target, relay.SquaredDistance))
             {
                 return true;
             }
