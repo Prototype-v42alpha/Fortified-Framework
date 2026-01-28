@@ -1,4 +1,5 @@
-﻿using Verse;
+﻿// 当白昼倾坠之时
+using Verse;
 using RimWorld;
 using HarmonyLib;
 using System;
@@ -14,17 +15,24 @@ namespace Fortified
     {
         public static void Postfix(ref Pawn __result)
         {
-            if (!ModsConfig.RoyaltyActive) return;
-            if (__result.ageTracker.AgeBiologicalYears < 1) return;
-            if (!__result.kindDef.HasModExtension<DefaultTilteFactionExtension>()) return;
+            try
+            {
+                if (__result == null || !ModsConfig.RoyaltyActive) return;
+                if (__result.ageTracker.AgeBiologicalYears < 1) return;
+                if (!__result.kindDef.HasModExtension<DefaultTilteFactionExtension>()) return;
 
-            Faction faction = Find.FactionManager?.FirstFactionOfDef(__result.kindDef.GetModExtension<DefaultTilteFactionExtension>().faction);
+                ApplyFactionTitle(__result);
+            }
+            catch (Exception e) { Log.Error($"[FFF] Patch_GeneratePawnTitle Error: {e}"); }
+        }
+
+        private static void ApplyFactionTitle(Pawn pawn)
+        {
+            var ext = pawn.kindDef.GetModExtension<DefaultTilteFactionExtension>();
+            Faction faction = Find.FactionManager?.FirstFactionOfDef(ext.faction);
             if (faction != null)
             {
-                foreach (RoyalTitle item in __result.royalty.AllTitlesForReading)
-                {
-                    item.faction = faction;
-                }
+                foreach (RoyalTitle item in pawn.royalty.AllTitlesForReading) item.faction = faction;
             }
         }
     }

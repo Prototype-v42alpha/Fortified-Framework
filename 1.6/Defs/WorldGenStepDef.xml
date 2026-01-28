@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- 当白昼倾坠之时 -->
+<Defs>
+  <WorldGenStepDef>
+    <defName>FFF_SpawnWorldObjects</defName>
+    <order>100</order> <!-- After settlements and basic stuff -->
+    <worldGenStep Class="Fortified.Structures.WorldGenStep_FFFSpawnWorldObjects"/>
+  </WorldGenStepDef>
+</Defs>

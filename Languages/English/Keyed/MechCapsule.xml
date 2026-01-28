@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!-- 当白昼倾坠之时 -->
+<LanguageData>
+
+  <!-- 机兵休眠容器 -->
+  <FFF.DeactivateMech>Deactivate</FFF.DeactivateMech>
+  <FFF.DeactivateMechDesc>Put this mech into hibernation mode. It will become a dormant structure that can be reactivated later by a mechanitor.</FFF.DeactivateMechDesc>
+  <FFF.MechDeactivated>{0} has entered hibernation mode.</FFF.MechDeactivated>
+  <FFF.MechActivated>{0} has been activated and is now under {1}'s control.</FFF.MechActivated>
+  <FFF.ContainsMech>Contains: {0}</FFF.ContainsMech>
+  <FFF.CannotReach>Cannot reach</FFF.CannotReach>
+  <FFF.NeedMoreBandwidth>Need {0} bandwidth to control this mech.</FFF.NeedMoreBandwidth>
+
+  <!-- 右键菜单选项 -->
+  <FFF.DeactivatedMech_Control>Control {0}</FFF.DeactivatedMech_Control>
+  <FFF.DeactivatedMech_Disable>Destroy mech</FFF.DeactivatedMech_Disable>
+  <FFF.DeactivatedMech_CannotControl>Cannot control</FFF.DeactivatedMech_CannotControl>
+
+  <!-- 无法控制的原因 -->
+  <FFF.Reason.WorkTypeDisabled>Research work disabled</FFF.Reason.WorkTypeDisabled>
+  <FFF.Reason.NotMechanitor>Not a mechanitor</FFF.Reason.NotMechanitor>
+  <FFF.Reason.NeedBandwidth>Need {0} bandwidth</FFF.Reason.NeedBandwidth>
+
+  <!-- 骇入失败 -->
+  <FFF.HackFailed>Hack Failed</FFF.HackFailed>
+  <FFF.HackFailedDesc>{0} failed to hack the mech. The mech has awakened and is now hostile!</FFF.HackFailedDesc>
+
+</LanguageData>

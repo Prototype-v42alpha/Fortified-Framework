@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- 当白昼倾坠之时 -->
+<Defs>
+
+  <!-- 机兵休眠容器基类 -->
+  <ThingDef Name="FFF_MechCapsuleBase" Abstract="True">
+    <thingClass>Fortified.Building_MechCapsule</thingClass>
+    <category>Building</category>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>14</pathCost>
+    <fillPercent>0.4</fillPercent>
+    <useHitPoints>true</useHitPoints>
+    <rotatable>true</rotatable>
+    <selectable>true</selectable>
+    <drawGUIOverlay>true</drawGUIOverlay>
+    <tickerType>Never</tickerType>
+    <neverMultiSelect>true</neverMultiSelect>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories>
+      <li>BuildingsMisc</li>
+    </thingCategories>
+    <statBases>
+      <MaxHitPoints>500</MaxHitPoints>
+      <Flammability>0</Flammability>
+      <Mass>50</Mass>
+    </statBases>
+    <building>
+      <isInert>true</isInert>
+      <claimable>false</claimable>
+      <deconstructible>false</deconstructible>
+      <draftAttackNonDeconstructable>false</draftAttackNonDeconstructable>
+    </building>
+    <graphicData>
+      <texPath>Things/Building/Misc/MechCapsule</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+  </ThingDef>
+
+  <!-- 1x1 休眠容器 -->
+  <ThingDef ParentName="FFF_MechCapsuleBase">
+    <defName>FFF_MechCapsule_Small</defName>
+    <label>deactivated mech (small)</label>
+    <description>A deactivated mechanoid in hibernation mode. A mechanitor can attempt to hack and control it.</description>
+    <size>(1,1)</size>
+    <graphicData>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+  </ThingDef>
+
+  <!-- 2x2 休眠容器 -->
+  <ThingDef ParentName="FFF_MechCapsuleBase">
+    <defName>FFF_MechCapsule_Medium</defName>
+    <label>deactivated mech (medium)</label>
+    <description>A deactivated mechanoid in hibernation mode. A mechanitor can attempt to hack and control it.</description>
+    <size>(2,2)</size>
+    <graphicData>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+  </ThingDef>
+
+  <!-- 3x3 休眠容器 -->
+  <ThingDef ParentName="FFF_MechCapsuleBase">
+    <defName>FFF_MechCapsule_Large</defName>
+    <label>deactivated mech (large)</label>
+    <description>A deactivated mechanoid in hibernation mode. A mechanitor can attempt to hack and control it.</description>
+    <size>(3,3)</size>
+    <graphicData>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+  </ThingDef>
+
+  <!-- 4x4 休眠容器 -->
+  <ThingDef ParentName="FFF_MechCapsuleBase">
+    <defName>FFF_MechCapsule_Huge</defName>
+    <label>deactivated mech (huge)</label>
+    <description>A deactivated mechanoid in hibernation mode. A mechanitor can attempt to hack and control it.</description>
+    <size>(4,4)</size>
+    <graphicData>
+      <drawSize>(4,4)</drawSize>
+    </graphicData>
+  </ThingDef>
+
+  <!-- 5x5 休眠容器 -->
+  <ThingDef ParentName="FFF_MechCapsuleBase">
+    <defName>FFF_MechCapsule_Colossal</defName>
+    <label>deactivated mech (colossal)</label>
+    <description>A deactivated mechanoid in hibernation mode. A mechanitor can attempt to hack and control it.</description>
+    <size>(5,5)</size>
+    <graphicData>
+      <drawSize>(5,5)</drawSize>
+    </graphicData>
+  </ThingDef>
+
+  <!-- JobDef -->
+  <JobDef>
+    <defName>FFF_HackMechCapsule</defName>
+    <reportString>controlling mech</reportString>
+    <driverClass>Fortified.JobDriver_HackMechCapsule</driverClass>
+  </JobDef>
+
+  <JobDef>
+    <defName>FFF_EjectMechCapsule</defName>
+    <reportString>disabling mech</reportString>
+    <driverClass>Fortified.JobDriver_EjectMechCapsule</driverClass>
+  </JobDef>
+
+</Defs>

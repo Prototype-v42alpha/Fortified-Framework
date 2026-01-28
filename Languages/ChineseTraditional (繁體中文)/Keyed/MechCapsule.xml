@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 当白昼倾坠之时 -->
+<LanguageData>
+
+  <!-- 機兵休眠容器 -->
+  <FFF.DeactivateMech>休眠</FFF.DeactivateMech>
+  <FFF.DeactivateMechDesc>將機兵置於休眠模式。它會變成一個休眠建築，之後可以由機械師重新啟動。</FFF.DeactivateMechDesc>
+  <FFF.MechDeactivated>{0}已進入休眠模式。</FFF.MechDeactivated>
+  <FFF.MechActivated>{0}已被啟動，現在由{1}控制。</FFF.MechActivated>
+  <FFF.ContainsMech>內含：{0}</FFF.ContainsMech>
+  <FFF.CannotReach>無法到達</FFF.CannotReach>
+  <FFF.NeedMoreBandwidth>需要{0}頻寬才能控制此機兵。</FFF.NeedMoreBandwidth>
+
+  <!-- 右鍵選單選項 -->
+  <FFF.DeactivatedMech_Control>控制{0}</FFF.DeactivatedMech_Control>
+  <FFF.DeactivatedMech_Disable>拆解機體</FFF.DeactivatedMech_Disable>
+  <FFF.DeactivatedMech_CannotControl>無法控制</FFF.DeactivatedMech_CannotControl>
+
+  <!-- 無法控制的原因 -->
+  <FFF.Reason.WorkTypeDisabled>研究工作已禁用</FFF.Reason.WorkTypeDisabled>
+  <FFF.Reason.NotMechanitor>不是機械師</FFF.Reason.NotMechanitor>
+  <FFF.Reason.NeedBandwidth>需要{0}頻寬</FFF.Reason.NeedBandwidth>
+
+  <!-- 駭入失敗 -->
+  <FFF.HackFailed>駭入失敗</FFF.HackFailed>
+  <FFF.HackFailedDesc>{0}駭入機兵失敗。機兵已甦醒並變為敵對狀態！</FFF.HackFailedDesc>
+
+</LanguageData>

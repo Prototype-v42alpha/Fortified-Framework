@@ -1,5 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- 当白昼倾坠之时 -->
 <Defs>
+  <!-- 原本的 PrefabGen -->
   <ScenPartDef>
     <defName>FFF_PrefabGen</defName>
     <label>start with prefab</label>
@@ -8,4 +10,23 @@
     <maxUses>1</maxUses>
     <summaryPriority>400</summaryPriority>
   </ScenPartDef>
-</Defs>	
+
+  <!-- 对应 VFEC_AddStartingStructure -->
+  <ScenPartDef>
+    <defName>FFF_AddStartingStructure</defName>
+    <label>add custom structure to starting map</label>
+    <category>Misc</category>
+    <scenPartClass>Fortified.Structures.ScenPart_AddStartingStructure</scenPartClass>
+    <maxUses>1</maxUses>
+  </ScenPartDef>
+
+  <!-- 对应 VFEC_ForcedFactionGoodwill -->
+  <ScenPartDef>
+    <defName>FFF_ForcedFactionGoodwill</defName>
+    <label>forced faction relations</label>
+    <scenPartClass>Fortified.Structures.ScenPart_ForcedFactionGoodwill</scenPartClass>
+    <category>Misc</category>
+    <selectionWeight>1.0</selectionWeight>
+    <summaryPriority>340</summaryPriority>
+  </ScenPartDef>
+</Defs>

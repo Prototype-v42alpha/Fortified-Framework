@@ -1,4 +1,5 @@
-﻿using RimWorld;
+﻿// 当白昼倾坠之时
+using RimWorld;
 using UnityEngine;
 using Verse;
 
@@ -29,32 +30,21 @@ namespace Fortified
             if (Pawn.Drafted)
             {
                 if (Pawn.GetOverseer() == null) return;
-                var overseer = Pawn.GetOverseer();
-
-                if (overseer.MapHeld == Pawn.MapHeld)
-                {
-                    CurrentRadius = Props.maxRelayRadius; 
-                    //Log.Message("SameMap");
-                }
-                else if (!overseer.Spawned)
-                {
-                    CurrentRadius = Props.minRelayRadius;
-                    //Log.Message("Overseer not spawned");
-                }
-                else
-                {
-                    float num = Find.WorldGrid.ApproxDistanceInTiles(Pawn.MapHeld.Tile, overseer.MapHeld.Tile);
-                    //Log.Message("Overseer at:" + num);
-                    if (num > Props.maxWorldMapRadius)
-                    {
-                        CurrentRadius = Props.minRelayRadius;
-                    }
-                    else
-                    {
-                        CurrentRadius = Mathf.Lerp(Props.minRelayRadius, Props.maxRelayRadius, (float)num / (float)Props.maxWorldMapRadius);
-                    }
-                }
+                UpdateCurrentRadius();
                 GenDraw.DrawRadiusRing(this.parent.Position, CurrentRadius, Color.cyan);
+            }
+        }
+
+        private void UpdateCurrentRadius()
+        {
+            Pawn overseer = Pawn.GetOverseer();
+            if (overseer.MapHeld == Pawn.MapHeld) CurrentRadius = Props.maxRelayRadius;
+            else if (!overseer.Spawned) CurrentRadius = Props.minRelayRadius;
+            else
+            {
+                float dist = Find.WorldGrid.ApproxDistanceInTiles(Pawn.MapHeld.Tile, overseer.MapHeld.Tile);
+                if (dist > Props.maxWorldMapRadius) CurrentRadius = Props.minRelayRadius;
+                else CurrentRadius = Mathf.Lerp(Props.minRelayRadius, Props.maxRelayRadius, dist / Props.maxWorldMapRadius);
             }
         }
         
@@ -65,6 +55,7 @@ namespace Fortified
         public int maxWorldMapRadius;
         public float maxRelayRadius;
         public float minRelayRadius;
+        public bool coverWholeMap;
         public CompProperties_CommandRelay() => compClass = typeof(CompCommandRelay);
     }
 }

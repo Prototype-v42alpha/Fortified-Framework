@@ -1,22 +1,18 @@
+ï»¿// å½“ç™½æ˜¼å€¾å ä¹‹æ—¶
 using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Verse;
 
 namespace Fortified
 {
-    /// <summary>
-    /// ¦b Pawn ¥Í¦¨¶¥¬q²K¥[ HumanlikeMech ªºªì©l¸Ë³Æ
-    /// ¨Ï¥Î PawnKindDef ¤¤ªº­ì¥Í apparelMoney¡BapparelTags ©M apparelRequired Äæ¦ì
-    /// °Ñ¦Ò RimWorld ªº PawnApparelGenerator ÅŞ¿è
-    /// 
-    /// ª`¡GRimWorld ªº PawnApparelGenerator ÁÙ¤ä«ù specificApparelRequirements¡C
-    /// ¸Ó¥\¯à¥i³q¹L¦çªAªº ApparelRequirement ¨t²Î¹ê²{¡A¸Ó¨t²Î¦b pawn.apparel.AllRequirements ¤¤¨Ï¥Î¡C
-    /// ¸Ô¨£ HumanlikeMechApparelUtility.ApparelScoreRaw ªº¹ê²{¡C
-    /// </summary>
+    // åœ¨ Pawn ç”Ÿæˆåä¸º HumanlikeMech æ·»åŠ åˆå§‹è£…å¤‡
+    // ä½¿ç”¨ PawnKindDef ä¸­å®šä¹‰çš„ apparelMoneyã€apparelTags å’Œ apparelRequired é…ç½®
+    // å‚è€ƒ RimWorld çš„ PawnApparelGenerator é€»è¾‘
+
+    #region Patch: GeneratePawn(PawnKindDef, Faction, PlanetTile?)
+
     [HarmonyPatch(typeof(PawnGenerator), nameof(PawnGenerator.GeneratePawn),
         new Type[] { typeof(PawnKindDef), typeof(Faction), typeof(PlanetTile?) })]
     internal static class Patch_PawnGenerator_GeneratePawn
@@ -24,92 +20,50 @@ namespace Fortified
         [HarmonyPostfix]
         public static void Postfix(Pawn __result, PawnKindDef kindDef, Faction faction, PlanetTile? tile)
         {
-            if (__result is not HumanlikeMech humanlikeMech || kindDef == null || humanlikeMech.apparel == null)
-            {
-                return;
-            }
-            if (faction.IsPlayer) return;// ¥u¬°«Dª±®a°}Àçªº¾÷§L²K¥[ªì©l¦çªA
-
-            PawnGenerationRequest request = new PawnGenerationRequest(kindDef);
-            MechApparelGenerator.GenerateStartingApparelFor(humanlikeMech, request);
-
-            return;
-            // ¬ï¤W¥²»İªº¦çªA¡]apparelRequired¡^
-            if (!kindDef.apparelRequired.NullOrEmpty())
-            {
-                foreach (var apparelDef in kindDef.apparelRequired)
-                {
-                    TryWearApparel(humanlikeMech, apparelDef);
-                }
-            }
-            // ®Ú¾Ú¼ĞÅÒ©M¹wºâ¬ï¤W¥i¿ïªº¦çªA
-            float apparelBudget = kindDef.apparelMoney.RandomInRange;
-            if (apparelBudget > 0 && !kindDef.apparelTags.NullOrEmpty())
-            {
-                var candidates = GetApparelsByTags(kindDef.apparelTags);
-                if (candidates.Count > 0)
-                {
-                    candidates.Shuffle();
-                    float remainingMoney = apparelBudget;
-
-                    foreach (var apparelDef in candidates)
-                    {
-                        if (remainingMoney <= 0)
-                        {
-                            break;
-                        }
-
-                        float marketValue = apparelDef.GetStatValueAbstract(StatDefOf.MarketValue);
-                        if (marketValue <= remainingMoney && TryWearApparel(humanlikeMech, apparelDef))
-                        {
-                            remainingMoney -= marketValue;
-                        }
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// ¹Á¸Õ¬° pawn ¬ï¤W¦çªA
-        /// </summary>
-        private static bool TryWearApparel(HumanlikeMech pawn, ThingDef apparelDef)
-        {
-            if (!apparelDef.IsApparel ||
-                !apparelDef.apparel.CorrectGenderForWearing(pawn.gender) ||
-                !ApparelUtility.HasPartsToWear(pawn, apparelDef))
-            {
-                return false;
-            }
-
-            // ÀË¬d»P²{¦³¦çªAªº­İ®e©Ê
-            var wornApparel = pawn.apparel.WornApparel;
-            if (wornApparel.Count > 0 && !wornApparel.All(worn =>
-                ApparelUtility.CanWearTogether(worn.def, apparelDef, pawn.RaceProps.body)))
-            {
-                return false;
-            }
-
-            Apparel apparel = MechApparelGenerator.GenerateApparelOfDefFor(pawn, apparelDef);
-            if (apparel == null)
-            {
-                return false;
-            }
-
-            pawn.apparel.Wear(apparel);
-            return true;
-        }
-
-        /// <summary>
-        /// Àò¨ú²Å¦X¼ĞÅÒªº¦çªA©w¸q
-        /// </summary>
-        private static List<ThingDef> GetApparelsByTags(List<string> tags)
-        {
-            return DefDatabase<ThingDef>.AllDefs
-                .Where(def => def.IsApparel &&
-                       !def.apparel?.tags.NullOrEmpty() == true &&
-                       tags.Any(tag => def.apparel.tags.Contains(tag)))
-                .ToList();
+            try { HumanlikeMechApparelPatchHelper.GenerateApparelForHumanlikeMech(__result, kindDef, faction); }
+            catch (Exception e) { Log.Error($"[FFF] Patch_PawnGenerator_GeneratePawn Error: {e}"); }
         }
     }
 
+    #endregion
+
+    #region Patch: GeneratePawn(PawnGenerationRequest)
+
+    [HarmonyPatch(typeof(PawnGenerator), nameof(PawnGenerator.GeneratePawn),
+        new Type[] { typeof(PawnGenerationRequest) })]
+    internal static class Patch_PawnGenerator_GeneratePawn_Request
+    {
+        [HarmonyPostfix]
+        public static void Postfix(Pawn __result, PawnGenerationRequest request)
+        {
+            try { HumanlikeMechApparelPatchHelper.GenerateApparelForHumanlikeMech(__result, request.KindDef, request.Faction); }
+            catch (Exception e) { Log.Error($"[FFF] Patch_PawnGenerator_GeneratePawn_Request Error: {e}"); }
+        }
+    }
+
+    #endregion
+
+    #region å…±äº«é€»è¾‘
+
+    internal static class HumanlikeMechApparelPatchHelper
+    {
+        public static void GenerateApparelForHumanlikeMech(Pawn pawn, PawnKindDef kindDef, Faction faction)
+        {
+            if (pawn is not HumanlikeMech humanlikeMech || kindDef == null || humanlikeMech.apparel == null)
+            {
+                return;
+            }
+
+            // åªä¸ºéç©å®¶æ´¾ç³»çš„æœºå…µæ·»åŠ åˆå§‹è£…å¤‡
+            if (faction == null || faction.IsPlayer) return;
+
+            // æ£€æŸ¥æ˜¯å¦å·²æœ‰è£…å¤‡ï¼Œé¿å…é‡å¤ç”Ÿæˆ
+            if (humanlikeMech.apparel.WornApparel.Count > 0) return;
+
+            PawnGenerationRequest request = new PawnGenerationRequest(kindDef);
+            MechApparelGenerator.GenerateStartingApparelFor(humanlikeMech, request);
+        }
+    }
+
+    #endregion
 }

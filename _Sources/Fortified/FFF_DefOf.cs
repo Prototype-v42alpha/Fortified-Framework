@@ -1,4 +1,5 @@
-﻿using RimWorld;
+﻿// 当白昼倾坠之时
+using RimWorld;
 using UnityEngine;
 using Verse;
 
@@ -18,6 +19,8 @@ public static class FFF_DefOf
     public static JobDef FFF_EjectDeactivatedMech;
     public static JobDef FFF_HackDeactivatedMech;
     public static JobDef FFF_ResurrectMech;
+    public static JobDef FFF_HackMechCapsule;
+    public static JobDef FFF_EjectMechCapsule;
     public static HediffDef FFF_Camouflage;
 }
 
