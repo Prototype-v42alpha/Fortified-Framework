@@ -8,6 +8,12 @@ using UnityEngine;
 
 public static partial class CheckUtility
 {
+    private const bool DebugLog = false;
+    private static void DLog(string message)
+    {
+        if (DebugLog)
+            Verse.Log.Message($"[CheckUtility] {message}");
+    }
     public static bool InRange(LocalTargetInfo A, LocalTargetInfo B, float squaredRange)
     {
         return IntVec3Utility.DistanceToSquared(A.Cell, B.Cell) <= squaredRange;
@@ -85,12 +91,12 @@ public static partial class CheckUtility
         }
         if (extension.EnableWeaponFilter)
         {
-            Log.Message("EnableWeaponFilter");
+            DLog("EnableWeaponFilter");
             return extension.CanUse(weapon);
         }
         else 
         {
-            Log.Message("Heavy");
+            DLog("Heavy");
            return extension.CanUseAsHeavyWeapon(weapon, (mech as Pawn).BodySize);
         }
     }

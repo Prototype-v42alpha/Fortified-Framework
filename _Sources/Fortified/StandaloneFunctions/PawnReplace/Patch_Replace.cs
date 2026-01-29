@@ -15,6 +15,12 @@ namespace Fortified
     })]
     public class Patch_Replace
     {
+        private const bool DebugLog = false;
+        private static void DLog(string message)
+        {
+            if (DebugLog)
+                Verse.Log.Message($"[PawnReplace] {message}");
+        }
         [HarmonyPrefix]
         public static bool Prefix(ref Thing newThing, IntVec3 loc, Map map, Rot4 rot)
         {
@@ -22,7 +28,7 @@ namespace Fortified
                 is ModExtension_ReplacePawn ex && map.Parent is Site site)
             {
                 float point = site.ActualThreatPoints;
-                if (DebugSettings.godMode) Log.Message($"{site.Label} have {point} ThreatPoints");
+                if (DebugSettings.godMode) DLog($"{site.Label} have {point} ThreatPoints");
                 if (ex.replaces.ToList().Find(r => r.Key.Includes(point)) is
                     KeyValuePair<FloatRange, PawnKindDef> replace)
                 {

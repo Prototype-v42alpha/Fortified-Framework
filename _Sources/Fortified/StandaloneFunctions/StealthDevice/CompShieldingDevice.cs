@@ -24,6 +24,12 @@ public class CompShieldingDevice : ThingComp
 {
     private CompPowerTrader compPowerInt;
     public static List<CompShieldingDevice> cache = new List<CompShieldingDevice>();
+    private const bool DebugLog = false;
+    private static void DLog(string message)
+    {
+        if (DebugLog)
+            Verse.Log.Message($"[ShieldingDevice] {message}");
+    }
     public CompProperties_ShieldingDevice Props => (CompProperties_ShieldingDevice)props;
     private Effecter effecter;
     public CompPowerTrader CompPower
@@ -83,7 +89,7 @@ public class CompShieldingDevice : ThingComp
     }
     public override void CompTickInterval(int delta)
     {
-        if (DebugSettings.godMode) Log.Message("CompTickInterval " + delta);
+        if (DebugSettings.godMode) DLog("CompTickInterval " + delta);
     }
     public override void CompTick()
     {

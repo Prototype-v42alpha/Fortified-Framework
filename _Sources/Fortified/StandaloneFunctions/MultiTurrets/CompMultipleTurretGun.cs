@@ -11,6 +11,12 @@ namespace Fortified
 {
     public class CompMultipleTurretGun : ThingComp
     {
+        internal const bool DebugLog = false;
+        internal static void DLog(string message)
+        {
+            if (DebugLog)
+                Verse.Log.Message($"[MultiTurret] {message}");
+        }
         public bool IsApparel => this.parent.def.IsApparel;
         public Pawn PawnOwner
         {
@@ -286,11 +292,11 @@ namespace Fortified
             {
                 if (TurretProp == null)
                 {
-                    Log.Message("null TurretProp");
+                    CompMultipleTurretGun.DLog("null TurretProp");
                 }
                 if (parent == null)
                 {
-                    Log.Message("null parent");
+                    CompMultipleTurretGun.DLog("null parent");
                 }
                 this.curRotation = this.TurretProp.angleOffset + this.TurretProp.IdleAngleOffset + PawnOwner.Rotation.AsAngle;
             }

@@ -11,6 +11,12 @@ namespace Fortified
         public Building_WorkTable WorkBench => billStack.billGiver as Building_WorkTable;
 
         public ModExt_EnvironmentalBill Extension => recipe.GetModExtension<ModExt_EnvironmentalBill>();
+        private const bool DebugLog = false;
+        private void DLog(string message)
+        {
+            if (DebugLog)
+                Verse.Log.Message($"[EnvironmentalBill] {message}");
+        }
 
         public Bill_Production_Environmental()
         {
@@ -117,7 +123,7 @@ namespace Fortified
         private bool SendSuspendedMessage(string reason)
         {
             if(!suspended) suspended = true;
-            if (DebugSettings.godMode) Log.Message(reason);
+            if (DebugSettings.godMode) DLog(reason);
             Messages.Message("FFF.Message.BillSuspended".Translate(Label, WorkBench.Label) + ": " + reason, lookTargets: WorkBench, MessageTypeDefOf.CautionInput);
             return false;
         }
