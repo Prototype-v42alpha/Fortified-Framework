@@ -13,48 +13,58 @@ namespace Fortified
 
         public static List<ScenPart_ForcedFactionGoodwill> activeRules = new List<ScenPart_ForcedFactionGoodwill>();
 
+        // 缓存原始 permanentEnemy 状态以便恢复
+        private static Dictionary<FactionDef, bool> originalPermanentEnemy = new Dictionary<FactionDef, bool>();
+
         public override void FinalizeInit()
         {
             activeRules.Clear();
+            originalPermanentEnemy.Clear();
+
+            // 收集所有派系的原始敌对状态
+            foreach (var def in DefDatabase<FactionDef>.AllDefsListForReading)
+            {
+                if (!originalPermanentEnemy.ContainsKey(def))
+                    originalPermanentEnemy[def] = def.permanentEnemy;
+            }
+
+            // 收集所有好感度规则
             foreach (var part in Find.Scenario.AllParts)
             {
-                if (part is ScenPart_ForcedFactionGoodwill rule) activeRules.Add(rule);
+                if (part is ScenPart_ForcedFactionGoodwill rule) 
+                    activeRules.Add(rule);
             }
+
+            // 应用 alwaysHostile 规则到 FactionDef
+            ApplyPermanentEnemyRules();
         }
 
-        public override void GameComponentTick()
+        private void ApplyPermanentEnemyRules()
         {
-            if (Find.TickManager.TicksGame % 5000 != 0) return;
-            ApplyRules();
-        }
-
-        private void ApplyRules()
-        {
-            foreach (var rule in activeRules)
+            // 先恢复所有派系的原始状态
+            foreach (var kvp in originalPermanentEnemy)
             {
-                foreach (var f in Find.FactionManager.AllFactions)
+                kvp.Key.permanentEnemy = kvp.Value;
+            }
+
+            // 按规则顺序（从后往前）应用 alwaysHostile
+            for (int i = activeRules.Count - 1; i >= 0; i--)
+            {
+                var rule = activeRules[i];
+                if (!rule.alwaysHostile) continue;
+
+                foreach (var def in DefDatabase<FactionDef>.AllDefsListForReading)
                 {
-                    if (rule.Affects(f)) ApplyRuleToFaction(rule, f);
+                    if (def.isPlayer) continue;
+                    if (rule.factionDef != null && rule.factionDef != def) continue;
+                    if (!rule.affectHiddenFactions && def.hidden) continue;
+
+                    def.permanentEnemy = true;
                 }
             }
         }
 
-        private void ApplyRuleToFaction(ScenPart_ForcedFactionGoodwill rule, Faction f)
-        {
-            if (rule.alwaysHostile)
-            {
-                f.TryAffectGoodwillWith(Faction.OfPlayer, -100 - f.PlayerGoodwill, false, false);
-                return;
-            }
-            if (rule.affectNaturalGoodwill)
-            {
-                int current = f.PlayerGoodwill;
-                if (current < rule.naturalGoodwillRange.min || current > rule.naturalGoodwillRange.max)
-                {
-                    int target = rule.naturalGoodwillRange.RandomInRange;
-                    f.TryAffectGoodwillWith(Faction.OfPlayer, target - current, false, false);
-                }
-            }
-        }
+        // 不再需要定期 Tick 强制修改好感度
+        // 自然好感度调整由 Patch_Faction_NaturalGoodwill 处理
     }
 }

@@ -95,7 +95,15 @@ namespace Fortified.Structures
         // 检查派系是否符合规则
         public bool Affects(Faction f)
         {
-            return (factionDef == null || f.def == factionDef) && (affectHiddenFactions || !f.def.hidden);
+            return Affects(f.def);
+        }
+
+        public bool Affects(FactionDef def)
+        {
+            if (def.isPlayer) return false;
+            if (factionDef != null && factionDef != def) return false;
+            if (!affectHiddenFactions && def.hidden) return false;
+            return true;
         }
 
         public override void ExposeData()
