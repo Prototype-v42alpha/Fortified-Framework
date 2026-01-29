@@ -113,14 +113,22 @@ namespace FortifiedCE
         {
             if (target is null) return false;
 
-            if (target is ProjectileCE)
+            if (target is ProjectileCE projectile)
             {
-                if (target.def.defName.Contains("Charge") || target.def.defName.Contains("Blaster") || target.def.defName.Contains("Blaster"))
+                if (Props.ignoreThings.Contains(target.def.defName)) return false;
+                
+                if (projectile.def is CombatExtended.AmmoDef ammoDef)
                 {
-                    if (Props.ignoreThings.Contains(target.def.defName)) return false;
-                    return true;
+                    var ammoClass = ammoDef.ammoClass?.defName;
+                    if (ammoClass == "Charged" || ammoClass == "ChargedAP" || ammoClass == "Ionized")
+                        return true;
                 }
-                if (!Props.interceptThings.Where((v => target.def.defName == v)).FirstOrDefault().NullOrEmpty()) return true;
+                
+                if (target.def.defName.Contains("Charge") || target.def.defName.Contains("Blaster"))
+                    return true;
+                    
+                if (!Props.interceptThings.Where((v => target.def.defName == v)).FirstOrDefault().NullOrEmpty()) 
+                    return true;
             }
             return false;
         }
