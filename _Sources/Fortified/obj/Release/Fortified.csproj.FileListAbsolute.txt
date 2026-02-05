@@ -5,7 +5,6 @@ D:\Steam\steamapps\common\RimWorld\Mods\_Fortified-Framework\_Sources\Fortified\
 D:\Steam\steamapps\common\RimWorld\Mods\_Fortified-Framework\_Sources\Fortified\obj\Release\Fortified.AssemblyInfoInputs.cache
 D:\Steam\steamapps\common\RimWorld\Mods\_Fortified-Framework\_Sources\Fortified\obj\Release\Fortified.AssemblyInfo.cs
 D:\Steam\steamapps\common\RimWorld\Mods\_Fortified-Framework\_Sources\Fortified\obj\Release\Fortified.csproj.CoreCompileInputs.cache
-D:\Steam\steamapps\common\RimWorld\Mods\_Fortified-Framework\_Sources\Fortified\obj\Release\Fortified.csproj.Up2Date
 D:\Steam\steamapps\common\RimWorld\Mods\_Fortified-Framework\_Sources\Fortified\obj\Release\Fortified.dll
 D:\Game\Steam\steamapps\common\RimWorld\Mods\Fortified-Framework\1.6\Assemblies\Fortified.dll
 D:\Game\Steam\steamapps\common\RimWorld\Mods\Fortified-Framework\_Sources\Fortified\obj\Release\Fortified.csproj.AssemblyReference.cache

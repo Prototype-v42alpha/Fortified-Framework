@@ -22,7 +22,7 @@ namespace Fortified
                 return headGraphic;
             }
         }
-        private bool HasHair => story.hairDef != HairDefOf.Bald || story.hairDef == null;
+        private bool HasHair => story.hairDef != null && story.hairDef != HairDefOf.Bald;
         public override void PostMake()
         {
             base.PostMake();
@@ -60,11 +60,26 @@ namespace Fortified
         {
             if (Extension != null)
             {
+                // 检查story是否是首次初始化
+                bool isStoryFirstInit = story == null;
+                
                 outfits ??= new Pawn_OutfitTracker(this);
                 story ??= new Pawn_StoryTracker(this);
-                story.bodyType ??= Extension.bodyTypeOverride;
-                story.headType ??= Extension.headTypeOverride;
-                story.SkinColorBase = Color.white;
+                
+                // 仅在首次初始化时设置这些值，避免覆盖加载的数据
+                if (isStoryFirstInit)
+                {
+                    story.bodyType ??= Extension.bodyTypeOverride;
+                    story.headType ??= Extension.headTypeOverride;
+                    story.SkinColorBase = Color.white;
+                    story.HairColor = Color.white;
+                    
+                    // 如果不允许改变髮型，强制设置为秃头；否则仅在未初始化时设置
+                    if (!Extension.canChangeHairStyle || story.hairDef == null)
+                    {
+                        story.hairDef = HairDefOf.Bald;
+                    }
+                }
 
                 style ??= new Pawn_StyleTracker(this)
                 {
@@ -72,12 +87,6 @@ namespace Fortified
                     FaceTattoo = null,
                     BodyTattoo = null,
                 };
-
-                if (Extension.canChangeHairStyle)
-                {
-                    story.HairColor = Color.white;
-                    story.hairDef ??= HairDefOf.Bald;
-                }
 
                 interactions ??= new(this);
                 if (skills == null)
