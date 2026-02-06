@@ -20,35 +20,25 @@
   <FFF.DropGears>卸載所有物品</FFF.DropGears>
 
   <!-- EN: work type disabled -->
-  <!-- EN: work type disabled -->
   <FFF.Reason.WorkTypeDisabled>研究工作已禁用</FFF.Reason.WorkTypeDisabled>
-  <!-- EN: need bandwidth:{0} -->
   <!-- EN: need bandwidths:{0} -->
   <FFF.Reason.NeedBandwidth>需要{0}帶寬</FFF.Reason.NeedBandwidth>
   <!-- EN: altitude layer occupied -->
-  <!-- EN: altitude layer occupied -->
   <FFF.Reason.AltitudeLayerOccupied>建築層被占用</FFF.Reason.AltitudeLayerOccupied>
   <!-- EN: No enough fuel -->
-  <!-- EN: No enough fuel -->
   <FFF.Reason.NoEnoughFuel>燃料不足</FFF.Reason.NoEnoughFuel>
-  <!-- EN: No fuel -->
   <!-- EN: No fuel -->
   <FFF.Reason.NotFueled>沒有燃料</FFF.Reason.NotFueled>
 
   <!-- EN: deactivate Mech -->
-  <!-- EN: deactivate mech -->
   <FFF.DeactivatedMech_Disable>拆解機體</FFF.DeactivatedMech_Disable>
   <!-- EN: Try hacking {0} -->
-  <!-- EN: Try hacking {0} -->
   <FFF.DeactivatedMech_TryHack>嘗試駭入{0}</FFF.DeactivatedMech_TryHack>
-  <!-- EN: Cannot hacking -->
   <!-- EN: Cannot hack -->
   <FFF.DeactivatedMech_CannotHack>無法駭入</FFF.DeactivatedMech_CannotHack>
 
   <!-- EN: Requires total mass exceeding {0} -->
-  <!-- EN: Requires total mass exceeding {0} -->
   <FFF.BillRequires.Mass>需要總計重量超過{0}:({1})</FFF.BillRequires.Mass>
-  <!-- EN: Requires total price to exceed {0} -->
   <!-- EN: Requires total price to exceed {0} -->
   <FFF.BillRequires.MarketValue>需要總計價值超過{0}:({1})</FFF.BillRequires.MarketValue>
 
