@@ -21,10 +21,10 @@
 
   <!-- EN: work type disabled -->
   <!-- EN: work type disabled -->
-  <FFF.Reason.WorkTypeDisabled>工作類型禁用</FFF.Reason.WorkTypeDisabled>
+  <FFF.Reason.WorkTypeDisabled>研究工作已禁用</FFF.Reason.WorkTypeDisabled>
   <!-- EN: need bandwidth:{0} -->
   <!-- EN: need bandwidths:{0} -->
-  <FFF.Reason.NeedBandwidth>需要帶寬: {0}</FFF.Reason.NeedBandwidth>
+  <FFF.Reason.NeedBandwidth>需要{0}帶寬</FFF.Reason.NeedBandwidth>
   <!-- EN: altitude layer occupied -->
   <!-- EN: altitude layer occupied -->
   <FFF.Reason.AltitudeLayerOccupied>建築層被占用</FFF.Reason.AltitudeLayerOccupied>

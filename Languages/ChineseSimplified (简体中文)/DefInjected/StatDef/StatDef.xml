@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN: supported body size -->
+  <FFF_HeavyGears.label>支援体型</FFF_HeavyGears.label>
+  <!-- EN: Required pawn body size to equip this weapon. -->
+  <FFF_HeavyGears.description>装备者至少要具有相当程度的体型才能够装备这个武器。</FFF_HeavyGears.description>
+  
+  <!-- EN: mass carry capacity -->
+  <FFF_MassCarryCapacity.label>重量携带能力</FFF_MassCarryCapacity.label>
+  <!-- EN: The total mass this person can carry in their inventory and as equipment. -->
+  <FFF_MassCarryCapacity.description>可携带的物品及装备最大重量。</FFF_MassCarryCapacity.description>
+  
+  <!-- EN: supported weapons -->
+  <FFF_UsableWeapons.label>武器系统</FFF_UsableWeapons.label>
+  <!-- EN: Usable weapons that are supported by the OS of this model. -->
+  <FFF_UsableWeapons.description>该机械体在没有任何额外改造或升级时所能够使用的武器。</FFF_UsableWeapons.description>
+  
+</LanguageData>

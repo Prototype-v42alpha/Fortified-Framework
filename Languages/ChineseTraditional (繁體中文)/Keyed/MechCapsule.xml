@@ -1,28 +1,42 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- 当白昼倾坠之时 -->
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <LanguageData>
 
   <!-- 機兵休眠容器 -->
+  <!-- EN: Deactivate -->
   <FFF.DeactivateMech>休眠</FFF.DeactivateMech>
-  <FFF.DeactivateMechDesc>將機兵置於休眠模式。它會變成一個休眠建築，之後可以由機械師重新啟動。</FFF.DeactivateMechDesc>
+  <!-- EN: Put this mech into hibernation mode. It will become a dormant structure that can be reactivated later by a mechanitor. -->
+  <FFF.DeactivateMechDesc>使機械體進入休眠模式。它會變成一個休眠建築並不再占用帶寬，並可以由機械師重新啟動。</FFF.DeactivateMechDesc>
+  <!-- EN: {0} has entered hibernation mode. -->
   <FFF.MechDeactivated>{0}已進入休眠模式。</FFF.MechDeactivated>
+  <!-- EN: {0} has been activated and is now under {1}'s control. -->
   <FFF.MechActivated>{0}已被啟動，現在由{1}控制。</FFF.MechActivated>
+  <!-- EN: Contains: {0} -->
   <FFF.ContainsMech>內含：{0}</FFF.ContainsMech>
+  <!-- EN: Cannot reach -->
   <FFF.CannotReach>無法到達</FFF.CannotReach>
-  <FFF.NeedMoreBandwidth>需要{0}頻寬才能控制此機兵。</FFF.NeedMoreBandwidth>
+  <!-- EN: Need {0} bandwidth to control this mech. -->
+  <FFF.NeedMoreBandwidth>需要{0}帶寬才能控制此機兵。</FFF.NeedMoreBandwidth>
 
-  <!-- 右鍵選單選項 -->
+  <!-- 右鍵菜單選項 -->
+  <!-- EN: Control {0} -->
   <FFF.DeactivatedMech_Control>控制{0}</FFF.DeactivatedMech_Control>
+  <!-- EN: Destroy mech -->
   <FFF.DeactivatedMech_Disable>拆解機體</FFF.DeactivatedMech_Disable>
+  <!-- EN: Cannot control -->
   <FFF.DeactivatedMech_CannotControl>無法控制</FFF.DeactivatedMech_CannotControl>
 
   <!-- 無法控制的原因 -->
+  <!-- EN: Research work disabled -->
   <FFF.Reason.WorkTypeDisabled>研究工作已禁用</FFF.Reason.WorkTypeDisabled>
+  <!-- EN: Not a mechanitor -->
   <FFF.Reason.NotMechanitor>不是機械師</FFF.Reason.NotMechanitor>
-  <FFF.Reason.NeedBandwidth>需要{0}頻寬</FFF.Reason.NeedBandwidth>
+  <!-- EN: Need {0} bandwidth -->
+  <FFF.Reason.NeedBandwidth>需要{0}帶寬</FFF.Reason.NeedBandwidth>
 
   <!-- 駭入失敗 -->
+  <!-- EN: Hack Failed -->
   <FFF.HackFailed>駭入失敗</FFF.HackFailed>
+  <!-- EN: {0} failed to hack the mech. The mech has awakened and is now hostile! -->
   <FFF.HackFailedDesc>{0}駭入機兵失敗。機兵已甦醒並變為敵對狀態！</FFF.HackFailedDesc>
 
 </LanguageData>

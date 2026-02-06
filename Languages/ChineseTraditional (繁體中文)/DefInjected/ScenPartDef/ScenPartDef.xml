@@ -1,6 +1,12 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <LanguageData>
   
+  <!-- EN: add custom structure to starting map -->
+  <FFF_AddStartingStructure.label>添加自定義初始結構</FFF_AddStartingStructure.label>
+  
+  <!-- EN: forced faction relations -->
+  <FFF_ForcedFactionGoodwill.label>強制陣營關係</FFF_ForcedFactionGoodwill.label>
+  
   <!-- EN: start with prefab -->
   <FFF_PrefabGen.label>初始結構</FFF_PrefabGen.label>
   
