@@ -10,9 +10,12 @@ namespace Fortified
 {
     public class Projectile_ClusterBomb : Projectile
     {
-        private int tick = 0;
+        private const int DefaultDismantlTickThreshold = 10;
+        private const int ImpactAnticipateTicksThreshold = 60;
+        private const int GoodwillPenalty = 10;
 
-        private int DismantlL = 0;
+        private int tickCounter = 0;
+        private int dismantleDistance = 0;
 
         ModExtension_ClusterBomb Extension => def.GetModExtension<ModExtension_ClusterBomb>();
 
@@ -22,7 +25,9 @@ namespace Fortified
             {
                 return;
             }
+
             ticksToImpact--;
+
             if (!ExactPosition.InBounds(base.Map))
             {
                 ticksToImpact++;
@@ -30,10 +35,9 @@ namespace Fortified
                 Destroy();
                 return;
             }
-            if (ticksToImpact == 60 && Find.TickManager.CurTimeSpeed == TimeSpeed.Normal && def.projectile.soundImpactAnticipate != null)
-            {
-                def.projectile.soundImpactAnticipate.PlayOneShot(this);
-            }
+
+            PlayImpactAnticipateSound();
+
             if (ticksToImpact <= 0)
             {
                 if (base.DestinationCell.InBounds(base.Map))
@@ -43,91 +47,177 @@ namespace Fortified
                 Destroy();
                 return;
             }
-            tick++;
 
-            if (Vector2.Distance(origin, ExactPosition) > Extension.safetyDistance)
+            tickCounter++;
+
+            CheckAndExecuteDismantle();
+        }
+
+        private void PlayImpactAnticipateSound()
+        {
+            if (ticksToImpact == ImpactAnticipateTicksThreshold && 
+                Find.TickManager.CurTimeSpeed == TimeSpeed.Normal && 
+                def.projectile.soundImpactAnticipate != null)
             {
-                IntRange tDDistance = Extension.TDDistance;
-                if ((tDDistance.min == 0 && tDDistance.max == 0) ? Dismantl(0, 0, DefaultDismantl: true) : Dismantl(tDDistance.min, tDDistance.max))
-                {
-                    if (Extension.doDismantlExplosion)
-                    {
-                        GenExplosion.DoExplosion(ExactPosition.ToIntVec3(), base.Map, Extension.dismantlExplosionRadius, Extension.dismantlExplosionDam, (Thing)this, Extension.dismantlExplosionDamAmount, Extension.dismantlExplosionArmorPenetration, Extension.dismantlExplosionSound, (ThingDef)null, (ThingDef)null, (Thing)null, (ThingDef)null, 1f, 1, null, null, 0, false, (ThingDef)null, 0f, 1, 0f, false, (float?)null, (List<Thing>)null);
-                    }
-                    Dismantling();
-                }
+                def.projectile.soundImpactAnticipate.PlayOneShot(this);
             }
         }
 
-        private bool Dismantl(int DismantlDistanceMin = 0, int DismantlDistanceMax = 1, bool DefaultDismantl = false)
+        private void CheckAndExecuteDismantle()
         {
-            Vector3 exactPosition = ExactPosition;
-            Vector3 end = base.DestinationCell.ToVector3();
-            int num = Distance(exactPosition, end);
-            Vector3 exactPosition2 = ExactPosition;
-            Vector3 end2 = launcher.Position.ToVector3();
-            int num2 = Distance(exactPosition2, end2);
-            Vector3 sta = launcher.Position.ToVector3();
-            Vector3 end3 = base.DestinationCell.ToVector3();
-            int num3 = Distance(sta, end3);
-            if (DismantlL == 0)
+            if (Vector2.Distance(origin, ExactPosition) <= Extension.safetyDistance)
             {
-                DismantlL = num3 / 2;
+                return;
             }
-            if (DefaultDismantl)
+
+            IntRange dismantleDistanceRange = Extension.TDDistance;
+            bool shouldDismantle = IsDismantleConditionMet(dismantleDistanceRange);
+
+            if (shouldDismantle)
             {
-                if (tick >= 10 && num2 >= DismantlL)
-                {
-                    tick = 0;
-                    return true;
-                }
+                ExecuteDismantle();
             }
-            else if (num <= DismantlDistanceMax && num2 >= DismantlDistanceMin)
+        }
+
+        private bool IsDismantleConditionMet(IntRange dismantleDistanceRange)
+        {
+            if (dismantleDistanceRange.min == 0 && dismantleDistanceRange.max == 0)
             {
-                tick = 0;
+                return CheckDefaultDismantle();
+            }
+
+            return CheckDistanceBasedDismantle(dismantleDistanceRange.min, dismantleDistanceRange.max);
+        }
+
+        private bool CheckDefaultDismantle()
+        {
+            Vector3 launcherPos = launcher.Position.ToVector3();
+            Vector3 targetPos = base.DestinationCell.ToVector3();
+            int totalDistance = CalculateDistance(launcherPos, targetPos);
+
+            if (dismantleDistance == 0)
+            {
+                dismantleDistance = totalDistance / 2;
+            }
+
+            Vector3 currentPos = ExactPosition;
+            int distanceFromLauncher = CalculateDistance(currentPos, launcherPos);
+
+            if (tickCounter >= DefaultDismantlTickThreshold && distanceFromLauncher >= dismantleDistance)
+            {
+                tickCounter = 0;
                 return true;
             }
+
             return false;
         }
 
-        private int Distance(Vector3 Sta, Vector3 End)
+        private bool CheckDistanceBasedDismantle(int minDistance, int maxDistance)
         {
-            int x = End.ToIntVec3().x;
-            int z = End.ToIntVec3().z;
-            int x2 = Sta.ToIntVec3().x;
-            int z2 = Sta.ToIntVec3().z;
-            return Math.Abs((int)Math.Round(Math.Sqrt(Math.Pow(x - x2, 2.0) + Math.Pow(z - z2, 2.0))));
+            Vector3 currentPos = ExactPosition;
+            Vector3 targetPos = base.DestinationCell.ToVector3();
+            Vector3 launcherPos = launcher.Position.ToVector3();
+
+            int distanceToTarget = CalculateDistance(currentPos, targetPos);
+            int distanceFromLauncher = CalculateDistance(currentPos, launcherPos);
+
+            if (distanceToTarget <= maxDistance && distanceFromLauncher >= minDistance)
+            {
+                tickCounter = 0;
+                return true;
+            }
+
+            return false;
         }
 
-        private void GoodwillCorrection(List<IntVec3> cells)
+        private void ExecuteDismantle()
         {
-            for (int i = 0; i < cells.Count; i++)
+            if (Extension.doDismantlExplosion)
             {
-                List<Thing> thingList = cells[i].GetThingList(base.Map);
-                foreach (Thing item in thingList)
+                CreateDismantleExplosion();
+            }
+            SpawnClusterProjectiles();
+        }
+
+        private void CreateDismantleExplosion()
+        {
+            GenExplosion.DoExplosion(
+                ExactPosition.ToIntVec3(),
+                base.Map,
+                Extension.dismantlExplosionRadius,
+                Extension.dismantlExplosionDam,
+                (Thing)this,
+                Extension.dismantlExplosionDamAmount,
+                Extension.dismantlExplosionArmorPenetration,
+                Extension.dismantlExplosionSound,
+                null, null, null, null,
+                1f, 1, null, null, 0, false, null, 0f, 1, 0f, false, null, null);
+        }
+
+        private void SpawnClusterProjectiles()
+        {
+            ThingDef projectileDef = Extension.projectile;
+            for (int i = 0; i < Extension.clusterBurstCount; i++)
+            {
+                SpawnSingleProjectile(projectileDef);
+            }
+            Destroy();
+        }
+
+        private void SpawnSingleProjectile(ThingDef projectileDef)
+        {
+            Projectile spawnedProjectile = (Projectile)GenSpawn.Spawn(projectileDef, ExactPosition.ToIntVec3(), base.Map);
+            List<IntVec3> affectedCells = GetAffectedCells();
+            IntVec3 targetCell = affectedCells.RandomElement();
+
+            spawnedProjectile.Launch(this, ExactPosition, targetCell, targetCell, ProjectileHitFlags.All, 
+                preventFriendlyFire: false, ThingMaker.MakeThing(base.EquipmentDef));
+
+            ApplyGoodwillCorrection(affectedCells);
+        }
+
+        private List<IntVec3> GetAffectedCells()
+        {
+            float errorRange = Extension.forceMissingRange;
+            return GenRadial.RadialCellsAround(base.DestinationCell, errorRange, useCenter: true).ToList();
+        }
+
+        private void ApplyGoodwillCorrection(List<IntVec3> cells)
+        {
+            foreach (IntVec3 cell in cells)
+            {
+                List<Thing> thingList = cell.GetThingList(base.Map);
+                foreach (Thing thing in thingList)
                 {
-                    if (item is Pawn pawn && !pawn.Dead && pawn.Faction != null && !pawn.Faction.IsPlayer && !pawn.Faction.HostileTo(launcher.Faction))
+                    if (thing is Pawn pawn)
                     {
-                        FactionRelation factionRelation = pawn.Faction.RelationWith(launcher.Faction);
-                        pawn.Faction.TryAffectGoodwillWith(launcher.Faction, -10 - factionRelation.baseGoodwill + pawn.Faction.GoodwillWith(launcher.Faction));
+                        CorrectPawnGoodwill(pawn);
                     }
                 }
             }
         }
-        private void Dismantling()
+
+        private void CorrectPawnGoodwill(Pawn pawn)
         {
-            ThingDef projectile = Extension.projectile;
-            for (int i = 0; i < Extension.clusterBurstCount; i++)
+            if (pawn.Dead || pawn.Faction == null || pawn.Faction.IsPlayer || pawn.Faction.HostileTo(launcher.Faction))
             {
-                ProjectileHitFlags hitFlags = ProjectileHitFlags.All;
-                Projectile projectile2 = (Projectile)GenSpawn.Spawn(projectile, ExactPosition.ToIntVec3(), base.Map);
-                float errorRange = Extension.forceMissingRange;
-                List<IntVec3> list = GenRadial.RadialCellsAround(base.DestinationCell, errorRange, useCenter: true).ToList();
-                IntVec3 intVec = list.RandomElement();
-                projectile2.Launch(this, ExactPosition, intVec, intVec, hitFlags, preventFriendlyFire: false, ThingMaker.MakeThing(base.EquipmentDef));
-                GoodwillCorrection(list);
+                return;
             }
-            Destroy();
+
+            FactionRelation factionRelation = pawn.Faction.RelationWith(launcher.Faction);
+            int goodwillChange = -GoodwillPenalty - factionRelation.baseGoodwill + pawn.Faction.GoodwillWith(launcher.Faction);
+            pawn.Faction.TryAffectGoodwillWith(launcher.Faction, goodwillChange);
+        }
+
+        private int CalculateDistance(Vector3 from, Vector3 to)
+        {
+            IntVec3 fromCell = from.ToIntVec3();
+            IntVec3 toCell = to.ToIntVec3();
+            
+            int deltaX = toCell.x - fromCell.x;
+            int deltaZ = toCell.z - fromCell.z;
+            
+            return Math.Abs((int)Math.Round(Math.Sqrt(deltaX * deltaX + deltaZ * deltaZ)));
         }
     }
 }
