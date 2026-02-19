@@ -53,3 +53,6 @@ UnityProject/Logs/
 UnityProject/MemoryCaptures/
 UnityProject/UserSettings/
 UnityProject/AssetBundles/
+*.cache
+*.json
+*.v2

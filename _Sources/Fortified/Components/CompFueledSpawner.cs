@@ -29,7 +29,7 @@ public class CompProperties_FueledSpawner : CompProperties
     }
 }
 
-public class CompFueledSpawner : ThingComp
+    public class CompFueledSpawner : ThingComp
 {
     private int ticksUntilSpawn;
 

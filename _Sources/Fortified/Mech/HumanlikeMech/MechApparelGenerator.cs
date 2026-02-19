@@ -832,46 +832,91 @@ namespace Fortified
             {
                 apparel.SetColor(pawn.kindDef.apparelColor, reportFailure: false);
             }
-            ThingStyleDef thingStyleDef = pawn.Ideo?.GetStyleFor(apparel.def);
-            if (thingStyleDef != null)
+
+            // Apply ideology style first (only if no specific requirement will override it)
+            ThingStyleDef ideologyStyle = pawn.Ideo?.GetStyleFor(apparel.def);
+            
+            // If pawn doesn't have personal ideo, try to get from faction
+            if (ideologyStyle == null && pawn.Faction?.ideos?.PrimaryIdeo != null)
             {
-                apparel.SetStyleDef(thingStyleDef);
+                ideologyStyle = pawn.Faction.ideos.PrimaryIdeo.GetStyleFor(apparel.def);
             }
+            
+            bool hasSpecificStyleRequirement = false;
+
+            // Check if there's a specific apparel requirement with style override
             List<SpecificApparelRequirement> specificApparelRequirements = pawn.kindDef.specificApparelRequirements;
-            if (specificApparelRequirements == null)
+            if (specificApparelRequirements != null)
             {
-                return;
-            }
-            for (int i = 0; i < specificApparelRequirements.Count; i++)
-            {
-                if (!ApparelRequirementHandlesThing(specificApparelRequirements[i], apparel.def))
+                for (int i = 0; i < specificApparelRequirements.Count; i++)
                 {
-                    continue;
-                }
-                Color color = specificApparelRequirements[i].GetColor();
-                if (color != default(Color))
-                {
-                    apparel.SetColor(color, reportFailure: false);
-                }
-                if (specificApparelRequirements[i].UseRandomStyleDef)
-                {
-                    if (!apparel.def.randomStyle.NullOrEmpty() && Rand.Chance(apparel.def.randomStyleChance))
+                    if (ApparelRequirementHandlesThing(specificApparelRequirements[i], apparel.def))
                     {
-                        apparel.SetStyleDef(apparel.def.randomStyle.RandomElementByWeight((ThingStyleChance x) => x.Chance).StyleDef);
+                        // Check if this specific requirement has explicit style configuration
+                        if (specificApparelRequirements[i].UseRandomStyleDef || specificApparelRequirements[i].StyleDef != null)
+                        {
+                            hasSpecificStyleRequirement = true;
+                        }
+                        break;
                     }
                 }
-                else if (specificApparelRequirements[i].StyleDef != null)
+            }
+
+            // Apply ideology style if no specific requirement overrides it
+            if (ideologyStyle != null && !hasSpecificStyleRequirement)
+            {
+                apparel.SetStyleDef(ideologyStyle);
+            }
+
+            // Apply specific requirements
+            if (specificApparelRequirements != null)
+            {
+                for (int i = 0; i < specificApparelRequirements.Count; i++)
                 {
-                    apparel.SetStyleDef(specificApparelRequirements[i].StyleDef);
+                    if (!ApparelRequirementHandlesThing(specificApparelRequirements[i], apparel.def))
+                    {
+                        continue;
+                    }
+                    Color color = specificApparelRequirements[i].GetColor();
+                    if (color != default(Color))
+                    {
+                        apparel.SetColor(color, reportFailure: false);
+                    }
+                    if (specificApparelRequirements[i].UseRandomStyleDef)
+                    {
+                        if (!apparel.def.randomStyle.NullOrEmpty() && Rand.Chance(apparel.def.randomStyleChance))
+                        {
+                            apparel.SetStyleDef(apparel.def.randomStyle.RandomElementByWeight((ThingStyleChance x) => x.Chance).StyleDef);
+                        }
+                        // If randomStyle is empty, fallback to ideology style if available
+                        else if (ideologyStyle != null)
+                        {
+                            apparel.SetStyleDef(ideologyStyle);
+                        }
+                    }
+                    else if (specificApparelRequirements[i].StyleDef != null)
+                    {
+                        apparel.SetStyleDef(specificApparelRequirements[i].StyleDef);
+                    }
+                    // If no specific style requirement, apply ideology style if available and not already set
+                    else if (ideologyStyle != null && apparel.StyleDef == null)
+                    {
+                        apparel.SetStyleDef(ideologyStyle);
+                    }
+                    if (specificApparelRequirements[i].Locked)
+                    {
+                        pawn.apparel.Lock(apparel);
+                    }
+                    if (specificApparelRequirements[i].Biocode)
+                    {
+                        apparel.TryGetComp<CompBiocodable>()?.CodeFor(pawn);
+                    }
                 }
-                if (specificApparelRequirements[i].Locked)
-                {
-                    pawn.apparel.Lock(apparel);
-                }
-                if (specificApparelRequirements[i].Biocode)
-                {
-                    apparel.TryGetComp<CompBiocodable>()?.CodeFor(pawn);
-                }
+            }
+            // If no specific requirement matched but ideology style exists, apply it now
+            else if (ideologyStyle != null && apparel.StyleDef == null)
+            {
+                apparel.SetStyleDef(ideologyStyle);
             }
         }
 
