@@ -44,3 +44,12 @@ UnityEngine.dll
 *.cache
 *.json
 *.cache
+# Unity
+UnityProject/Library/
+UnityProject/Temp/
+UnityProject/Obj/
+UnityProject/Build/
+UnityProject/Logs/
+UnityProject/MemoryCaptures/
+UnityProject/UserSettings/
+UnityProject/AssetBundles/

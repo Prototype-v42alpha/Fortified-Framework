@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+    <JobDef>
+        <defName>FFF_PaintMech</defName>
+        <driverClass>Fortified.JobDriver_PaintMech</driverClass>
+        <reportString>正在为机械体涂装。</reportString>
+        <casualInterruptible>true</casualInterruptible>
+    </JobDef>
+
+    <JobDef>
+        <defName>FFF_WaitForPainting</defName>
+        <driverClass>Fortified.JobDriver_WaitForPainting</driverClass>
+        <reportString>正在等待涂装。</reportString>
+        <casualInterruptible>false</casualInterruptible>
+        <neverFleeFromEnemies>true</neverFleeFromEnemies>
+    </JobDef>
+
+    <WorkGiverDef>
+        <defName>FFF_PaintMechWorkGiver</defName>
+        <label>paint mech</label>
+        <giverClass>Fortified.WorkGiver_PaintMech</giverClass>
+        <workType>Crafting</workType>
+        <priorityInType>90</priorityInType>
+        <verb>paint</verb>
+        <gerund>painting</gerund>
+        <requiredCapacities>
+            <li>Manipulation</li>
+        </requiredCapacities>
+        <prioritizeSustains>true</prioritizeSustains>
+    </WorkGiverDef>
+</Defs>

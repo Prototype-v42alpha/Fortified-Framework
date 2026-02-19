@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <Fortified.FFF_CamoDef>
+    <defName>FFF_Camo_Army</defName>
+    <label>陆军迷彩</label>
+    <texPath>Patterns/Army</texPath>
+  </Fortified.FFF_CamoDef>
+
+  <Fortified.FFF_CamoDef>
+    <defName>FFF_Camo_ArmyDark</defName>
+    <label>陆军暗色</label>
+    <texPath>Patterns/Army_Dark</texPath>
+  </Fortified.FFF_CamoDef>
+
+  <Fortified.FFF_CamoDef>
+    <defName>FFF_Camo_Digital</defName>
+    <label>数码迷彩</label>
+    <texPath>Patterns/Digital</texPath>
+  </Fortified.FFF_CamoDef>
+
+  <Fortified.FFF_CamoDef>
+    <defName>FFF_Camo_DigitalDark</defName>
+    <label>数码暗色</label>
+    <texPath>Patterns/Digital_Dark</texPath>
+  </Fortified.FFF_CamoDef>
+
+  <Fortified.FFF_CamoDef>
+    <defName>FFF_Camo_Hex</defName>
+    <label>六角迷彩</label>
+    <texPath>Patterns/Hex</texPath>
+  </Fortified.FFF_CamoDef>
+
+  <Fortified.FFF_CamoDef>
+    <defName>FFF_Camo_Marine</defName>
+    <label>海军迷彩</label>
+    <texPath>Patterns/Marine</texPath>
+  </Fortified.FFF_CamoDef>
+</Defs>
