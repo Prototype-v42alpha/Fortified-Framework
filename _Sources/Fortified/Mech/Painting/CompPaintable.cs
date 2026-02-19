@@ -54,19 +54,21 @@ namespace Fortified
                 if (matched.options != null && matched.options.Count > 0)
                 {
                     var opt = matched.options.RandomElementByWeight(x => x.weight);
-                    color1 = opt.color1;
-                    color2 = opt.color2;
-                    color3 = opt.color3;
+                    color1 = opt.color1.ToColor;
+                    color2 = opt.color2.ToColor;
+                    color3 = opt.color3.ToColor;
                     camoDef = opt.camoDef;
                     brightness = opt.brightness;
+                    overlayDef = opt.overlayDef;
                 }
                 else
                 {
-                    color1 = matched.color1;
-                    color2 = matched.color2;
-                    color3 = matched.color3;
+                    color1 = matched.color1.ToColor;
+                    color2 = matched.color2.ToColor;
+                    color3 = matched.color3.ToColor;
                     camoDef = matched.camoDef;
                     brightness = matched.brightness;
+                    overlayDef = matched.overlayDef;
                 }
             }
             else if (Props.useFactionColor && parent.Faction != Faction.OfPlayer)

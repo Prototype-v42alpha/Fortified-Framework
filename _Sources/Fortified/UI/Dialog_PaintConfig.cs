@@ -90,8 +90,6 @@ namespace Fortified
             this.initialBrightness = comp.brightness;
             this.initialOverlay = comp.overlayDef;
 
-            this.initialOverlay = comp.overlayDef;
-
             this.previewRot = 2;
             this.previewZoom = GetDefaultZoom();
             this.forcePause = true;
@@ -109,7 +107,7 @@ namespace Fortified
                     previewComp.color2 = baseColor2;
                     previewComp.color3 = baseColor3;
                     previewComp.brightness = brightness;
-                    previewComp.brightness = brightness;
+                    previewComp.overlayDef = overlayDef;
                     BakeAllPreviews();
                 }
             }
@@ -145,6 +143,7 @@ namespace Fortified
             previewComp.color2 = baseColor2;
             previewComp.color3 = baseColor3;
             previewComp.brightness = brightness;
+            previewComp.overlayDef = overlayDef;
 
             // 烘焙无迷彩
             previewComp.camoDef = null;

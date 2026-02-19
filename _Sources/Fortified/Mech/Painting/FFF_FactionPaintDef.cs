@@ -9,11 +9,12 @@ namespace Fortified
     public class FFF_PaintOption
     {
         public float weight = 1f;           // 权重
-        public Color color1 = Color.white;
-        public Color color2 = Color.white;
-        public Color color3 = Color.white;
+        public ColorInt color1 = new ColorInt(255, 255, 255);
+        public ColorInt color2 = new ColorInt(255, 255, 255);
+        public ColorInt color3 = new ColorInt(255, 255, 255);
         public FFF_CamoDef camoDef;
         public float brightness = 0f;
+        public FFF_OverlayDef overlayDef;
     }
 
     // 派系预设涂装定义
@@ -26,10 +27,11 @@ namespace Fortified
         public List<FFF_PaintOption> options = new List<FFF_PaintOption>();
 
         // 默认/单一配置（向下兼容或简单使用）
-        public Color color1 = Color.white;
-        public Color color2 = Color.white;
-        public Color color3 = Color.white;
+        public ColorInt color1 = new ColorInt(255, 255, 255);
+        public ColorInt color2 = new ColorInt(255, 255, 255);
+        public ColorInt color3 = new ColorInt(255, 255, 255);
         public FFF_CamoDef camoDef;
         public float brightness = 0f;
+        public FFF_OverlayDef overlayDef;
     }
 }
