@@ -30,6 +30,7 @@
       <claimable>false</claimable>
       <deconstructible>false</deconstructible>
       <draftAttackNonDeconstructable>false</draftAttackNonDeconstructable>
+      <spawnedConceptLearnOpportunity>FFF_MechTrade</spawnedConceptLearnOpportunity>
     </building>
     <graphicData>
       <texPath>Things/Building/Misc/MechCapsule</texPath>

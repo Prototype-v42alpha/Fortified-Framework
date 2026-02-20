@@ -61,7 +61,7 @@ public class CompBulletproofPlate : ThingComp
         {
             return;
         }
-        if (!IsInCoveredGRoups(dinfo)) return;
+        //if (!IsInCoveredGRoups(dinfo)) return;
 
         DamageDef damage = dinfo.Def;
         damage.defaultArmorPenetration -= Props.armorRating;
@@ -144,13 +144,12 @@ public class CompBulletproofPlate : ThingComp
 
         yield return option;
     }
-    public override IEnumerable<Gizmo> CompGetGizmosExtra()
+    public override IEnumerable<Gizmo> CompGetWornGizmosExtra()
     {
-        foreach (Gizmo gizmo in base.CompGetGizmosExtra())
+        foreach (Gizmo item in base.CompGetWornGizmosExtra())
         {
-            yield return gizmo;
+            yield return item;
         }
-
         if (parent is Apparel apparel && apparel.Wearer != null && (apparel.Wearer.Faction == Faction.OfPlayer))
         {
             yield return new Gizmo_BulletproofPlateStatus
