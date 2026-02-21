@@ -124,6 +124,11 @@ Shader "Fortified/StandardPaintable"
                     finalColor = lerp(finalColor, overlayColor, overlaySample.a);
                 }
 
+                // 应用受击闪烁
+                if (_Color.g < 0.6 && _Color.r > 0.5) {
+                    finalColor *= _Color.rgb;
+                }
+
                 clip(mainTexSample.a - _Cutoff);
                 return fixed4(finalColor, mainTexSample.a);
             }

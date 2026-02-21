@@ -1,0 +1,7 @@
+ManifestFileVersion: 0
+CRC: 2762873496
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: fortified_shaders
+      Dependencies: {}
