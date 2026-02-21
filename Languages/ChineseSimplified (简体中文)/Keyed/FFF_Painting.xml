@@ -25,4 +25,9 @@
   <FFF_OverlayDirect> [直接]</FFF_OverlayDirect>
   <FFF_OverlayTitle>叠加层</FFF_OverlayTitle>
   <FFF_OverlayNone>无叠加层</FFF_OverlayNone>
+
+  <FFF_CopyPaintConfig>复制配置</FFF_CopyPaintConfig>
+  <FFF_PaintConfigCopied>配置已复制</FFF_PaintConfigCopied>
+  <FFF_PastePaintConfig>粘贴配置</FFF_PastePaintConfig>
+  <FFF_PastePaintConfigDesc>粘贴已复制的着色配置</FFF_PastePaintConfigDesc>
 </LanguageData>

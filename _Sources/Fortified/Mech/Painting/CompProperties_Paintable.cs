@@ -21,6 +21,9 @@ namespace Fortified
         // 是否允许在 UI 中切换迷彩
         public bool enableCamoSwitch = true;
 
+        // 是否为建筑显示着色按钮
+        public bool allowGizmoForBuilding = false;
+
         // 默认迷彩
         public FFF_CamoDef defaultCamo;
 

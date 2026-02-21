@@ -54,11 +54,14 @@ namespace Fortified
             // 完成着色任务
             yield return Toils_General.Do(delegate
             {
-                // 按机械体体型计算染料消耗
-                Pawn mechForCost = TargetA.Thing as Pawn;
-                int dyeCost = mechForCost != null
-                    ? Mathf.CeilToInt(mechForCost.BodySize * 4f)
-                    : 1;
+                // 按体型/格子计算染料消耗
+                Thing mechForCost = TargetA.Thing;
+                int dyeCost = 1;
+                if (mechForCost != null)
+                {
+                    if (mechForCost is Pawn p) dyeCost = Mathf.CeilToInt(p.BodySize * 4f);
+                    else dyeCost = Mathf.FloorToInt((mechForCost.def.size.x * mechForCost.def.size.z) * 1.5f);
+                }
 
                 Thing carried = pawn.carryTracker.CarriedThing;
                 if (carried != null && carried.def == job.GetTarget(TargetIndex.B).Thing?.def)
@@ -77,7 +80,7 @@ namespace Fortified
                 }
 
                 // 应用颜色
-                Pawn target = job.GetTarget(TargetIndex.A).Thing as Pawn;
+                Thing target = job.GetTarget(TargetIndex.A).Thing;
                 if (target != null)
                 {
                     var comp = target.TryGetComp<CompPaintable>();
@@ -97,8 +100,8 @@ namespace Fortified
                     }
 
                     // 结束等待Job
-                    if (target.jobs?.curDriver is JobDriver_WaitForPainting)
-                        target.jobs.EndCurrentJob(JobCondition.Succeeded);
+                    if (target is Pawn targetPawn && targetPawn.jobs?.curDriver is JobDriver_WaitForPainting)
+                        targetPawn.jobs.EndCurrentJob(JobCondition.Succeeded);
                 }
             });
         }
