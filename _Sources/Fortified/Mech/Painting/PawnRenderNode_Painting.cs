@@ -35,9 +35,9 @@ namespace Fortified
             if (FFF_AssetLoader.PaintShader != null) c2.a = br;
 
             // 复用参数构建逻辑支持旋转
-            var shaderParams = comp.GetOrBuildShaderParams(c3, camo);
+            var shaderParams = comp.GetOrBuildShaderParams(c1, c3, camo);
             var graphic = GraphicDatabase.Get(baseGraphic.GetType(), baseGraphic.path, shader,
-                baseGraphic.drawSize, c1, c2, baseGraphic.data, shaderParams);
+                baseGraphic.drawSize, Color.white, c2, baseGraphic.data, shaderParams);
 
             // 对四个方向材质各自设置朝向相关属性
             Harmony_Painting.ApplyPerDirectionProps(graphic, camo, overlay);

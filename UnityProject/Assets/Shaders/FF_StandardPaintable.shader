@@ -7,9 +7,12 @@ Shader "Fortified/StandardPaintable"
         _CamoTex ("Camo Texture (RGB Mask)", 2D) = "white" {}
         _IconTex ("Icon (Decal)", 2D) = "black" {}
         _PaintMask ("Paint Mask (R: Wear)", 2D) = "white" {}
-        _Color ("Color One", Color) = (1,1,1,1)
-        _ColorTwo ("Color Two", Color) = (1,1,1,1)
-        _ColorThree ("Color Three", Color) = (1,1,1,1)
+        
+        _Color ("Master Tint (Vanilla Flash)", Color) = (1,1,1,1)
+        _ColorOne ("Color One (R)", Color) = (1,1,1,1)
+        _ColorTwo ("Color Two (G)", Color) = (1,1,1,1)
+        _ColorThree ("Color Three (B)", Color) = (1,1,1,1)
+        
         _UseCamo ("Use Camo (0=off 1=on)", Float) = 0
         _OverlayTex ("Overlay Texture", 2D) = "black" {}
         _UseOverlay ("Use Overlay (0=off 1=on)", Float) = 0
@@ -45,12 +48,15 @@ Shader "Fortified/StandardPaintable"
             sampler2D _CamoTex;
             sampler2D _IconTex;
             sampler2D _PaintMask;
-            float4 _Color;
-            float4 _ColorTwo;
-            float4 _ColorThree;
+            
+            float4 _Color;      // 原版主颜色（受击变红控制项）
+            float4 _ColorOne;   // 涂装第一色
+            float4 _ColorTwo;   // 涂装第二色
+            float4 _ColorThree; // 涂装第三色
+            
             float _UseCamo;
             float _Cutoff;
-            float _CamoRotation; // 迷彩旋转弧度
+            float _CamoRotation;
             sampler2D _OverlayTex;
             float _UseOverlay;
             float _OverlayMultiply;
@@ -66,7 +72,6 @@ Shader "Fortified/StandardPaintable"
                 fixed4 mainTexSample = tex2D(_MainTex, i.uv);
                 fixed4 maskSample = tex2D(_MaskTex, i.uv);
                 
-                // 迷彩 UV 旋转逻辑
                 float2 camoUV = i.uv;
                 if (_UseCamo > 0.5)
                 {
@@ -82,7 +87,7 @@ Shader "Fortified/StandardPaintable"
 
                 fixed3 diffuse = mainTexSample.rgb;
 
-                // 底色提亮由ColorTwo.a传入
+                // 亮度调节由ColorTwo.a控制
                 float baseBright = _ColorTwo.a;
                 if (baseBright > 0.001) {
                     float lum = dot(diffuse, float3(0.299, 0.587, 0.114));
@@ -92,42 +97,32 @@ Shader "Fortified/StandardPaintable"
                     diffuse = lerp(diffuse, brightened, mask);
                 }
 
-                fixed3 finalColor = diffuse;
+                // 计算涂装
+                // 标准模式：应用 ColorOne
+                fixed3 standardPaint = diffuse * _ColorOne.rgb;
 
-                // 标准模式R区域单色染色
-                fixed3 standardPaint = diffuse * _Color.rgb;
+                // 迷彩模式：分配 R/G/B 通道颜色
+                fixed3 camoPaint = diffuse * (_ColorOne.rgb * camoSample.r
+                                            + _ColorTwo.rgb * camoSample.g
+                                            + _ColorThree.rgb * camoSample.b);
 
-                // 迷彩模式R区域三色分配
-                fixed3 camoPaint = diffuse * _Color.rgb * camoSample.r
-                                 + diffuse * _ColorTwo.rgb * camoSample.g
-                                 + diffuse * _ColorThree.rgb * camoSample.b;
+                fixed3 paintedBase = lerp(diffuse, lerp(standardPaint, camoPaint, _UseCamo), maskSample.r);
 
-                // 按开关混合应用到R区域
-                fixed3 paintColor = lerp(standardPaint, camoPaint, _UseCamo);
-                finalColor = lerp(finalColor, paintColor, maskSample.r);
-
-                // 喷漆图标逻辑
+                // 喷漆图标
                 float iconLum = dot(mainTexSample.rgb, float3(0.3, 0.59, 0.11));
                 float blend = iconSample.a * iconLum * paintMaskSample.r;
-                finalColor = lerp(finalColor, iconSample.rgb, blend);
+                fixed3 colorWithIcon = lerp(paintedBase, iconSample.rgb, blend);
 
-                // 叠加层混合不受涂装影响
+                // 叠加层
+                fixed3 finalColor = colorWithIcon;
                 if (_UseOverlay > 0.5)
                 {
                     fixed4 overlaySample = tex2D(_OverlayTex, i.uv);
-                    // 叠乘模式与基础纹理叠乘获取起伏效果
-                    fixed3 overlayColor = lerp(
-                        overlaySample.rgb,
-                        overlaySample.rgb * mainTexSample.rgb * 2.0,
-                        _OverlayMultiply
-                    );
+                    fixed3 overlayColor = lerp(overlaySample.rgb, overlaySample.rgb * mainTexSample.rgb * 2.0, _OverlayMultiply);
                     finalColor = lerp(finalColor, overlayColor, overlaySample.a);
                 }
 
-                // 应用受击闪烁
-                if (_Color.g < 0.6 && _Color.r > 0.5) {
-                    finalColor *= _Color.rgb;
-                }
+                finalColor *= _Color.rgb;
 
                 clip(mainTexSample.a - _Cutoff);
                 return fixed4(finalColor, mainTexSample.a);

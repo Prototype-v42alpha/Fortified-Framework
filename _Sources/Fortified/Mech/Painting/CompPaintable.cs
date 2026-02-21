@@ -109,20 +109,23 @@ namespace Fortified
 
         // 属性列表缓存
         private List<ShaderParameter> cachedShaderParams;
+        private Color cachedParamCol1;
         private Color cachedParamCol3;
         private FFF_CamoDef cachedParamCamo;
 
         // 获取或构建缓存
-        public List<ShaderParameter> GetOrBuildShaderParams(Color col3, FFF_CamoDef camo)
+        public List<ShaderParameter> GetOrBuildShaderParams(Color col1, Color col3, FFF_CamoDef camo)
         {
             if (cachedShaderParams != null
+                && cachedParamCol1 == col1
                 && cachedParamCol3 == col3
                 && cachedParamCamo == camo)
                 return cachedShaderParams;
 
+            cachedParamCol1 = col1;
             cachedParamCol3 = col3;
             cachedParamCamo = camo;
-            cachedShaderParams = ShaderParamBuilder.Build(col3, camo);
+            cachedShaderParams = ShaderParamBuilder.Build(col1, col3, camo);
             return cachedShaderParams;
         }
 
@@ -137,9 +140,9 @@ namespace Fortified
             Color c2 = color2;
             if (FFF_AssetLoader.PaintShader != null) c2.a = brightness;
 
-            var shaderParams = GetOrBuildShaderParams(color3, camoDef);
+            var shaderParams = GetOrBuildShaderParams(color1, color3, camoDef);
             var g = GraphicDatabase.Get(baseGraphic.GetType(), baseGraphic.path, shader,
-                baseGraphic.drawSize, color1, c2, baseGraphic.data, shaderParams);
+                baseGraphic.drawSize, Color.white, c2, baseGraphic.data, shaderParams);
 
             Harmony_Painting.ApplyPerDirectionProps(g, camoDef, overlayDef);
 

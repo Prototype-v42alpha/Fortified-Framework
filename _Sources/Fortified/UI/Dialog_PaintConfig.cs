@@ -219,8 +219,8 @@ namespace Fortified
 
                 Texture2D Bake(FFF_CamoDef camo, FFF_OverlayDef overlay)
                 {
-                    var sp = comp.GetOrBuildShaderParams(baseColor3, camo);
-                    var g = GraphicDatabase.Get(bg.GetType(), bg.path, paintShader, bg.drawSize, baseColor, c2, bg.data, sp);
+                    var sp = comp.GetOrBuildShaderParams(baseColor, baseColor3, camo);
+                    var g = GraphicDatabase.Get(bg.GetType(), bg.path, paintShader, bg.drawSize, Color.white, c2, bg.data, sp);
                     Harmony_Painting.ApplyPerDirectionProps(g, camo, overlay);
                     var mat = g.MatAt(rot, building);
                     return BakeMaterialToTexture(mat);

@@ -60,9 +60,10 @@ namespace Fortified
                 if (FFF_AssetLoader.PaintShader != null) c2.a = br;
 
                 // 缓存参数列表避免频繁GC
-                var shaderParams = comp.GetOrBuildShaderParams(c3, camo);
+                var shaderParams = comp.GetOrBuildShaderParams(c1, c3, camo);
+                // 使用白色作为主通道
                 result = GraphicDatabase.Get(result.GetType(), result.path, shader,
-                    result.drawSize, c1, c2, result.data, shaderParams);
+                    result.drawSize, Color.white, c2, result.data, shaderParams);
 
                 // 应用朝向属性
                 ApplyPerDirectionProps(result, camo, overlay);

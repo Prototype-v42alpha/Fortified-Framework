@@ -17,11 +17,18 @@ namespace Fortified
         private static readonly object typeTexture = System.Enum.ToObject(typeof(ShaderParameter).GetNestedType("Type", System.Reflection.BindingFlags.NonPublic), 3);
 
         // 构建参数列表
-        public static List<ShaderParameter> Build(Color col3, FFF_CamoDef camo)
+        public static List<ShaderParameter> Build(Color col1, Color col3, FFF_CamoDef camo)
         {
             var list = new List<ShaderParameter>();
             try
             {
+                // 设置颜色1
+                var pCol1 = new ShaderParameter();
+                nameField.SetValue(pCol1, "_ColorOne");
+                typeField.SetValue(pCol1, typeVector);
+                valueField.SetValue(pCol1, (Vector4)col1);
+                list.Add(pCol1);
+
                 // 设置颜色3
                 var pCol3 = new ShaderParameter();
                 nameField.SetValue(pCol3, "_ColorThree");
