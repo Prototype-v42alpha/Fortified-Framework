@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using Verse;
 
 namespace Fortified
 {
     public static class CircleConst
     {
+        public static Vector3 AngleRandom => circleAngleVector.RandomElement();
         public static Vector3 GetAngle(float ang)
         {
             return circleAngleVector[Mathf.Abs((int)((ang % 360) / 10f))];

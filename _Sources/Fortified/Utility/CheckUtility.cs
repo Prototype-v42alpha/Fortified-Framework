@@ -1,13 +1,13 @@
 ﻿using Verse;
-using Fortified;
 using System.Linq;
 using System.Collections.Generic;
 using RimWorld;
 using System;
-using UnityEngine;
 
+namespace Fortified;
 public static partial class CheckUtility
 {
+
     private const bool DebugLog = false;
     private static void DLog(string message)
     {

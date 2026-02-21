@@ -89,4 +89,10 @@
     <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
   </JobDef>
 
+  <JobDef>
+    <defName>FFF_Replenish</defName>
+    <driverClass>Fortified.JobDriver_Replenish</driverClass>
+    <reportString>Replenishing</reportString>
+  </JobDef>
+
 </Defs>	

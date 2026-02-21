@@ -45,7 +45,7 @@ namespace Fortified
             Rect rect3 = rect2;
             rect3.height = rect.height / 2f;
             Text.Font = GameFont.Tiny;
-            Widgets.Label(rect3, bulletproofPlate.parent.Label);
+            Widgets.Label(rect3, bulletproofPlate.parent.LabelShort);
 
             Rect rect4 = rect2;
             rect4.yMin = rect2.y + rect2.height / 2f;
@@ -54,7 +54,7 @@ namespace Fortified
 
             Text.Font = GameFont.Small;
             Text.Anchor = TextAnchor.MiddleCenter;
-            Widgets.Label(rect4, $"{(bulletproofPlate.GetCurrentDurability()).ToString("F1")}/{bulletproofPlate.GetMaxDurability()}");
+            Widgets.Label(rect4, $"{(bulletproofPlate.GetCurrentDurability()).ToString("F1")}/{bulletproofPlate.CurrentMaxDurability()}");
             Text.Anchor = TextAnchor.UpperLeft;
 
             TooltipHandler.TipRegion(rect2, bulletproofPlate.DurabilityDescription);

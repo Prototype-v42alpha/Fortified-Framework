@@ -21,7 +21,9 @@ public static class FFF_DefOf
     public static JobDef FFF_ResurrectMech;
     public static JobDef FFF_HackMechCapsule;
     public static JobDef FFF_EjectMechCapsule;
+    public static JobDef FFF_Replenish;
     public static HediffDef FFF_Camouflage;
+    public static FleckDef FFF_Fleck_DeflectShell;
 }
 
 [StaticConstructorOnStartup]
