@@ -15,7 +15,10 @@ public class CompProperties_BulletproofPlate : CompProperties
     public float maxDurability = 100f;
     public ThingDef plateThing;
     public float durabilityRestorePerMaterial = 10f;
-
+    [MayTranslate]
+    public string durabilityDescKey = "offering additional {0} on covered body parts, will lose durability after taking damage.\nDurability can be replenished using {1}, restoring {2} points per material.";
+    [MayTranslate]
+    public string refillVerbString = "install plates for {0} ({1}x {2})";
     public CompProperties_BulletproofPlate()
     {
         compClass = typeof(CompBulletproofPlate);
@@ -23,31 +26,27 @@ public class CompProperties_BulletproofPlate : CompProperties
 }
 public class CompBulletproofPlate : ThingComp
 {
-    private CompProperties_BulletproofPlate Props => (CompProperties_BulletproofPlate)props;
-    private float currentDurability;
+    protected CompProperties_BulletproofPlate Props => (CompProperties_BulletproofPlate)props;
+    protected float currentDurability;
 
     public float DurabilityPercent => currentDurability / Props.maxDurability;
-
-    public Pawn wearer;
+    public virtual string armorString => $"{Props.armorRating:P0} " + "FFF.Armor.Vanilla".Translate();
+    //{0:P0}的利器與鈍器
+    public string DurabilityDescription => Props.durabilityDescKey.Translate(armorString, Props.plateThing, Props.durabilityRestorePerMaterial);
+    //"提供{0}的額外防護。在承受傷害後耐久將降低直至失效。可以在穿戴時使用{1}來補充耐久，每單位材料可恢復{2}點。"
+    public string RefillVerbString => Props.refillVerbString.Translate(parent.LabelCap, GetMaterialCostForRefill(), Props.plateThing);
+    //"為{0}更換防彈插板({1}x {2})"
+    public Pawn Wearer => ((Apparel)parent)?.Wearer;
     public override void PostSpawnSetup(bool respawningAfterLoad)
     {
         base.PostSpawnSetup(respawningAfterLoad);
-        wearer = (parent as Apparel)?.Wearer;
         if (currentDurability == 0 && !respawningAfterLoad)
         {
             currentDurability = Props.maxDurability;
         }
     }
 
-    public bool IsInCoveredGRoups(DamageInfo dinfo)
-    {
-        return parent.def.apparel.CoversBodyPart(dinfo.HitPart);
-    }
-    public override void PostExposeData()
-    {
-        base.PostExposeData();
-        Scribe_Values.Look(ref currentDurability, "currentDurability", Props.maxDurability);
-    }
+    public bool IsInCoveredGroups(DamageInfo dinfo) => dinfo.HitPart.groups.ContainsAny(p => parent.def.apparel.bodyPartGroups.Contains(p));
 
     public override void PostPreApplyDamage(ref DamageInfo dinfo, out bool absorbed)
     {
@@ -61,14 +60,19 @@ public class CompBulletproofPlate : ThingComp
         {
             return;
         }
-        //if (!IsInCoveredGRoups(dinfo)) return;
+        if (!IsInCoveredGroups(dinfo)) return;
 
         DamageDef damage = dinfo.Def;
         damage.defaultArmorPenetration -= Props.armorRating;
-        float damageAmount = ArmorUtility.GetPostArmorDamage(wearer, dinfo.Amount, dinfo.ArmorPenetrationInt, dinfo.HitPart, ref damage, out var _A, out var _B);
+        float damageAmount = ArmorUtility.GetPostArmorDamage(Wearer, dinfo.Amount, dinfo.ArmorPenetrationInt, dinfo.HitPart, ref damage, out var _A, out var _B);
 
         dinfo.Def = damage;
-
+        if (damageAmount <= 0)
+        {
+            currentDurability -= 1;
+            absorbed = true;
+            return;
+        }
         currentDurability -= damageAmount;
 
         if (currentDurability < 0)
@@ -123,7 +127,7 @@ public class CompBulletproofPlate : ThingComp
         }
 
         int materialCost = GetMaterialCostForRefill();
-        string label = $"Refill {parent.LabelCap} ({materialCost}x {Props.plateThing.label})";
+        string label = RefillVerbString;
 
         FloatMenuOption option = new FloatMenuOption(label, () =>
         {
@@ -161,14 +165,19 @@ public class CompBulletproofPlate : ThingComp
 
     public override string CompInspectStringExtra()
     {
-        string text = $"Durability: {currentDurability:F1}/{Props.maxDurability:F1} ({DurabilityPercent:P0})";
 
-        if (Props.plateThing != null)
+        return DurabilityDescription;
+    }
+    public override void PostExposeData()
+    {
+        base.PostExposeData();
+        Scribe_Values.Look(ref currentDurability, "currentDurability", Props.maxDurability);
+        if (Scribe.mode == LoadSaveMode.PostLoadInit)
         {
-            int materialCost = GetMaterialCostForRefill();
-            text += $"\nRefill cost: {materialCost}x {Props.plateThing.label}";
+            if (currentDurability > Props.maxDurability)
+            {
+                currentDurability = Props.maxDurability;
+            }
         }
-
-        return text;
     }
 }
