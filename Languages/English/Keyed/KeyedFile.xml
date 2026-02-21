@@ -57,4 +57,6 @@
 
   <FFF.AirSupportFromClosestBase>{1} from {0} is inbound.</FFF.AirSupportFromClosestBase>
   
+  <FFF.Armor.CE>{0}mmRha armor</FFF.Armor.CE>
+  <FFF.Armor.Vanilla>{0}% protection</FFF.Armor.Vanilla>
 </LanguageData>
