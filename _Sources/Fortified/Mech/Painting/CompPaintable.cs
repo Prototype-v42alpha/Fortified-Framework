@@ -12,6 +12,15 @@ namespace Fortified
         // 四向涂装配置
         public Dictionary<int, FFF_PaintDef> facePaints = new();
 
+        // 全局剪贴板
+        public static bool hasClipboard = false;
+        public static Color clipColor1;
+        public static Color clipColor2;
+        public static Color clipColor3;
+        public static FFF_CamoDef clipCamoDef;
+        public static float clipBrightness;
+        public static FFF_OverlayDef clipOverlayDef;
+
         public CompProperties_Paintable Props => (CompProperties_Paintable)props;
 
         public override void PostPostMake()
@@ -117,7 +126,26 @@ namespace Fortified
             return cachedShaderParams;
         }
 
+        private Graphic cachedPaintedGraphic;
 
+        // 获取建筑涂装后的Graphic
+        public Graphic GetPaintedGraphic(Graphic baseGraphic)
+        {
+            if (cachedPaintedGraphic != null) return cachedPaintedGraphic;
+
+            Shader shader = FFF_AssetLoader.PaintShader ?? baseGraphic.Shader;
+            Color c2 = color2;
+            if (FFF_AssetLoader.PaintShader != null) c2.a = brightness;
+
+            var shaderParams = GetOrBuildShaderParams(color3, camoDef);
+            var g = GraphicDatabase.Get(baseGraphic.GetType(), baseGraphic.path, shader,
+                baseGraphic.drawSize, color1, c2, baseGraphic.data, shaderParams);
+
+            Harmony_Painting.ApplyPerDirectionProps(g, camoDef, overlayDef);
+
+            cachedPaintedGraphic = g;
+            return g;
+        }
 
         public override void PostExposeData()
         {
@@ -144,15 +172,21 @@ namespace Fortified
         public override void Notify_ColorChanged()
         {
             cachedShaderParams = null;
+            cachedPaintedGraphic = null;
             if (parent is Pawn pawn)
             {
                 pawn.Drawer.renderer.SetAllGraphicsDirty();
+            }
+            else if (parent.Spawned && parent.Map != null)
+            {
+                parent.Map.mapDrawer.MapMeshDirty(parent.Position, MapMeshFlagDefOf.Things);
             }
         }
 
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
         {
             if (parent.Faction != Faction.OfPlayer) yield break;
+            if (parent is Building && !Props.allowGizmoForBuilding) yield break;
 
             yield return new Command_Action
             {
@@ -175,6 +209,28 @@ namespace Fortified
                         // 结束等待
                         if (parent is Pawn mech && mech.jobs?.curDriver is JobDriver_WaitForPainting)
                             mech.jobs.EndCurrentJob(JobCondition.Succeeded);
+                    }
+                };
+            }
+
+            if (hasClipboard)
+            {
+                yield return new Command_Action
+                {
+                    defaultLabel = "FFF_PastePaintConfig".Translate(),
+                    defaultDesc = "FFF_PastePaintConfigDesc".Translate(),
+                    icon = ContentFinder<Texture2D>.Get("UI/Commands/PasteSettings"),
+                    action = () =>
+                    {
+                        activePaintRequest = true;
+                        requestColor = clipColor1;
+                        requestColor2 = clipColor2;
+                        requestColor3 = clipColor3;
+                        requestCamo = clipCamoDef;
+                        requestBrightness = clipBrightness;
+                        requestOverlay = clipOverlayDef;
+                        Notify_ColorChanged();
+                        Messages.Message("FFF_PaintRequestSent".Translate(), parent, MessageTypeDefOf.NeutralEvent, false);
                     }
                 };
             }
