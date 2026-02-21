@@ -41,23 +41,23 @@ namespace Fortified
             Rect rect = new Rect(topLeft.x, topLeft.y, GetWidth(maxWidth), 75f);
             Rect rect2 = rect.ContractedBy(6f);
             Widgets.DrawWindowBackground(rect);
-            
+
             Rect rect3 = rect2;
             rect3.height = rect.height / 2f;
             Text.Font = GameFont.Tiny;
-            Widgets.Label(rect3, bulletproofPlate.parent.LabelCap);
-            
+            Widgets.Label(rect3, bulletproofPlate.parent.Label);
+
             Rect rect4 = rect2;
             rect4.yMin = rect2.y + rect2.height / 2f;
             float fillPercent = Mathf.Min(1f, bulletproofPlate.DurabilityPercent);
             Widgets.FillableBar(rect4, fillPercent, FullPlateBarTex, EmptyPlateBarTex, doBorder: false);
-            
+
             Text.Font = GameFont.Small;
             Text.Anchor = TextAnchor.MiddleCenter;
-            Widgets.Label(rect4, (bulletproofPlate.GetCurrentDurability()).ToString("F1") + " / " + bulletproofPlate.GetMaxDurability());
+            Widgets.Label(rect4, $"{(bulletproofPlate.GetCurrentDurability()).ToString("F1")}/{bulletproofPlate.GetMaxDurability()}");
             Text.Anchor = TextAnchor.UpperLeft;
-            
-            TooltipHandler.TipRegion(rect2, "FFF.BulletproofPlateTooltip".Translate());
+
+            TooltipHandler.TipRegion(rect2, bulletproofPlate.DurabilityDescription);
             return new GizmoResult(GizmoState.Clear);
         }
     }

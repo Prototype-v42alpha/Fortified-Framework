@@ -84,4 +84,6 @@
   <FFF.Message.CannotPlaceWithoutWall>需要放置於牆體或門上</FFF.Message.CannotPlaceWithoutWall>
   <FFF.Message.MustOnACoverBuilding>需要放置在掩體上</FFF.Message.MustOnACoverBuilding>
 
+  <FFF.Armor.CE>{0}毫米等效均質鋼</FFF.Armor.CE>
+  <FFF.Armor.Vanilla>{0}%防護</FFF.Armor.Vanilla>
 </LanguageData>
