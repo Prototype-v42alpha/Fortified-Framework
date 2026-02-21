@@ -54,6 +54,9 @@ namespace Fortified
         private static int savedCamoScale = 0;
         private static int savedOverlayScale = 0;
 
+        // 建筑左侧大图主缓存
+        private Texture2D buildingMainPreviewTex;
+
         // 文本输入缓冲区
         private Dictionary<string, string> textBuffers = new();
 
@@ -99,17 +102,20 @@ namespace Fortified
             // 生成渲染副本并烘焙预览
             try
             {
-                previewPawn = PawnGenerator.GeneratePawn(pawn.kindDef);
-                previewComp = previewPawn.TryGetComp<CompPaintable>();
-                if (previewComp != null)
+                if (pawn != null && pawn.kindDef != null)
                 {
-                    previewComp.color1 = baseColor;
-                    previewComp.color2 = baseColor2;
-                    previewComp.color3 = baseColor3;
-                    previewComp.brightness = brightness;
-                    previewComp.overlayDef = overlayDef;
-                    BakeAllPreviews();
+                    previewPawn = PawnGenerator.GeneratePawn(pawn.kindDef);
+                    previewComp = previewPawn.TryGetComp<CompPaintable>();
+                    if (previewComp != null)
+                    {
+                        previewComp.color1 = baseColor;
+                        previewComp.color2 = baseColor2;
+                        previewComp.color3 = baseColor3;
+                        previewComp.brightness = brightness;
+                        previewComp.overlayDef = overlayDef;
+                    }
                 }
+                BakeAllPreviews();
             }
             catch (System.Exception e)
             {
@@ -130,58 +136,113 @@ namespace Fortified
             return maxDim > 0.1f ? 1.28f / maxDim : 1.28f;
         }
 
+        // 把材质烘焙成常规Texture2D
+        private Texture2D BakeMaterialToTexture(Material mat)
+        {
+            if (mat == null || mat.mainTexture == null) return null;
+            int w = Mathf.Min(mat.mainTexture.width, 512);
+            int h = Mathf.Min(mat.mainTexture.height, 512);
+            RenderTexture rt = RenderTexture.GetTemporary(w, h, 0, RenderTextureFormat.ARGB32);
+            var prev = RenderTexture.active;
+            RenderTexture.active = rt;
+            GL.Clear(false, true, Color.clear);
+            Graphics.Blit(mat.mainTexture, rt, mat);
+            Texture2D tex = new Texture2D(w, h, TextureFormat.ARGB32, false);
+            tex.ReadPixels(new Rect(0, 0, w, h), 0, 0);
+            tex.Apply();
+            RenderTexture.active = prev;
+            RenderTexture.ReleaseTemporary(rt);
+            return tex;
+        }
+
         // 烘焙所有预览
         private void BakeAllPreviews()
         {
-            if (previewPawn == null || previewComp == null) return;
-            const int renderSize = 256;
-            var renderer = Find.PawnCacheRenderer;
-            if (renderer == null) return;
-
-            // 设置副本参数
-            previewComp.color1 = baseColor;
-            previewComp.color2 = baseColor2;
-            previewComp.color3 = baseColor3;
-            previewComp.brightness = brightness;
-            previewComp.overlayDef = overlayDef;
-
-            // 烘焙无迷彩
-            previewComp.camoDef = null;
-            previewPawn.Drawer.renderer.SetAllGraphicsDirty();
-            nonePreviewTex = RenderToTexture2D(renderer, renderSize);
-
-            // 烘焙每个迷彩
-            foreach (var def in DefDatabase<FFF_CamoDef>.AllDefsListForReading)
+            if (previewPawn != null && previewComp != null)
             {
-                previewComp.camoDef = def;
+                const int renderSize = 256;
+                var renderer = Find.PawnCacheRenderer;
+                if (renderer == null) return;
+
+                // 设置副本参数
+                previewComp.color1 = baseColor;
+                previewComp.color2 = baseColor2;
+                previewComp.color3 = baseColor3;
+                previewComp.brightness = brightness;
+                previewComp.overlayDef = overlayDef;
+
+                // 烘焙无迷彩
+                previewComp.camoDef = null;
                 previewPawn.Drawer.renderer.SetAllGraphicsDirty();
-                camoPreviewCache[def] = RenderToTexture2D(renderer, renderSize);
-            }
+                nonePreviewTex = RenderToTexture2D(renderer, renderSize);
 
-            // 恢复副本状态
-            previewComp.camoDef = camoDef;
-            previewComp.overlayDef = overlayDef;
+                // 烘焙每个迷彩
+                foreach (var def in DefDatabase<FFF_CamoDef>.AllDefsListForReading)
+                {
+                    previewComp.camoDef = def;
+                    previewPawn.Drawer.renderer.SetAllGraphicsDirty();
+                    camoPreviewCache[def] = RenderToTexture2D(renderer, renderSize);
+                }
 
-            cachedPreviewBrightness = brightness;
-
-            // 烘焙无叠加层预览
-            previewComp.camoDef = camoDef;
-            previewComp.overlayDef = null;
-            previewPawn.Drawer.renderer.SetAllGraphicsDirty();
-            overlayNonePreviewTex = RenderToTexture2D(renderer, renderSize);
-
-            // 烘焙各叠加层预览
-            foreach (var od in comp.Props.availableOverlays)
-            {
+                // 恢复副本状态
                 previewComp.camoDef = camoDef;
-                previewComp.overlayDef = od;
-                previewPawn.Drawer.renderer.SetAllGraphicsDirty();
-                overlayPreviewCache[od] = RenderToTexture2D(renderer, renderSize);
-            }
+                previewComp.overlayDef = overlayDef;
 
-            // 恢复副本状态
-            previewComp.camoDef = camoDef;
-            previewComp.overlayDef = overlayDef;
+                cachedPreviewBrightness = brightness;
+
+                // 烘焙无叠加层预览
+                previewComp.camoDef = camoDef;
+                previewComp.overlayDef = null;
+                previewPawn.Drawer.renderer.SetAllGraphicsDirty();
+                overlayNonePreviewTex = RenderToTexture2D(renderer, renderSize);
+
+                // 烘焙各叠加层预览
+                foreach (var od in comp.Props.availableOverlays)
+                {
+                    previewComp.camoDef = camoDef;
+                    previewComp.overlayDef = od;
+                    previewPawn.Drawer.renderer.SetAllGraphicsDirty();
+                    overlayPreviewCache[od] = RenderToTexture2D(renderer, renderSize);
+                }
+
+                // 恢复副本状态
+                previewComp.camoDef = camoDef;
+                previewComp.overlayDef = overlayDef;
+            }
+            else if (comp.parent is Building building)
+            {
+                var bg = building.Graphic;
+                var paintShader = FFF_AssetLoader.PaintShader ?? bg.Shader;
+                var c2 = baseColor2;
+                if (FFF_AssetLoader.PaintShader != null) c2.a = brightness;
+                var rot = new Rot4(previewRot);
+
+                Texture2D Bake(FFF_CamoDef camo, FFF_OverlayDef overlay)
+                {
+                    var sp = comp.GetOrBuildShaderParams(baseColor3, camo);
+                    var g = GraphicDatabase.Get(bg.GetType(), bg.path, paintShader, bg.drawSize, baseColor, c2, bg.data, sp);
+                    Harmony_Painting.ApplyPerDirectionProps(g, camo, overlay);
+                    var mat = g.MatAt(rot, building);
+                    return BakeMaterialToTexture(mat);
+                }
+
+                if (buildingMainPreviewTex) UnityEngine.Object.Destroy(buildingMainPreviewTex);
+                buildingMainPreviewTex = Bake(camoDef, overlayDef); // 主大图缓存
+
+                nonePreviewTex = Bake(null, overlayDef);
+                foreach (var def in DefDatabase<FFF_CamoDef>.AllDefsListForReading)
+                    camoPreviewCache[def] = Bake(def, overlayDef);
+
+                cachedPreviewBrightness = brightness;
+
+                overlayNonePreviewTex = Bake(camoDef, null);
+                var overlays = comp.Props.availableOverlays;
+                if (overlays != null)
+                {
+                    foreach (var od in overlays)
+                        overlayPreviewCache[od] = Bake(camoDef, od);
+                }
+            }
         }
 
         // 同步渲染到 Texture2D
@@ -227,10 +288,22 @@ namespace Fortified
             DrawMiscSliders(ref y, leftHalf);
 
             y += 10f;
-            if (Widgets.ButtonText(new Rect(inRect.x, y, leftW - 30f, 36f), "FFF_ConfirmPaint".Translate()))
+            float btnW = (leftW - 30f - 10f) / 2f;
+            if (Widgets.ButtonText(new Rect(inRect.x, y, btnW, 36f), "FFF_ConfirmPaint".Translate()))
             {
                 ApplyPaint();
                 Close();
+            }
+            if (Widgets.ButtonText(new Rect(inRect.x + btnW + 10f, y, btnW, 36f), "FFF_CopyPaintConfig".Translate()))
+            {
+                CompPaintable.hasClipboard = true;
+                CompPaintable.clipColor1 = baseColor;
+                CompPaintable.clipColor2 = baseColor2;
+                CompPaintable.clipColor3 = baseColor3;
+                CompPaintable.clipCamoDef = camoDef;
+                CompPaintable.clipBrightness = brightness;
+                CompPaintable.clipOverlayDef = overlayDef;
+                Messages.Message("FFF_PaintConfigCopied".Translate(), MessageTypeDefOf.TaskCompletion, false);
             }
 
             // 右列：迷彩面板
@@ -241,24 +314,34 @@ namespace Fortified
         // 同步副本预览数据（不碰真实 pawn）
         private void SyncPendingData()
         {
-            if (previewComp == null) return;
-
-            if (previewComp == null) return;
-
             // 检测变化
-            bool colorChanged = previewComp.color1 != baseColor || previewComp.color2 != baseColor2
-                || previewComp.color3 != baseColor3 || previewComp.brightness != brightness;
-            bool camoChanged = previewComp.camoDef != camoDef;
-            bool overlayChanged = previewComp.overlayDef != overlayDef;
+            bool colorChanged = false, camoChanged = false, overlayChanged = false;
 
-            previewComp.color1 = baseColor;
-            previewComp.color2 = baseColor2;
-            previewComp.color3 = baseColor3;
-            previewComp.camoDef = camoDef;
-            previewComp.brightness = brightness;
-            previewComp.overlayDef = overlayDef;
-            PortraitsCache.SetDirty(previewPawn);
-            previewPawn.Drawer.renderer.SetAllGraphicsDirty();
+            if (previewComp != null)
+            {
+                colorChanged = previewComp.color1 != baseColor || previewComp.color2 != baseColor2
+                    || previewComp.color3 != baseColor3 || previewComp.brightness != brightness;
+                camoChanged = previewComp.camoDef != camoDef;
+                overlayChanged = previewComp.overlayDef != overlayDef;
+
+                previewComp.color1 = baseColor;
+                previewComp.color2 = baseColor2;
+                previewComp.color3 = baseColor3;
+                previewComp.camoDef = camoDef;
+                previewComp.brightness = brightness;
+                previewComp.overlayDef = overlayDef;
+
+                if (previewPawn != null)
+                {
+                    PortraitsCache.SetDirty(previewPawn);
+                    previewPawn.Drawer.renderer.SetAllGraphicsDirty();
+                }
+            }
+            else if (comp.parent is Building)
+            {
+                colorChanged = cachedPreviewColor != baseColor || cachedPreviewColor2 != baseColor2
+                    || cachedPreviewColor3 != baseColor3 || cachedPreviewBrightness != brightness;
+            }
 
             if (colorChanged || camoChanged || overlayChanged)
             {
@@ -342,13 +425,15 @@ namespace Fortified
                 if (nonePreviewTex) UnityEngine.Object.Destroy(nonePreviewTex);
                 if (overlayNonePreviewTex) UnityEngine.Object.Destroy(overlayNonePreviewTex);
 
-                bakeDirty = false;
-                bakeImmediate = false;
                 camoPreviewCache.Clear();
                 overlayPreviewCache.Clear();
                 nonePreviewTex = null;
                 overlayNonePreviewTex = null;
+
                 BakeAllPreviews();
+
+                bakeDirty = false;
+                bakeImmediate = false;
             }
 
             Rect scrollRect = new Rect(innerRect.x, startY, innerRect.width, innerRect.height - 28f);
@@ -374,7 +459,9 @@ namespace Fortified
                 Texture2D tex = isNone ? nonePreviewTex
                     : (camoPreviewCache.TryGetValue(def, out var t) ? t : null);
                 if (tex != null)
-                    GUI.DrawTexture(cell, tex, ScaleMode.ScaleToFit);
+                {
+                    DrawTextureToRectEx(cell, tex);
+                }
 
                 // 选中高亮
                 if (selected)
@@ -461,7 +548,9 @@ namespace Fortified
                 Texture2D tex = isNone ? overlayNonePreviewTex
                     : (overlayPreviewCache.TryGetValue(def, out var t) ? t : null);
                 if (tex != null)
-                    GUI.DrawTexture(cell, tex, ScaleMode.ScaleToFit);
+                {
+                    DrawTextureToRectEx(cell, tex);
+                }
 
                 if (selected)
                 {
@@ -510,7 +599,15 @@ namespace Fortified
             {
                 var img = PortraitsCache.Get(previewPawn, new Vector2(previewSize, previewSize),
                     new Rot4(previewRot), default, previewZoom, true, true);
-                GUI.DrawTexture(previewArea, img);
+                if (img != null)
+                    GUI.DrawTexture(previewArea, img);
+            }
+            else if (comp.parent is Building building)
+            {
+                if (buildingMainPreviewTex != null)
+                {
+                    DrawTextureToRectEx(previewArea, buildingMainPreviewTex, true);
+                }
             }
 
             DrawPreviewControls(previewArea);
@@ -527,14 +624,33 @@ namespace Fortified
             if (Widgets.ButtonText(new Rect(area.x + 4, area.yMax - 28, 40, 24), "◀"))
             {
                 previewRot = (previewRot + 3) % 4;
-                PortraitsCache.SetDirty(previewPawn);
+                if (previewPawn != null) PortraitsCache.SetDirty(previewPawn);
+                else bakeImmediate = true;
             }
             if (Widgets.ButtonText(new Rect(area.xMax - 44, area.yMax - 28, 40, 24), "▶"))
             {
                 previewRot = (previewRot + 1) % 4;
-                PortraitsCache.SetDirty(previewPawn);
+                if (previewPawn != null) PortraitsCache.SetDirty(previewPawn);
+                else bakeImmediate = true;
             }
             Text.Anchor = TextAnchor.UpperLeft;
+        }
+
+        // 使用 Texture 绘制到 UI 矩形，保持比例并受裁切
+        private void DrawTextureToRectEx(Rect rect, Texture2D tex, bool mainPreview = false)
+        {
+            if (tex == null || Event.current.type != EventType.Repaint) return;
+
+            // 计算等比缩放
+            float scale = Mathf.Min(rect.width / tex.width, rect.height / tex.height);
+            // 补偿过大的图片进行居中，如果是主要预览受控于Zoom
+            if (mainPreview) scale *= previewZoom;
+
+            float w = tex.width * scale;
+            float h = tex.height * scale;
+            Rect drawRect = new Rect(rect.x + (rect.width - w) / 2f, rect.y + (rect.height - h) / 2f, w, h);
+
+            GUI.DrawTexture(drawRect, tex);
         }
 
         private void DrawColorSliders(ref float y, Rect inRect)
@@ -651,7 +767,7 @@ namespace Fortified
             }
 
             // 刷新渲染
-            pawn.Drawer.renderer.SetAllGraphicsDirty();
+            if (pawn != null) pawn.Drawer.renderer.SetAllGraphicsDirty();
 
             // 销毁副本
             if (previewPawn != null)

@@ -23,6 +23,25 @@ namespace Fortified
             TryApplyPaint(pawn, ref __result);
         }
 
+        // 实体图形补丁
+        [HarmonyPostfix]
+        [HarmonyPatch(typeof(Thing), "get_Graphic")]
+        static void ThingGraphicPostfix(Thing __instance, ref Graphic __result)
+        {
+            try
+            {
+                if (__result != null && __instance is Building building && building.def.HasComp(typeof(CompPaintable)))
+                {
+                    var comp = building.GetComp<CompPaintable>();
+                    if (comp != null)
+                    {
+                        __result = comp.GetPaintedGraphic(__result);
+                    }
+                }
+            }
+            catch (System.Exception e) { Log.ErrorOnce($"[Fortified] ThingGraphic涂装补丁异常: {e}", __instance.thingIDNumber ^ 0xBEEF); }
+        }
+
 
 
         // 应用涂装
@@ -52,8 +71,31 @@ namespace Fortified
         }
 
         // 应用朝向属性
+        private static System.Reflection.FieldInfo subGraphicsField = AccessTools.Field(typeof(Graphic_Collection), "subGraphics");
+
         public static void ApplyPerDirectionProps(Graphic graphic, FFF_CamoDef camo, FFF_OverlayDef overlay)
         {
+            if (graphic == null) return;
+
+            // 递归处理子集合
+            if (graphic is Graphic_Collection collection)
+            {
+                var subGraphics = (Graphic[])subGraphicsField.GetValue(collection);
+                if (subGraphics != null)
+                {
+                    foreach (var sub in subGraphics)
+                    {
+                        ApplyPerDirectionProps(sub, camo, overlay);
+                    }
+                }
+                return;
+            }
+            else if (graphic is Graphic_RandomRotated rotated)
+            {
+                ApplyPerDirectionProps(rotated.SubGraphic, camo, overlay);
+                return;
+            }
+
             for (int i = 0; i < 4; i++)
             {
                 var rot = new Rot4(i);
