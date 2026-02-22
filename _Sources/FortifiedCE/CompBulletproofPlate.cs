@@ -1,4 +1,4 @@
-using CombatExtended;
+﻿using CombatExtended;
 using Fortified;
 using RimWorld;
 using UnityEngine;
@@ -9,7 +9,7 @@ namespace FortifiedCE;
 public class CompBulletproofPlate : Fortified.CompBulletproofPlate
 {
     public override string armorString => "FFF.Armor.CE".Translate(Props.armorRating);
-    //{0}�@�̵��ħ����
+    //{0}毫米等效均質鋼
     public override void PostPreApplyDamage(ref DamageInfo dinfo, out bool absorbed)
     {
         absorbed = false;
@@ -24,10 +24,11 @@ public class CompBulletproofPlate : Fortified.CompBulletproofPlate
             return;
         }
 
-        if (!IsInCoveredGroups(dinfo))
-        {
-            return;
-        }
+        if (BypassChance()) return; // 有一定几率完全无视部位覆盖，模拟子弹偶尔会偏移或击中装甲缝隙
+        //if (!IsInCoveredGroups(dinfo))
+        //{
+        //    return;
+        //}
 
         if (dinfo.HitPart == null) dinfo.SetHitPart(Wearer.health.hediffSet.GetBodyPartRecord(BodyPartDefOf.Torso));
 
@@ -75,7 +76,8 @@ public class CompBulletproofPlate : Fortified.CompBulletproofPlate
         {
             // Plate fully absorbs its portion and survives
             currentDurability -= absorbedByPlate;
-            afterArmorDinfo.SetAmount(0f);
+            dinfo.SetAmount(0f);
+            absorbed = true;
         }
         else
         {
@@ -83,9 +85,7 @@ public class CompBulletproofPlate : Fortified.CompBulletproofPlate
             float oldDurability = currentDurability;
             float remainingDamageToApply = Mathf.Max(0f, incoming - oldDurability);
             currentDurability = 0f;
-            afterArmorDinfo.SetAmount(remainingDamageToApply);
+            dinfo.SetAmount(remainingDamageToApply);
         }
-
-        dinfo = afterArmorDinfo;
     }
 }

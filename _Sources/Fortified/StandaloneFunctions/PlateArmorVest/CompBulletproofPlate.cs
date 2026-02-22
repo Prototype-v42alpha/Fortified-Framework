@@ -104,7 +104,7 @@ public class CompBulletproofPlate : ThingComp, IReplenishable
             return;
         }
         if (BypassChance()) return; // 有一定几率完全无视部位覆盖，模拟子弹偶尔会偏移或击中装甲缝隙
-        if (!IsInCoveredGroups(dinfo)) return;
+        //if (!IsInCoveredGroups(dinfo)) return;
 
         DamageDef damage = dinfo.Def;
         if (dinfo.HitPart == null) dinfo.SetHitPart(Wearer.health.hediffSet.GetBodyPartRecord(BodyPartDefOf.Torso));
@@ -114,6 +114,7 @@ public class CompBulletproofPlate : ThingComp, IReplenishable
         if (currentDurability - damageAmount > 0)
         {
             dinfo.SetAmount(damageAmount / 2);
+            absorbed = true;
         }
         currentDurability -= damageAmount;
 
