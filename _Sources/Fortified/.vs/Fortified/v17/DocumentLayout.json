@@ -3,15 +3,24 @@
   "WorkspaceRootPath": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{89063F8A-6EE5-439A-B1BB-60E44A6E7FB5}|..\\FortifiedCE\\FortifiedCE.csproj|d:\\steam\\steamapps\\common\\rimworld\\mods\\_fortified-framework\\_sources\\fortifiedce\\compbulletproofplate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{42386F22-1DFB-5DB7-665F-DF3880365B65}|Fortified.csproj|d:\\steam\\steamapps\\common\\rimworld\\mods\\_fortified-framework\\_sources\\fortified\\core\\definjection_comppaintable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{42386F22-1DFB-5DB7-665F-DF3880365B65}|Fortified.csproj|solutionrelative:core\\definjection_comppaintable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{42386F22-1DFB-5DB7-665F-DF3880365B65}|Fortified.csproj|d:\\steam\\steamapps\\common\\rimworld\\mods\\_fortified-framework\\_sources\\fortified\\fff_defof.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{42386F22-1DFB-5DB7-665F-DF3880365B65}|Fortified.csproj|solutionrelative:fff_defof.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{42386F22-1DFB-5DB7-665F-DF3880365B65}|Fortified.csproj|d:\\steam\\steamapps\\common\\rimworld\\mods\\_fortified-framework\\_sources\\fortified\\mech\\painting\\comppaintable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{42386F22-1DFB-5DB7-665F-DF3880365B65}|Fortified.csproj|solutionrelative:mech\\painting\\comppaintable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{42386F22-1DFB-5DB7-665F-DF3880365B65}|Fortified.csproj|d:\\steam\\steamapps\\common\\rimworld\\mods\\_fortified-framework\\_sources\\fortified\\mech\\painting\\workgiver_paintmech.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{42386F22-1DFB-5DB7-665F-DF3880365B65}|Fortified.csproj|solutionrelative:mech\\painting\\workgiver_paintmech.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{42386F22-1DFB-5DB7-665F-DF3880365B65}|Fortified.csproj|d:\\steam\\steamapps\\common\\rimworld\\mods\\_fortified-framework\\_sources\\fortified\\ui\\dialog_paintconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{42386F22-1DFB-5DB7-665F-DF3880365B65}|Fortified.csproj|solutionrelative:ui\\dialog_paintconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{42386F22-1DFB-5DB7-665F-DF3880365B65}|Fortified.csproj|d:\\steam\\steamapps\\common\\rimworld\\mods\\_fortified-framework\\_sources\\fortified\\structures\\settlements\\fff_settlementdef.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{42386F22-1DFB-5DB7-665F-DF3880365B65}|Fortified.csproj|solutionrelative:structures\\settlements\\fff_settlementdef.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{42386F22-1DFB-5DB7-665F-DF3880365B65}|Fortified.csproj|d:\\steam\\steamapps\\common\\rimworld\\mods\\_fortified-framework\\_sources\\fortified\\structures\\legacy\\legacydefs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{42386F22-1DFB-5DB7-665F-DF3880365B65}|Fortified.csproj|solutionrelative:structures\\legacy\\legacydefs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{42386F22-1DFB-5DB7-665F-DF3880365B65}|Fortified.csproj|d:\\steam\\steamapps\\common\\rimworld\\mods\\_fortified-framework\\_sources\\fortified\\components\\compflyingfleckthrower.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -20,6 +29,17 @@
     {
       "AbsoluteMoniker": "D:0:0:{42386F22-1DFB-5DB7-665F-DF3880365B65}|Fortified.csproj|d:\\steam\\steamapps\\common\\rimworld\\mods\\_fortified-framework\\_sources\\fortified\\utility\\circleconst.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{42386F22-1DFB-5DB7-665F-DF3880365B65}|Fortified.csproj|solutionrelative:utility\\circleconst.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{42386F22-1DFB-5DB7-665F-DF3880365B65}|Fortified.csproj|d:\\steam\\steamapps\\common\\rimworld\\mods\\_fortified-framework\\_sources\\fortified\\mech\\painting\\workgiver_paintmech.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{42386F22-1DFB-5DB7-665F-DF3880365B65}|Fortified.csproj|solutionrelative:mech\\painting\\workgiver_paintmech.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{89063F8A-6EE5-439A-B1BB-60E44A6E7FB5}|..\\FortifiedCE\\FortifiedCE.csproj|d:\\steam\\steamapps\\common\\rimworld\\mods\\_fortified-framework\\_sources\\fortifiedce\\compbulletproofplate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{42386F22-1DFB-5DB7-665F-DF3880365B65}|Fortified.csproj|d:\\steam\\steamapps\\common\\rimworld\\mods\\_fortified-framework\\_sources\\fortified\\fff_defof.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{42386F22-1DFB-5DB7-665F-DF3880365B65}|Fortified.csproj|solutionrelative:fff_defof.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,19 +58,84 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "DefInjection_CompPaintable.cs",
+              "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\Core\\DefInjection_CompPaintable.cs",
+              "RelativeDocumentMoniker": "Core\\DefInjection_CompPaintable.cs",
+              "ToolTip": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\Core\\DefInjection_CompPaintable.cs",
+              "RelativeToolTip": "Core\\DefInjection_CompPaintable.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAuwA0AAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T20:39:20.651Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CompPaintable.cs",
+              "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\Mech\\Painting\\CompPaintable.cs",
+              "RelativeDocumentMoniker": "Mech\\Painting\\CompPaintable.cs",
+              "ToolTip": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\Mech\\Painting\\CompPaintable.cs",
+              "RelativeToolTip": "Mech\\Painting\\CompPaintable.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T20:38:39.977Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Dialog_PaintConfig.cs",
+              "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\UI\\Dialog_PaintConfig.cs",
+              "RelativeDocumentMoniker": "UI\\Dialog_PaintConfig.cs",
+              "ToolTip": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\UI\\Dialog_PaintConfig.cs",
+              "RelativeToolTip": "UI\\Dialog_PaintConfig.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T20:38:05.941Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "FFF_SettlementDef.cs",
+              "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\Structures\\Settlements\\FFF_SettlementDef.cs",
+              "RelativeDocumentMoniker": "Structures\\Settlements\\FFF_SettlementDef.cs",
+              "ToolTip": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\Structures\\Settlements\\FFF_SettlementDef.cs",
+              "RelativeToolTip": "Structures\\Settlements\\FFF_SettlementDef.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T20:37:52.137Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "LegacyDefs.cs",
+              "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\Structures\\Legacy\\LegacyDefs.cs",
+              "RelativeDocumentMoniker": "Structures\\Legacy\\LegacyDefs.cs",
+              "ToolTip": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\Structures\\Legacy\\LegacyDefs.cs",
+              "RelativeToolTip": "Structures\\Legacy\\LegacyDefs.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T20:37:43.41Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "CompBulletproofPlate.cs",
               "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\FortifiedCE\\CompBulletproofPlate.cs",
               "RelativeDocumentMoniker": "..\\FortifiedCE\\CompBulletproofPlate.cs",
               "ToolTip": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\FortifiedCE\\CompBulletproofPlate.cs",
               "RelativeToolTip": "..\\FortifiedCE\\CompBulletproofPlate.cs",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAuwBsAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-02-21T17:34:53.615Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 7,
               "Title": "WorkGiver_PaintMech.cs",
               "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\Mech\\Painting\\WorkGiver_PaintMech.cs",
               "RelativeDocumentMoniker": "Mech\\Painting\\WorkGiver_PaintMech.cs",
@@ -58,11 +143,12 @@
               "RelativeToolTip": "Mech\\Painting\\WorkGiver_PaintMech.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAAAAAA4AAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-21T17:14:49.374Z"
+              "WhenOpened": "2026-02-21T17:14:49.374Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "CircleConst.cs",
               "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\Utility\\CircleConst.cs",
               "RelativeDocumentMoniker": "Utility\\CircleConst.cs",
@@ -70,11 +156,12 @@
               "RelativeToolTip": "Utility\\CircleConst.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-21T17:07:22.476Z"
+              "WhenOpened": "2026-02-21T17:07:22.476Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 9,
               "Title": "FFF_DefOf.cs",
               "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\FFF_DefOf.cs",
               "RelativeDocumentMoniker": "FFF_DefOf.cs",
@@ -86,7 +173,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "CompFlyingFleckThrower.cs",
               "DocumentMoniker": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\_Fortified-Framework\\_Sources\\Fortified\\Components\\CompFlyingFleckThrower.cs",
               "RelativeDocumentMoniker": "Components\\CompFlyingFleckThrower.cs",
@@ -94,7 +181,8 @@
               "RelativeToolTip": "Components\\CompFlyingFleckThrower.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-21T16:39:46.5Z"
+              "WhenOpened": "2026-02-21T16:39:46.5Z",
+              "EditorCaption": ""
             }
           ]
         }
