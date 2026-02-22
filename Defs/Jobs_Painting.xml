@@ -3,14 +3,14 @@
     <JobDef>
         <defName>FFF_PaintMech</defName>
         <driverClass>Fortified.JobDriver_PaintMech</driverClass>
-        <reportString>正在为机械体涂装。</reportString>
+        <reportString>painting for mech.</reportString>
         <casualInterruptible>true</casualInterruptible>
     </JobDef>
 
     <JobDef>
         <defName>FFF_WaitForPainting</defName>
         <driverClass>Fortified.JobDriver_WaitForPainting</driverClass>
-        <reportString>正在等待涂装。</reportString>
+        <reportString>waiting for paint</reportString>
         <casualInterruptible>false</casualInterruptible>
         <neverFleeFromEnemies>true</neverFleeFromEnemies>
     </JobDef>
