@@ -28,6 +28,9 @@
   <!-- EN: repairing TargetA. -->
   <FFF_RepairSelf.reportString>維修{0}</FFF_RepairSelf.reportString>
   
+  <!-- EN: Replenishing -->
+  <FFF_Replenish.reportString>替換</FFF_Replenish.reportString>
+  
   <!-- EN: rebooting TargetA. -->
   <FFF_ResurrectMech.reportString>重啟{0}</FFF_ResurrectMech.reportString>
   

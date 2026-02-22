@@ -4,6 +4,11 @@
   <!-- EN: environmental recipe -->
   <FFF_EnvironmentalBill.label>特种环境配方</FFF_EnvironmentalBill.label>
   <!-- EN: Some recipes require a production building to be in a vacuum, clean, or microgravity environment. This means that the production building must be in a specific environment to use these recipes.\n\nYou can view the special environment requirements of a recipe in the infocard. -->
-  <FFF_EnvironmentalBill.helpText>在FFF框架新增的系统中一些配方要求生产建筑处于真空、洁净或微重力等环境使用。这意味着生产建筑必须处于特定环境才能使用这些配方。 \n\n在选择这些配方时将会有提示，也可以事先在资讯卡中查看配方的特殊环境需求。</FFF_EnvironmentalBill.helpText>
-  
+  <FFF_EnvironmentalBill.helpText>一些配方要求生产建筑处于真空、洁净或微重力等环境使用。这意味着生产建筑必须处于特定环境才能使用这些配方。 \n\n在选择这些配方时将会有提示，也可以事先在资讯卡中查看配方的特殊环境需求。</FFF_EnvironmentalBill.helpText>
+
+  <!-- EN: automatroid trading -->
+  <FFF_MechTrade.label>机械体贸易</FFF_MechTrade.label>
+  <!-- EN: Automatroids brought from orbital trader will drop delivered to trade terminal. interaction from mechanitor with sufficient bandwidth is required to activate them. some of them can be disable for storage at any time, but all internal energy will be release during sealing proccess to prevent remote hacking activation. -->
+  <FFF_MechTrade.helpText>轨道商人所销售的机械体将以停机模式空投到贸易终端所处的位置，需要具有足够带宽冗于的机械师交互来激活，在激活后部分机械体仍可以随时停用以便存储，但封存时将释放所有内部能源来避免遭到骇入远程启动。</FFF_MechTrade.helpText>
+   
 </LanguageData>
