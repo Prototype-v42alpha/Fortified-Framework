@@ -1,7 +1,6 @@
 ﻿using HarmonyLib;
 using RimWorld;
 using System.Collections.Generic;
-using System.Linq;
 using Verse;
 
 namespace Fortified
@@ -28,14 +27,15 @@ namespace Fortified
                 __result = true;
                 return;
             }
-            List<Pawn> overseenPawns = MechanitorUtility.GetOverseer(mech)?.mechanitor?.OverseenPawns;
-            if (overseenPawns.NullOrEmpty()) return;
-            List<Pawn> commandRelay = overseenPawns.Where(temp => temp.GetComp<CompCommandRelay>() != null).ToList();
-            if (commandRelay.NullOrEmpty()) return;
+            Pawn overseer = MechanitorUtility.GetOverseer(mech);
+            if (overseer == null) return;
 
-            foreach (Pawn pawn in overseenPawns.Where(p => p.MapHeld == mech.MapHeld))
+            var relays = CompCommandRelay.allRelays;
+            for (int i = 0; i < relays.Count; i++)
             {
-                if (commandRelay.Contains(pawn))
+                CompCommandRelay relay = relays[i];
+                Pawn relayPawn = (Pawn)relay.parent;
+                if (relayPawn.Spawned && relayPawn.MapHeld == mech.MapHeld && relayPawn.GetOverseer() == overseer)
                 {
                     __result = true;
                     return;

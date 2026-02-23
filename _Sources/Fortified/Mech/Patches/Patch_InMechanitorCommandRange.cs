@@ -28,16 +28,24 @@ namespace Fortified
                 return;
             }
 
-            List<Pawn> overseenPawns = MechanitorUtility.GetOverseer(mech)?.mechanitor?.OverseenPawns;
-            if (overseenPawns.NullOrEmpty()) return;
-            foreach (Pawn item in overseenPawns.Where(p => p.Spawned && p.MapHeld == mech.MapHeld))
+            Pawn overseer = MechanitorUtility.GetOverseer(mech);
+            if (overseer == null) return;
+
+            var relays = CompCommandRelay.allRelays;
+            for (int i = 0; i < relays.Count; i++)
             {
-                if (item.TryGetComp<CompCommandRelay>(out var c) && (c.Props.coverWholeMap || CheckUtility.InRange(item, target, c.SquaredDistance)))
+                CompCommandRelay relay = relays[i];
+                Pawn relayPawn = (Pawn)relay.parent;
+                if (relayPawn.Spawned && relayPawn.MapHeld == mech.MapHeld && relayPawn.GetOverseer() == overseer)
                 {
-                    __result = true;
-                    return;
+                    if (relay.Props.coverWholeMap || CheckUtility.InRange(relayPawn.Position, target, relay.SquaredDistance))
+                    {
+                        __result = true;
+                        return;
+                    }
                 }
             }
+
             if (CheckUtility.HasSubRelayInMapAndInbound(mech, target))
             {
                 __result = true;

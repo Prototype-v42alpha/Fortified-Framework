@@ -205,16 +205,27 @@ namespace Fortified
         public static void Postfix(Pawn pawn, bool actAsIfSpawned)
         {
             if (!ModsConfig.BiotechActive || pawn.kindDef == null) return;
-            
+
             // 处理 CompDrone、WeaponUsableMech 和 HumanlikeMech 的 workSettings 初始化
-            bool needsWorkSettings = pawn.TryGetComp<CompDrone>() != null 
-                || pawn is WeaponUsableMech 
+            bool needsWorkSettings = pawn.TryGetComp<CompDrone>() != null
+                || pawn is WeaponUsableMech
                 || pawn is HumanlikeMech;
-            
+
             if (needsWorkSettings && pawn.workSettings == null)
             {
                 pawn.workSettings = new Pawn_WorkSettings(pawn);
                 pawn.workSettings.EnableAndInitializeIfNotAlreadyInitialized();
+                // 限制機械體工作
+                if (!pawn.RaceProps.IsMechanoid && !pawn.RaceProps.mechEnabledWorkTypes.NullOrEmpty())
+                {
+                    foreach (WorkTypeDef w in DefDatabase<WorkTypeDef>.AllDefsListForReading)
+                    {
+                        if (!pawn.RaceProps.mechEnabledWorkTypes.Contains(w))
+                        {
+                            pawn.workSettings.SetPriority(w, 0);
+                        }
+                    }
+                }
             }
         }
     }

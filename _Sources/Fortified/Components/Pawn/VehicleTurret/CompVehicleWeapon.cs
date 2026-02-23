@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Verse;
 using UnityEngine;
 using RimWorld;
+using HarmonyLib;
 
 namespace Fortified
 {
@@ -26,24 +27,22 @@ namespace Fortified
                     {
                         targetPos = busy.focusTarg.Cell.ToVector3Shifted();
                     }
-					return (targetPos - pawn.DrawPos).AngleFlat();
+                    return (targetPos - pawn.DrawPos).AngleFlat();
                 }
                 return _turretFollowingAngle;
             }
         }
 
         private float _turretFollowingAngle = 0f;
-
         private float _turretAnglePerFrame = 0.1f;
-
         private float _currentAngle = 0f;
         private float _rotationSpeed = 0f;
-
         private Rot4 _lastRotation;
 
         public static readonly Dictionary<Pawn, CompVehicleWeapon> cachedVehicldesPawns = new Dictionary<Pawn, CompVehicleWeapon>();
 
         public CompProperties_VehicleWeapon Props => (CompProperties_VehicleWeapon)props;
+
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {
             base.PostSpawnSetup(respawningAfterLoad);
@@ -68,11 +67,13 @@ namespace Fortified
             base.PostDeSpawn(map);
             cachedVehicldesPawns.Remove((Pawn)parent);
         }
+
         public override void PostDestroy(DestroyMode mode, Map previousMap)
         {
             base.PostDestroy(mode, previousMap);
             cachedVehicldesPawns.Remove((Pawn)parent);
         }
+
         public override void CompTickInterval(int delta)
         {
             base.CompTickInterval(delta);
@@ -93,6 +94,7 @@ namespace Fortified
             }
             _currentAngle = Mathf.SmoothDampAngle(_currentAngle, TargetAngle, ref _rotationSpeed, Props.rotationSmoothTime * delta);
         }
+
         public override void CompTickRare()
         {
             base.CompTickRare();
@@ -108,6 +110,7 @@ namespace Fortified
             return Vector3.zero;
         }
     }
+
     public class CompProperties_VehicleWeapon : CompProperties
     {
         public CompProperties_VehicleWeapon()
@@ -120,5 +123,20 @@ namespace Fortified
         public float rotationSmoothTime = 0.12f;
         public ThingDef defaultWeapon;
         public float drawSize = 0f;
+    }
+
+    [HarmonyPatch(typeof(MechRepairUtility), nameof(MechRepairUtility.GenerateWeapon))]
+    internal static class Patch_MechRepairUtility_GenerateWeapon
+    {
+        static bool Prefix(Pawn mech)
+        {
+            if (!mech.TryGetComp<CompVehicleWeapon>(out var comp)) return true;
+            if (comp.Props.defaultWeapon == null) return true;
+            if (!MechRepairUtility.IsMissingWeapon(mech)) return false;
+            // 使用预定义武器恢复
+            Thing weapon = ThingMaker.MakeThing(comp.Props.defaultWeapon);
+            mech.equipment.AddEquipment((ThingWithComps)weapon);
+            return false;
+        }
     }
 }
