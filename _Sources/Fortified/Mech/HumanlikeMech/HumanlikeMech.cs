@@ -58,14 +58,20 @@ namespace Fortified
         }
         private void CheckTracker()
         {
+            if (health != null && Dead && story != null)
+            {
+                // 确保死亡渲染时皮肤色不为空
+                try { _ = story.SkinColorBase; }
+                catch (System.InvalidOperationException) { story.SkinColorBase = Color.white; }
+            }
             if (Extension != null)
             {
                 // 检查story是否是首次初始化
                 bool isStoryFirstInit = story == null;
-                
+
                 outfits ??= new Pawn_OutfitTracker(this);
                 story ??= new Pawn_StoryTracker(this);
-                
+
                 // 仅在首次初始化时设置这些值，避免覆盖加载的数据
                 if (isStoryFirstInit)
                 {
@@ -73,7 +79,7 @@ namespace Fortified
                     story.headType ??= Extension.headTypeOverride;
                     story.SkinColorBase = Color.white;
                     story.HairColor = Color.white;
-                    
+
                     // 如果不允许改变髮型，强制设置为秃头；否则仅在未初始化时设置
                     if (!Extension.canChangeHairStyle || story.hairDef == null)
                     {
@@ -101,10 +107,24 @@ namespace Fortified
                         }
                     }
                 }
-                
+
                 // 初始化工作设置，让机械体能够被分配工作
-                workSettings ??= new Pawn_WorkSettings(this);
-                workSettings.EnableAndInitializeIfNotAlreadyInitialized();
+                if (workSettings == null)
+                {
+                    workSettings = new Pawn_WorkSettings(this);
+                    workSettings.EnableAndInitializeIfNotAlreadyInitialized();
+                    // 限制機械體工作
+                    if (!this.RaceProps.IsMechanoid && !this.RaceProps.mechEnabledWorkTypes.NullOrEmpty())
+                    {
+                        foreach (WorkTypeDef w in DefDatabase<WorkTypeDef>.AllDefsListForReading)
+                        {
+                            if (!this.RaceProps.mechEnabledWorkTypes.Contains(w))
+                            {
+                                workSettings.SetPriority(w, 0);
+                            }
+                        }
+                    }
+                }
             }
         }
         public void Equip(ThingWithComps equipment)
