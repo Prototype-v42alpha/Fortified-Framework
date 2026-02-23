@@ -273,6 +273,20 @@
     <growthRate>0.5</growthRate>
   </FleckDef>
 
+  <FleckDef ParentName="FleckBase">
+    <defName>FFF_Fleck_DeflectShell</defName>
+    <graphicData>
+      <texPath>Things/Projectile/Bullet_big</texPath>
+      <shaderType>Transparent</shaderType>
+      <color>(1, 1, 1,0.3)</color>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.14</fadeInTime>
+    <solidTime>0.1</solidTime>
+    <fadeOutTime>0.05</fadeOutTime>
+    <speedPerTime>3~5</speedPerTime>
+  </FleckDef>
+
   <EffecterDef>
     <defName>FFF_Sustainer_JetTrail</defName>
     <children>

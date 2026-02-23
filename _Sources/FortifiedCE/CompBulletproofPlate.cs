@@ -1,13 +1,15 @@
-using CombatExtended;
+﻿using CombatExtended;
 using Fortified;
+using RimWorld;
+using UnityEngine;
 using Verse;
 
 namespace FortifiedCE;
 
 public class CompBulletproofPlate : Fortified.CompBulletproofPlate
 {
-    public override string armorString => $"{Props.armorRating:P0} " + "FFF.Armor.CE".Translate();
-    //{0}�@�̵��ħ����
+    public override string armorString => "FFF.Armor.CE".Translate(Props.armorRating);
+    //{0}毫米等效均質鋼
     public override void PostPreApplyDamage(ref DamageInfo dinfo, out bool absorbed)
     {
         absorbed = false;
@@ -16,19 +18,19 @@ public class CompBulletproofPlate : Fortified.CompBulletproofPlate
         {
             return;
         }
-        
+
         if (!dinfo.Def.harmsHealth)
         {
             return;
         }
 
-        if (!IsInCoveredGroups(dinfo))
-        {
-            return;
-        }
+        if (BypassChance()) return; // 有一定几率完全无视部位覆盖，模拟子弹偶尔会偏移或击中装甲缝隙
+        //if (!IsInCoveredGroups(dinfo))
+        //{
+        //    return;
+        //}
 
-        // Use CombatExtended's ArmorUtilityCE for proper armor calculations
-        float originalDamage = dinfo.Amount;
+        if (dinfo.HitPart == null) dinfo.SetHitPart(Wearer.health.hediffSet.GetBodyPartRecord(BodyPartDefOf.Torso));
 
         DamageInfo damage = new DamageInfo(
             dinfo.Def,
@@ -44,37 +46,46 @@ public class CompBulletproofPlate : Fortified.CompBulletproofPlate
             spawnFilth: dinfo.SpawnFilth,
             weaponQuality: dinfo.WeaponQuality,
             checkForJobOverride: dinfo.CheckForJobOverride,
-            preventCascade: dinfo.PreventCascade);
-
-
-        // Call CE's armor calculation system
-        // This handles all armor penetration mechanics, shield deflection, and armor effects
+            preventCascade: dinfo.PreventCascade
+        );
+        
         DamageInfo afterArmorDinfo = ArmorUtilityCE.GetAfterArmorDamage(
-            damage, 
+            damage,
             Wearer,
-            damage.HitPart, 
-            out bool armorDeflected, 
-            out bool armorReduced, 
+            damage.HitPart,
+            out bool armorDeflected,
+            out bool armorReduced,
             out bool shieldAbsorbed
         );
-        if (armorReduced || armorDeflected)
+
+        float incoming = damage.Amount;
+        float afterAmt = afterArmorDinfo.Amount;
+        float absorbedByPlate = incoming - afterAmt;
+
+        if (absorbedByPlate <= 0f)
         {
-            currentDurability -= (originalDamage + afterArmorDinfo.Amount);
+            // Nothing absorbed by the plate
+            dinfo = afterArmorDinfo;
+            return;
         }
-        
-        
-        if (currentDurability < 0)
+
+        DeflectEffect(dinfo);
+        //absorbed = true;
+
+        if (currentDurability >= absorbedByPlate)
         {
-            currentDurability = 0;
-        }
-        
-        // Update the original damage info with CE's calculated damage
-        dinfo = afterArmorDinfo;
-        
-        // If armor completely deflected the damage
-        if (armorDeflected)
-        {
+            // Plate fully absorbs its portion and survives
+            currentDurability -= absorbedByPlate;
+            dinfo.SetAmount(0f);
             absorbed = true;
         }
-          }
+        else
+        {
+            // Plate breaks while absorbing part of the absorbedByPlate
+            float oldDurability = currentDurability;
+            float remainingDamageToApply = Mathf.Max(0f, incoming - oldDurability);
+            currentDurability = 0f;
+            dinfo.SetAmount(remainingDamageToApply);
+        }
+    }
 }

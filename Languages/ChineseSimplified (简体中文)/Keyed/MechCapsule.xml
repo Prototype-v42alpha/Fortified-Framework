@@ -3,26 +3,41 @@
 <LanguageData>
 
   <!-- 机兵休眠容器 -->
+  <!-- EN: Deactivate -->
   <FFF.DeactivateMech>休眠</FFF.DeactivateMech>
-  <FFF.DeactivateMechDesc>将机兵置于休眠模式。它会变成一个休眠建筑，之后可以由机械师重新激活。</FFF.DeactivateMechDesc>
+  <!-- EN: Put this mech into hibernation mode. It will become a dormant structure that can be reactivated later by a mechanitor. -->
+  <FFF.DeactivateMechDesc>使机械体进入休眠模式。它会变成一个休眠建筑并不再占用带宽，并可以由机械师重新启动。</FFF.DeactivateMechDesc>
+  <!-- EN: {0} has entered hibernation mode. -->
   <FFF.MechDeactivated>{0}已进入休眠模式。</FFF.MechDeactivated>
-  <FFF.MechActivated>{0}已被激活，现在由{1}控制。</FFF.MechActivated>
+  <!-- EN: {0} has been activated and is now under {1}'s control. -->
+  <FFF.MechActivated>{0}已被启动，现在由{1}控制。</FFF.MechActivated>
+  <!-- EN: Contains: {0} -->
   <FFF.ContainsMech>内含：{0}</FFF.ContainsMech>
+  <!-- EN: Cannot reach -->
   <FFF.CannotReach>无法到达</FFF.CannotReach>
+  <!-- EN: Need {0} bandwidth to control this mech. -->
   <FFF.NeedMoreBandwidth>需要{0}带宽才能控制此机兵。</FFF.NeedMoreBandwidth>
 
   <!-- 右键菜单选项 -->
+  <!-- EN: Control {0} -->
   <FFF.DeactivatedMech_Control>控制{0}</FFF.DeactivatedMech_Control>
+  <!-- EN: Destroy mech -->
   <FFF.DeactivatedMech_Disable>拆解机体</FFF.DeactivatedMech_Disable>
+  <!-- EN: Cannot control -->
   <FFF.DeactivatedMech_CannotControl>无法控制</FFF.DeactivatedMech_CannotControl>
 
   <!-- 无法控制的原因 -->
+  <!-- EN: Research work disabled -->
   <FFF.Reason.WorkTypeDisabled>研究工作已禁用</FFF.Reason.WorkTypeDisabled>
+  <!-- EN: Not a mechanitor -->
   <FFF.Reason.NotMechanitor>不是机械师</FFF.Reason.NotMechanitor>
+  <!-- EN: Need {0} bandwidth -->
   <FFF.Reason.NeedBandwidth>需要{0}带宽</FFF.Reason.NeedBandwidth>
 
   <!-- 骇入失败 -->
+  <!-- EN: Hack Failed -->
   <FFF.HackFailed>骇入失败</FFF.HackFailed>
+  <!-- EN: {0} failed to hack the mech. The mech has awakened and is now hostile! -->
   <FFF.HackFailedDesc>{0}骇入机兵失败。机兵已苏醒并变为敌对状态！</FFF.HackFailedDesc>
 
 </LanguageData>

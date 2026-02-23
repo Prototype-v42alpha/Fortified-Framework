@@ -37,7 +37,7 @@
 		<EquippableBaseBodySize>1.1</EquippableBaseBodySize>
 		<EquippableByRace/>
 		<EquippableWithGene>
-			<li>Robust</li>
+			<li MayRequire="ludeon.rimworld.biotech">Robust</li>
 		</EquippableWithGene>
 		<EquippableWithHediff>
             <li>ArchotechArm</li>
@@ -62,7 +62,7 @@
 		<EquippableBaseBodySize>1.4</EquippableBaseBodySize>
 		<EquippableByRace/>
 		<EquippableWithGene>
-			<li>Robust</li>
+			<li MayRequire="ludeon.rimworld.biotech">Robust</li>
 		</EquippableWithGene>
 		<EquippableWithHediff>
             <li MayRequire="aoba.deadmanswitch.core">DMS_SyntheticArm</li>

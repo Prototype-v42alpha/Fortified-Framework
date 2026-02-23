@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN: 正在为机械体涂装。 -->
+  <FFF_PaintMech.reportString>painting mech</FFF_PaintMech.reportString>
+  
+  <!-- EN: 正在等待涂装。 -->
+  <FFF_WaitForPainting.reportString>waiting for paint</FFF_WaitForPainting.reportString>
+  
+</LanguageData>

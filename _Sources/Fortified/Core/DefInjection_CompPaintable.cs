@@ -11,7 +11,7 @@ namespace Fortified
     {
         static DefInjection_CompPaintable()
         {
-            InjectToMechanoids();
+            //InjectToMechanoids();
             InjectOverlays();
         }
 
