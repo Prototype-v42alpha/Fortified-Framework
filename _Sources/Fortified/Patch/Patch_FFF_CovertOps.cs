@@ -8,10 +8,8 @@ using System;
 namespace Fortified
 {
     // 补丁1：压制隐蔽行动相关的好感度变动
-    [HarmonyPatch(typeof(Faction), nameof(Faction.TryAffectGoodwillWith))]
     public static class Patch_FFF_CovertOps_Goodwill
     {
-        [HarmonyPrefix]
         public static bool Prefix(
             Faction __instance, Faction other,
             GlobalTargetInfo? lookTarget,
@@ -76,19 +74,14 @@ namespace Fortified
     }
 
     // 补丁2：Thing级敌对覆写
-    [HarmonyPatch(typeof(GenHostility),
-        nameof(GenHostility.HostileTo),
-        new Type[] { typeof(Thing), typeof(Thing) })]
     public static class Patch_FFF_CovertOps_ThingHostility
     {
-        [HarmonyPostfix]
         public static void Postfix(Thing a, Thing b, ref bool __result)
         {
             if (__result) return;
             if (a == null || b == null) return;
             if (a.Faction == null || b.Faction == null) return;
 
-            // 只处理涉及玩家的情况
             bool aPlayer = a.Faction.IsPlayer;
             bool bPlayer = b.Faction.IsPlayer;
             if (!aPlayer && !bPlayer) return;
@@ -96,7 +89,6 @@ namespace Fortified
             var intel = FFF_IntelProcessor.Instance;
             if (intel == null) return;
 
-            // 确定目标派系和地图
             Faction targetFac = aPlayer ? b.Faction : a.Faction;
             Map map = a.Map ?? b.Map;
             if (map == null) return;
@@ -107,12 +99,8 @@ namespace Fortified
     }
 
     // 补丁4：Thing vs Faction 敌对覆写
-    [HarmonyPatch(typeof(GenHostility),
-        nameof(GenHostility.HostileTo),
-        new Type[] { typeof(Thing), typeof(Faction) })]
     public static class Patch_FFF_CovertOps_ThingFactionHostility
     {
-        [HarmonyPostfix]
         public static void Postfix(Thing t, Faction fac,
             ref bool __result)
         {
@@ -137,11 +125,8 @@ namespace Fortified
     }
 
     // 补丁5：强制Lord AI状态机识别敌对
-    [HarmonyPatch(typeof(Verse.AI.Group.Trigger_BecamePlayerEnemy),
-        "ActivateOn")]
     public static class Patch_FFF_CovertOps_LordTrigger
     {
-        [HarmonyPostfix]
         public static void Postfix(
             Verse.AI.Group.Lord lord, ref bool __result)
         {
@@ -160,12 +145,8 @@ namespace Fortified
     }
 
     // 补丁6：阻止好感度情景系统检测隐蔽行动地图
-    [HarmonyPatch(typeof(SettlementUtility),
-        nameof(SettlementUtility
-            .IsPlayerAttackingAnySettlementOf))]
     public static class Patch_FFF_CovertOps_SettlementAttack
     {
-        [HarmonyPostfix]
         public static void Postfix(
             Faction faction, ref bool __result)
         {
@@ -174,7 +155,6 @@ namespace Fortified
             var intel = FFF_IntelProcessor.Instance;
             if (intel == null) return;
 
-            // 检查是否所有匹配地图都是隐蔽行动
             var maps = Find.Maps;
             for (int i = 0; i < maps.Count; i++)
             {
@@ -193,11 +173,8 @@ namespace Fortified
     }
 
     // 补丁7：商队/空投进入时跳过好感度惩罚
-    [HarmonyPatch(typeof(SettlementUtility),
-        nameof(SettlementUtility.AffectRelationsOnAttacked))]
     public static class Patch_FFF_CovertOps_CaravanEntry
     {
-        [HarmonyPrefix]
         public static bool Prefix(MapParent mapParent)
         {
             if (mapParent?.Faction == null) return true;
@@ -213,11 +190,8 @@ namespace Fortified
     }
 
     // 补丁8：空投到站点时设置临时压制标记
-    [HarmonyPatch(typeof(TransportersArrivalAction_VisitSite),
-        nameof(TransportersArrivalAction_VisitSite.Arrived))]
     public static class Patch_FFF_CovertOps_DropPodEntry
     {
-        [HarmonyPrefix]
         public static void Prefix(
             TransportersArrivalAction_VisitSite __instance)
         {
@@ -235,19 +209,15 @@ namespace Fortified
                 FFF_IntelProcessor.suppressGoodwillChange = true;
         }
 
-        [HarmonyPostfix]
         public static void Postfix()
         {
             FFF_IntelProcessor.suppressGoodwillChange = false;
         }
     }
 
-    // 补丁8：名字颜色修正
-    [HarmonyPatch(typeof(PawnNameColorUtility),
-        nameof(PawnNameColorUtility.PawnNameColorOf))]
+    // 补丁9：名字颜色修正
     public static class Patch_FFF_CovertOps_NameColor
     {
-        [HarmonyPostfix]
         public static void Postfix(Pawn pawn, ref Color __result)
         {
             if (pawn?.Faction == null) return;
@@ -263,11 +233,8 @@ namespace Fortified
     }
 
     // 补丁10：Pawn级伪装 受伤好感度抑制
-    [HarmonyPatch(typeof(Faction),
-        nameof(Faction.Notify_MemberTookDamage))]
     public static class Patch_FFF_CovertOps_AgentDamage
     {
-        [HarmonyPrefix]
         public static void Prefix(DamageInfo dinfo)
         {
             if (dinfo.Instigator == null) return;
@@ -281,7 +248,6 @@ namespace Fortified
             }
         }
 
-        [HarmonyPostfix]
         public static void Postfix()
         {
             FFF_IntelProcessor.suppressGoodwillChange = false;
@@ -289,11 +255,8 @@ namespace Fortified
     }
 
     // 补丁11：Pawn级伪装 击杀好感度抑制
-    [HarmonyPatch(typeof(Faction),
-        nameof(Faction.Notify_MemberDied))]
     public static class Patch_FFF_CovertOps_AgentKill
     {
-        [HarmonyPrefix]
         public static void Prefix(DamageInfo? dinfo)
         {
             if (!dinfo.HasValue) return;
@@ -308,7 +271,6 @@ namespace Fortified
             }
         }
 
-        [HarmonyPostfix]
         public static void Postfix()
         {
             FFF_IntelProcessor.suppressGoodwillChange = false;

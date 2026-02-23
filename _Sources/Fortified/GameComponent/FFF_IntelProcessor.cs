@@ -16,6 +16,9 @@ namespace Fortified
         // 临时标记：当前正在执行隐蔽行动入场
         public static bool suppressGoodwillChange;
 
+        // 是否有任何活跃隐蔽行动
+        public static bool IsActive { get; private set; }
+
         public FFF_IntelProcessor(Game game) { }
 
         public static FFF_IntelProcessor Instance
@@ -56,6 +59,7 @@ namespace Fortified
                 active = true,
             };
             activeOps.Add(ctx);
+            RefreshActiveState();
 
             // 如果地图已生成则刷新缓存
             if (mapParent.HasMap)
@@ -73,6 +77,7 @@ namespace Fortified
         {
             if (ctx?.mapParent == null) return;
             if (!ctx.mapParent.HasMap) return;
+            RefreshActiveState();
             ctx.mapParent.Map.attackTargetsCache
                 .Notify_FactionHostilityChanged(
                     ctx.targetFaction, Faction.OfPlayer);
@@ -82,6 +87,7 @@ namespace Fortified
         {
             if (ctx == null) return;
             activeOps.Remove(ctx);
+            RefreshActiveState();
         }
 
         // 查询：Map级(用于Thing/Lord补丁)
@@ -132,13 +138,17 @@ namespace Fortified
         // Pawn级：注册伪装特工
         public void RegisterAgent(Pawn pawn)
         {
-            if (pawn != null) covertAgents.Add(pawn);
+            if (pawn == null) return;
+            covertAgents.Add(pawn);
+            RefreshActiveState();
         }
 
         // Pawn级：注销伪装特工
         public void UnregisterAgent(Pawn pawn)
         {
-            if (pawn != null) covertAgents.Remove(pawn);
+            if (pawn == null) return;
+            covertAgents.Remove(pawn);
+            RefreshActiveState();
         }
 
         // Pawn级：查询是否为伪装特工
@@ -212,10 +222,30 @@ namespace Fortified
                 var op = activeOps[i];
                 if (op.mapParent == null
                     || (op.mapParent.Destroyed && !op.active))
+                {
                     activeOps.RemoveAt(i);
+                }
             }
             covertAgents.RemoveWhere(
                 p => p == null || p.Destroyed || p.Dead);
+            RefreshActiveState();
+        }
+
+        // 同步 IsActive 并通知高频补丁动态开关
+        private void RefreshActiveState()
+        {
+            bool nowActive = covertAgents.Count > 0;
+            for (int i = 0; i < activeOps.Count; i++)
+            {
+                if (activeOps[i].active)
+                {
+                    nowActive = true;
+                    break;
+                }
+            }
+            if (nowActive == IsActive) return;
+            IsActive = nowActive;
+            FFF_CovertOpsPatchManager.SetEnabled(nowActive);
         }
 
         public override void ExposeData()
