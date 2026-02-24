@@ -22,6 +22,7 @@ namespace Fortified
         public Building_MechCapsule()
         {
             innerContainer = new ThingOwner<Pawn>(this, false, LookMode.Deep);
+            innerContainer.dontTickContents = true;
         }
 
         #endregion
@@ -185,7 +186,7 @@ namespace Fortified
             {
                 Pawn mech = Mech;
                 if (mech == null) yield break;
-                
+
                 float bandwidthCost = mech.GetStatValue(StatDefOf.BandwidthCost);
                 float availableBandwidth = selPawn.mechanitor.TotalBandwidth - selPawn.mechanitor.UsedBandwidth;
 
@@ -323,7 +324,7 @@ namespace Fortified
             if (selected?.kind == null) return;
 
             Pawn mech = PawnGenerator.GeneratePawn(new PawnGenerationRequest(
-                selected.kind, Faction ?? Faction.OfAncients ?? Faction.OfPirates, 
+                selected.kind, Faction ?? Faction.OfAncients ?? Faction.OfPirates,
                 PawnGenerationContext.NonPlayer, Map?.Tile ?? -1
             ));
 
