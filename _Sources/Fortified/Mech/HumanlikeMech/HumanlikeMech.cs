@@ -53,14 +53,14 @@ namespace Fortified
             base.ExposeData();
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
+                CheckTracker();
                 this.Drawer?.renderer?.SetAllGraphicsDirty();
             }
         }
         private void CheckTracker()
         {
-            if (health != null && Dead && story != null)
+            if (story != null)
             {
-                // 确保死亡渲染时皮肤色不为空
                 try { _ = story.SkinColorBase; }
                 catch (System.InvalidOperationException) { story.SkinColorBase = Color.white; }
             }
