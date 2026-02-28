@@ -18,7 +18,7 @@ namespace Fortified
 		{
 			string desc = "";
 			Thing result = null;
-			if(geneticMother.genes != null)
+			if(geneticMother?.genes != null)
 			{
 				foreach (Gene gene in geneticMother.genes.GenesListForReading)
 				{
@@ -172,4 +172,5 @@ namespace Fortified
 			}
 		}
 	}
+
 }
