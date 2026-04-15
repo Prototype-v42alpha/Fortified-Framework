@@ -57,7 +57,7 @@ namespace Fortified.Structures
         {
             if (t is Pawn || t.def.category == ThingCategory.Pawn) return false;
             if (t.def.category == ThingCategory.Mote || t.def.category == ThingCategory.Projectile) return false;
-            if (t.def.defName.Contains("Blueprint") || t.def.defName.Contains("Frame")) return false;
+            if (t is Blueprint || t is Frame) return false;
             
             return t.def.category == ThingCategory.Building || 
                    t.def.category == ThingCategory.Plant || 

@@ -16,7 +16,8 @@ namespace Fortified.Structures
             if (def == null || map == null) return;
 
             Rot4 finalRot = rot ?? Rot4.North;
-            Sketch sketch = def.GetSketch().DeepCopy();
+
+			Sketch sketch = def.GetSketch();
             if (finalRot != Rot4.North) sketch.Rotate(finalRot);
 
             IntVec3 offset = center - sketch.OccupiedRect.CenterCell;
@@ -31,7 +32,7 @@ namespace Fortified.Structures
             FinishGeneration(map, occupiedRect, def, finalRot, offset);
         }
 
-        private static void ClearConflictArea(Map map, CellRect rect)
+		public static void ClearConflictArea(Map map, CellRect rect)
         {
             // 只清理植物、污垢和碎石，建筑由 GenSpawn 的 WipeMode 处理
             foreach (IntVec3 c in rect)
@@ -55,7 +56,7 @@ namespace Fortified.Structures
             }
         }
 
-        private static void SpawnTerrain(Map map, Sketch sketch, IntVec3 offset)
+        public static void SpawnTerrain(Map map, Sketch sketch, IntVec3 offset)
         {
             foreach (var terrain in sketch.Terrain)
             {
@@ -78,7 +79,7 @@ namespace Fortified.Structures
             }
         }
 
-private static void SpawnThings(Map map, Sketch sketch, IntVec3 offset, Faction faction)
+		public static void SpawnThings(Map map, Sketch sketch, IntVec3 offset, Faction faction)
         {
             var sortedThings = sketch.Things.OrderBy(t => t.SpawnOrder).ToList();
 
@@ -118,7 +119,7 @@ private static void SpawnThings(Map map, Sketch sketch, IntVec3 offset, Faction 
                 Log.Message($"[FFF] SpawnThings: 成功生成 {spawnedCount}/{sortedThings.Count}");
         }
 
-        private static void SpawnPawns(IFFF_Structure def, Rot4 rot, IntVec3 offset, Map map, Faction faction)
+		public static void SpawnPawns(IFFF_Structure def, Rot4 rot, IntVec3 offset, Map map, Faction faction)
         {
             var pawns = def.GetPawns(rot, offset);
             if (pawns == null) return;
@@ -152,7 +153,7 @@ private static void SpawnThings(Map map, Sketch sketch, IntVec3 offset, Faction 
             }
         }
 
-        private static void HandleRoofs(IFFF_Structure def, Sketch sketch, IntVec3 offset, Map map, Rot4 rot)
+		private static void HandleRoofs(IFFF_Structure def, Sketch sketch, IntVec3 offset, Map map, Rot4 rot)
         {
             if (def is StructureLayoutDef layout && !layout.roofGrid.NullOrEmpty())
             {

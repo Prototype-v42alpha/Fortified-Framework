@@ -182,7 +182,7 @@ namespace Fortified.Structures
             if (options.excludedDefs.Contains(thing.def)) return true;
             if (thing.def.category != ThingCategory.Building && thing.def.category != ThingCategory.Item && thing.def.category != ThingCategory.Plant) return true;
             if (thing.def.building?.isNaturalRock == true) return true;
-            return thing.def.defName.Contains("Blueprint") || thing.def.defName.Contains("Frame");
+			return thing is Blueprint || thing is Frame;
         }
 
         private static void AppendThing2DXML((ThingDef def, ThingDef stuff, Rot4 rot, float? temp) key, int startX, int lastX, int startZ, int lastZ, StringBuilder sb)

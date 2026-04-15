@@ -39,7 +39,7 @@ namespace Fortified.Structures
                     foreach (var element in elements) element.AddToSketch(cachedSketch);
                 }
             }
-            return cachedSketch;
+            return cachedSketch.DeepCopy();
         }
 
         public List<FFF_PawnGenRequest> GetPawns()

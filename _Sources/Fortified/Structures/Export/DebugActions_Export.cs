@@ -61,9 +61,9 @@ namespace Fortified.Structures
             DebugTool tool = null;
             tool = new DebugTool("Click to spawn " + (def as Def)?.defName, () => 
             {
-                FFF_StructureUtility.Generate(def, UI.MouseCell(), Find.CurrentMap, Faction.OfPlayer);
-                DebugTools.curTool = null;
-            }, null);
+                FFF_StructureUtility.Generate(def, UI.MouseCell(), Find.CurrentMap, Faction.OfPlayer, Rot4.Random);
+																												  //DebugTools.curTool = null;
+			}, null);
             DebugTools.curTool = tool;
         }
     }
