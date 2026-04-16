@@ -28,4 +28,13 @@
     <selectionWeight>1.0</selectionWeight>
     <summaryPriority>340</summaryPriority>
   </ScenPartDef>
+
+  <!--Arrive on Gravship-->
+  <ScenPartDef>
+    <defName>FFF_PlayerPawnsArriveGravship</defName>
+    <label>arrive on gravship</label>
+    <category>Fixed</category>
+    <scenPartClass>Fortified.ScenPart_PlayerPawnsArriveGravship</scenPartClass>
+    <summaryPriority>470</summaryPriority>
+  </ScenPartDef>
 </Defs>
