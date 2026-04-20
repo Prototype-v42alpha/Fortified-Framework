@@ -100,9 +100,8 @@ public class CompShieldingDevice : ThingComp
         if (!Active)
         {
             if (remainingTicks > 0) remainingTicks--;
-            if (remainingTicks <= 0)
+            if (remainingTicks == 0)
             {
-                remainingTicks = 0;
                 Messages.Message("FFF.MessageDeviceReady".Translate(parent.LabelCap), parent, MessageTypeDefOf.PositiveEvent);
             }
 
