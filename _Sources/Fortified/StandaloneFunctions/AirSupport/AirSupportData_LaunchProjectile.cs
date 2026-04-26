@@ -24,20 +24,45 @@ namespace Fortified
 
         public override void Trigger()
         {
+            if (projectileDef == null)
+            {
+                Log.Error("[Fortified] AirSupportData_LaunchProjectile: projectileDef为空");
+                return;
+            }
+
+            if (!typeof(Projectile).IsAssignableFrom(projectileDef.thingClass))
+            {
+                Log.Error($"[Fortified] AirSupportData_LaunchProjectile: {projectileDef.defName} 的thingClass不是Projectile类型");
+                return;
+            }
+
             Projectile projectile = (Projectile)GenSpawn.Spawn(projectileDef, origin.ToIntVec3(), map);
 
             // 如果没有triggerer但有triggerFaction，创建虚拟发射者以便拦截系统识别
             Thing launcher = triggerer;
             if (launcher == null && triggerFaction != null)
             {
-                // 创建临时Pawn作为发射者，用于派系识别
                 PawnKindDef kind = triggerFaction.def.basicMemberKind ?? PawnKindDefOf.Colonist;
-                Pawn virtualLauncher = PawnGenerator.GeneratePawn(kind, triggerFaction);
-                virtualLauncher.DeSpawn();
-                launcher = virtualLauncher;
+                if (kind != null)
+                {
+                    Pawn virtualLauncher = PawnGenerator.GeneratePawn(kind, triggerFaction);
+                    if (virtualLauncher != null)
+                    {
+                        virtualLauncher.DeSpawn();
+                        launcher = virtualLauncher;
+                    }
+                }
             }
 
-            projectile.Launch(launcher, origin, usedTarget.IsValid ? usedTarget : target, target, ProjectileHitFlags.IntendedTarget);
+            if (launcher != null)
+            {
+                projectile.Launch(launcher, origin, usedTarget.IsValid ? usedTarget : target, target, ProjectileHitFlags.IntendedTarget);
+            }
+            else
+            {
+                Log.Warning($"[Fortified] AirSupportData_LaunchProjectile: 无法为抛射物 {projectileDef.defName} 创建发射者");
+            }
+
             soundDef?.PlayOneShot(SoundInfo.InMap(new TargetInfo(origin.ToIntVec3(), map)));
         }
     }
