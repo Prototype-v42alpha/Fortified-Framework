@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <ThingDef ParentName="BaseGun">
+    <defName>Gun_AssaultRifle_AmmoSwitch</defName>
+    <label>assault rifle (ammo switch)</label>
+    <description>Assault rifle with switchable projectile presets.</description>
+    <graphicData>
+      <texPath>Things/Item/Equipment/WeaponRanged/AssaultRifle</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <weaponTags>
+      <li>RangedLight</li>
+      <li>AssaultRifle</li>
+    </weaponTags>
+
+    <comps>
+      <!-- 單一自訂 Comp -->
+      <li Class="Fortified.CompProperties_AmmoSwitch">
+        <defaultIndex>0</defaultIndex>
+        <switchCooldownSeconds>2.0</switchCooldownSeconds>
+        <ammos>
+          <li>
+            <label>標準</label>
+            <projectileDef>Bullet_AssaultRifle</projectileDef>
+          </li>
+          <li>
+            <label>燃燒</label>
+            <projectileDef>Bullet_IncendiaryLauncher</projectileDef>
+          </li>
+          <li>
+            <label>EMP</label>
+            <projectileDef>Bullet_EMPLauncher</projectileDef>
+          </li>
+        </ammos>
+      </li>
+    </comps>
+
+    <verbs>
+      <li>
+        <verbClass>Fortified.Verb_LaunchProjectile_AmmoSwitch</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_AssaultRifle</defaultProjectile>
+        <warmupTime>1.5</warmupTime>
+        <range>31.9</range>
+        <burstShotCount>3</burstShotCount>
+        <ticksBetweenBurstShots>10</ticksBetweenBurstShots>
+        <soundCast>Shot_AssaultRifle</soundCast>
+        <muzzleFlashScale>9</muzzleFlashScale>
+      </li>
+    </verbs>
+
+    <statBases>
+      <WorkToMake>14000</WorkToMake>
+      <Mass>4.2</Mass>
+      <AccuracyTouch>0.85</AccuracyTouch>
+      <AccuracyShort>0.74</AccuracyShort>
+      <AccuracyMedium>0.62</AccuracyMedium>
+      <AccuracyLong>0.46</AccuracyLong>
+      <RangedWeapon_Cooldown>1.8</RangedWeapon_Cooldown>
+    </statBases>
+
+    <costList>
+      <Steel>60</Steel>
+      <ComponentIndustrial>4</ComponentIndustrial>
+    </costList>
+  </ThingDef>
+
+</Defs>
