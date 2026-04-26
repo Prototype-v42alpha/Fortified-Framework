@@ -1,4 +1,5 @@
 ﻿using System;
+using RimWorld;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
@@ -24,7 +25,19 @@ namespace Fortified
         public override void Trigger()
         {
             Projectile projectile = (Projectile)GenSpawn.Spawn(projectileDef, origin.ToIntVec3(), map);
-            projectile.Launch(triggerer, origin, usedTarget.IsValid ? usedTarget : target, target, ProjectileHitFlags.IntendedTarget);
+
+            // 如果没有triggerer但有triggerFaction，创建虚拟发射者以便拦截系统识别
+            Thing launcher = triggerer;
+            if (launcher == null && triggerFaction != null)
+            {
+                // 创建临时Pawn作为发射者，用于派系识别
+                PawnKindDef kind = triggerFaction.def.basicMemberKind ?? PawnKindDefOf.Colonist;
+                Pawn virtualLauncher = PawnGenerator.GeneratePawn(kind, triggerFaction);
+                virtualLauncher.DeSpawn();
+                launcher = virtualLauncher;
+            }
+
+            projectile.Launch(launcher, origin, usedTarget.IsValid ? usedTarget : target, target, ProjectileHitFlags.IntendedTarget);
             soundDef?.PlayOneShot(SoundInfo.InMap(new TargetInfo(origin.ToIntVec3(), map)));
         }
     }
