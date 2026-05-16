@@ -13,10 +13,13 @@ _ReSharper*/
 *.[Rr]e[Ss]harper
 *.DotSettings.user
 *.pdb
- 
-# Ignore RimWorld assemblies 
-Assembly-CSharp.dll 
-UnityEngine.dll 
+
+# Ignore RimWorld assemblies
+Assembly-CSharp.dll
+UnityEngine.dll
+
+# Exclude compiled mod assemblies
+*/Assemblies/*.dll
 
 # Exclude optimized .dds textures from RimPy / png2dds
 *.dds
