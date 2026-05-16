@@ -26,9 +26,9 @@ namespace Fortified
                 if (comp?.CurrentProjectile != null)
                     return comp.CurrentProjectile;
 
-                return base.Projectile;
-            }
-        }
+				return base.Projectile;
+			}
+		}
 
 		protected override int ShotsPerBurst => Comp?.CurrentAmmo?.burstShotCountOverride ?? base.BurstShotCount;
 
@@ -59,7 +59,7 @@ namespace Fortified
             if (comp != null && comp.IsOnSwitchCooldown && state != VerbState.Bursting)
                 return false;
 
-            return base.TryStartCastOn(castTarg, destTarg, surpriseAttack, canHitNonTargetPawns, preventFriendlyFire, nonInterruptingSelfCast);
-        }
+			return base.TryStartCastOn(castTarg, destTarg, surpriseAttack, canHitNonTargetPawns, preventFriendlyFire, nonInterruptingSelfCast);
+		}
     }
 }

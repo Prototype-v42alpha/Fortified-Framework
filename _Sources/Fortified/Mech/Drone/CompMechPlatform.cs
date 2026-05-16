@@ -9,11 +9,12 @@ using Verse.AI.Group;
 using HarmonyLib;
 using Multiplayer.API;
 
-
-
 namespace Fortified
 {
+    public class CompProperties_SignalAreaTrigger : CompProperties
+    { 
     
+    }
     public class CompMechPlatform : ThingComp, IThingHolder{
 
         private const int LowIngredientCountThreshold = 75;
