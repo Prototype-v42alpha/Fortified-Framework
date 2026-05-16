@@ -1,6 +1,6 @@
 ﻿using RimWorld;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.ComTypes;
+using System.Linq;
 using System.Text;
 using UnityEngine;
 using Verse;
@@ -22,10 +22,14 @@ namespace Fortified
             compClass = typeof(CompAmmoSwitch);
         }
     }
-    public class CompAmmoSwitch : ThingComp
-    {
-        private int selectedIndex;
-        private int switchingToIndex;
+	public class CompAmmoSwitch : ThingComp
+	{
+		private int selectedIndex;
+		/// <summary>
+		/// Stores the target ammo index when a pawn is switching ammo via job.
+		/// Reset after job completion or can be checked by job driver.
+		/// </summary>
+		private int switchingToIndex;
 
 		private int cooldownUntilTick;
 
@@ -47,7 +51,21 @@ namespace Fortified
             }
         }
 
-        public ThingDef CurrentProjectile => CurrentAmmo?.projectileDef;
+        public ThingDef CurrentProjectile
+        {
+            get
+            {
+                if (CurrentAmmo == null) return null;
+                // If this ammo option uses default projectile, return null to let Verb use base projectile
+                if (CurrentAmmo.useDefaultProjectile) return null;
+                return CurrentAmmo.projectileDef;
+            }
+        }
+
+        /// <summary>
+        /// Gets whether the current ammo option uses the weapon's default projectile.
+        /// </summary>
+        public bool IsUsingDefaultProjectile => CurrentAmmo?.useDefaultProjectile ?? false;
         public string CurrentLabel => CurrentAmmo?.ResolveLabel() ?? "N/A";
         public Texture2D CurrentIcon => CurrentAmmo?.ResolveIcon() ?? BaseContent.BadTex;
 
@@ -62,11 +80,11 @@ namespace Fortified
 
 		public override float GetStatFactor(StatDef stat)
 		{
-            if (CurrentAmmo.accuracyFactor != 1f && stat.defName.StartsWith("Accuracy"))
-            {
-                return CurrentAmmo.accuracyFactor;
+			if (CurrentAmmo != null && !Mathf.Approximately(CurrentAmmo.accuracyFactor, 1f) && stat.defName.StartsWith("Accuracy"))
+			{
+				return CurrentAmmo.accuracyFactor;
 			}
-            return base.GetStatFactor(stat);
+			return base.GetStatFactor(stat);
 		}
         public void PlaySound(SoundInfo soundInfo)
         {
@@ -81,8 +99,8 @@ namespace Fortified
         }
 		public override void GetStatsExplanation(StatDef stat, StringBuilder sb, string whitespace = "")
 		{
-            if (CurrentAmmo.accuracyFactor != 1f && stat.defName.StartsWith("Accuracy"))
-            {
+			if (CurrentAmmo != null && !Mathf.Approximately(CurrentAmmo.accuracyFactor, 1f) && stat.defName.StartsWith("Accuracy"))
+			{
 				sb.AppendLine();
 				sb.AppendLine(whitespace + "FFF.AmmoSwitch.StatFactor".Translate() + ": x" + CurrentAmmo.accuracyFactor.ToStringByStyle(ToStringStyle.PercentZero));
 			}
@@ -115,18 +133,34 @@ namespace Fortified
             AmmoOption ammo = GetAmmoAt(index);
             if (ammo == null) return "N/A";
 
-            string projText = ammo.projectileDef != null
-                ? ammo.projectileDef.LabelCap
-                : "N/A";
+            string projText;
+            if (ammo.useDefaultProjectile)
+            {
+                projText = "FFF.AmmoSwitch.DefaultProjectile".Translate();
+            }
+            else
+            {
+                projText = ammo.projectileDef != null
+                    ? ammo.projectileDef.LabelCap
+                    : "N/A";
+            }
 
             return "FFF.AmmoSwitch.AmmoTooltip".Translate(ammo.ResolveLabel(), projText);
         }
 
         public string GetGizmoDesc()
         {
+            if (CurrentAmmo == null) return "N/A";
             var sb = new StringBuilder();
             sb.AppendLine("FFF.AmmoSwitch.Desc".Translate(CurrentLabel));
-            sb.AppendLine(CurrentAmmo.description);
+            sb.AppendLine(CurrentAmmo.description ?? "");
+
+            // Add note if using default projectile
+            if (CurrentAmmo.useDefaultProjectile)
+            {
+                sb.AppendLine();
+                sb.AppendLine("[" + "FFF.AmmoSwitch.UsingDefault".Translate() + "]");
+            }
 
             return sb.ToString().TrimEnd();
         }
@@ -140,16 +174,16 @@ namespace Fortified
                 selectedIndex = 0;
         }
 
-        public virtual Gizmo GetSwitchGizmo(Thing user)
-        {
+		public virtual Gizmo GetSwitchGizmo(Thing user)
+		{
 			Command_Action command = new Command_Action
 			{
-				defaultLabel = "FFF.AmmoSwitch.Label".Translate(CurrentLabel),//$"彈種: {comp.CurrentLabel}",
-				defaultDesc = GetGizmoDesc(),//comp.GetGizmoDesc() + "\n\n左鍵：查看目前投射物資訊卡",
+				defaultLabel = "FFF.AmmoSwitch.Label".Translate(CurrentLabel),
+				defaultDesc = GetGizmoDesc(),
 				icon = CurrentIcon
 			};
-            command.action = delegate
-            {
+			command.action = delegate
+			{
 				List<FloatMenuOption> list = new List<FloatMenuOption>();
 				for (int i = 0; i < OptionCount; i++)
 				{
@@ -158,21 +192,38 @@ namespace Fortified
 					if (ammo == null) continue;
 					string label = ammo.ResolveLabel();
 					Texture2D icon = ammo.ResolveIcon();
+
+					// Get projectile for info card: use ammo's projectile if not default, otherwise try base verb projectile
+					ThingDef projectileForCard = null;
+					if (!ammo.useDefaultProjectile)
+					{
+						projectileForCard = ammo.projectileDef;
+					}
+					else
+					{
+						// Try to get base projectile from parent weapon's verb
+						var verb = parent?.GetComp<CompEquippable>()?.AllVerbs?.FirstOrDefault() as Verb_LaunchProjectile;
+						if (verb != null)
+						{
+							projectileForCard = verb.Projectile;
+						}
+					}
+
 					FloatMenuOption option = new FloatMenuOption(label, delegate
-                    {
-                        if(user is Pawn pawn)
-                        {
-                            switchingToIndex = idx;
+					{
+						if(user is Pawn pawn)
+						{
+							switchingToIndex = idx;
 							pawn.jobs.TryTakeOrderedJob(JobMaker.MakeJob(FFF_DefOf.FFF_SwitchAmmo, parent), JobTag.Misc);
 						}
-                        else
-                        {
+						else
+						{
 							SetAmmo(idx, startCooldown: true);
 						}
-					}, icon, Color.white, extraPartWidth: 29f, extraPartOnGUI: (Rect r) => Widgets.InfoCardButton(r.x + 5f, r.y + (r.height - 24f) / 2f, ammo.projectileDef));
+					}, icon, Color.white, extraPartWidth: 29f, extraPartOnGUI: (Rect r) => Widgets.InfoCardButton(r.x + 5f, r.y + (r.height - 24f) / 2f, projectileForCard));
 					option.tooltip = new TipSignal(GetAmmoTooltip(idx));
 					if (idx == SelectedIndex)
-                    {
+					{
 						option.Disabled = true;
 					}
 					list.Add(option);
