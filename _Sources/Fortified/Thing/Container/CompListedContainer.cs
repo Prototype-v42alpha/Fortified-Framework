@@ -35,7 +35,7 @@ namespace Fortified
 
 		public override AcceptanceReport CanInteract(Pawn activateBy = null, bool checkOptionalItems = true)
 		{
-			if (Container.locked)
+			if (!Container.locked)
 			{
 				return false;
 			}
@@ -44,7 +44,7 @@ namespace Fortified
 
 		public override IEnumerable<FloatMenuOption> CompFloatMenuOptions(Pawn selPawn)
 		{
-			if (Container.locked)
+			if (!Container.locked)
 			{
 				yield break;
 			}
@@ -56,7 +56,7 @@ namespace Fortified
 
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			if (Container.locked)
+			if (!Container.locked)
 			{
 				yield break;
 			}

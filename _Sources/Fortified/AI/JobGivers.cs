@@ -31,7 +31,15 @@ namespace Fortified
 				return IntVec3.Invalid;
 			}
 			Room room = wanderRoot.GetRoom(pawn.Map);
-			if (room != null && room.Cells.TryRandomElement((c) => CanWanderToCell(c, pawn), out var result))
+			if(room == null)
+			{
+				District district = wanderRoot.GetDistrict(pawn.Map);
+				if (district.Cells.TryRandomElement((c) => CanWanderToCell(c, pawn), out var result))
+				{
+					return result;
+				}
+			}
+			else if (room.Cells.TryRandomElement((c) => CanWanderToCell(c, pawn), out var result))
 			{
 				return result;
 			}

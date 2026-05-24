@@ -41,6 +41,8 @@ namespace Fortified
 
 		public string attackSignal = "";
 
+		public float sendSignalRadius = -1;
+
 		public int ticksTillFallback = 2500;
 
 		public int ticksTillBackToWork = 5000;
@@ -63,40 +65,37 @@ namespace Fortified
 			LordToil_DefendRoom lordToil_Stage = (LordToil_DefendRoom)(stateGraph.StartingToil = new LordToil_DefendRoom(position));
 			LordToil_AssaultColony lordToil_AssaultColony = new LordToil_AssaultColony();
 			stateGraph.AddToil(lordToil_AssaultColony);
+
 			Transition transition1 = new Transition(lordToil_Stage, lordToil_AssaultColony);
 			transition1.AddTrigger(new Trigger_PawnHarmed(1f, requireInstigatorWithFaction: false));
-			transition1.AddTrigger(new Trigger_Custom((TriggerSignal signal) => ((signal.type == TriggerSignalType.BuildingDamaged || signal.type == TriggerSignalType.BuildingLost) && signal.thing is Building_Turret) || (!attackSignal.NullOrEmpty() && signal.signal.tag == attackSignal)));
+			transition1.AddTrigger(new Trigger_Custom((TriggerSignal signal) => ((signal.type == TriggerSignalType.BuildingDamaged) && signal.thing is Building_Turret b && b.Position.DistanceTo(position) <= sendSignalRadius)));
 			transition1.AddPostAction(new TransitionAction_Custom(delegate (Transition t)
 			{
 				foreach (Lord lord in t.Map.lordManager.lords)
 				{
-					lord.Notify_SignalReceived(new Signal(attackSignal));
+					if(lord.faction == this.lord.faction && lord.LordJob is LordJob_DefendRoom job && (sendSignalRadius < 0 || job.position.DistanceTo(position) <= sendSignalRadius))
+					{
+						lord.Notify_SignalReceived(new Signal(attackSignal));
+					}
 				}
 			}));
 			stateGraph.AddTransition(transition1);
 
-			Transition transition2 = new Transition(lordToil_AssaultColony, lordToil_Stage);
-			transition2.AddTrigger(new Trigger_TicksPassedWithoutHarm(ticksTillFallback));
+			Transition transition2 = new Transition(lordToil_Stage, lordToil_AssaultColony);
+			transition2.AddTrigger(new Trigger_Custom((TriggerSignal signal) => !attackSignal.NullOrEmpty() && signal.signal.tag == attackSignal));
 			stateGraph.AddTransition(transition2);
 
-			return stateGraph;
-		}
+			Transition transition3 = new Transition(lordToil_AssaultColony, lordToil_Stage);
+			transition3.AddTrigger(new Trigger_TicksPassedWithoutHarm(ticksTillFallback));
+			stateGraph.AddTransition(transition3);
 
-		private bool AnyAsleep()
-		{
-			for (int i = 0; i < lord.ownedPawns.Count; i++)
-			{
-				if (lord.ownedPawns[i].Spawned && !lord.ownedPawns[i].Dead && !lord.ownedPawns[i].Awake())
-				{
-					return true;
-				}
-			}
-			return false;
+			return stateGraph;
 		}
 
 		public override void ExposeData()
 		{
 			Scribe_Values.Look(ref position, "position");
+			Scribe_Values.Look(ref sendSignalRadius, "sendSignalRadius");
 			Scribe_Values.Look(ref ticksTillFallback, "ticksTillFallback");
 			Scribe_Values.Look(ref ticksTillBackToWork, "ticksTillBackToWork");
 			Scribe_Values.Look(ref attackSignal, "attackSignal");

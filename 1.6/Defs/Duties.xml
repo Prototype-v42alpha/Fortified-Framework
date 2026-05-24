@@ -8,7 +8,7 @@
       <subNodes>
         
         <li Class="JobGiver_AIDefendPoint">
-          <targetAcquireRadius>65</targetAcquireRadius>
+          <targetAcquireRadius>15</targetAcquireRadius>
           <targetKeepRadius>72</targetKeepRadius>
         </li>
         <li Class="JobGiver_FightFiresNearPoint">

@@ -291,7 +291,7 @@ namespace Fortified.Structures
         public Faction faction;
         public List<PawnKindDef> pawns;
         public string lordTag = "";
-
+		public float sendSignalRadius = -1f;
 		public void Execute(Map map, IntVec3 offset)
 		{
 			IntVec3 actualPos = pos + offset;
@@ -304,12 +304,12 @@ namespace Fortified.Structures
 				list.Add(pawn);
 				GenPlace.TryPlaceThing(pawn, room.Cells.RandomElement(), map, ThingPlaceMode.Near);
 			}
-            LordMaker.MakeNewLord(faction, new LordJob_DefendRoom(actualPos, lordTag), map, list);
+            LordMaker.MakeNewLord(faction, new LordJob_DefendRoom(actualPos, lordTag) { sendSignalRadius = sendSignalRadius }, map, list);
 		}
 
 		public IFFF_GenerationTask Transformed(Rot4 rot, IntVec3 offset)
 		{
-			return new Task_SpawnPawnGroupInRoom { pos = pos.RotatedBy(rot) + offset, pawns = pawns, faction = faction, lordTag = lordTag };
+			return new Task_SpawnPawnGroupInRoom { pos = pos.RotatedBy(rot) + offset, pawns = pawns, faction = faction, lordTag = lordTag, sendSignalRadius = sendSignalRadius };
 		}
 	}
 }

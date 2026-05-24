@@ -59,7 +59,7 @@ namespace Fortified
 	{
 		public ThingOwner innerContainer;
 
-		public bool locked;
+		public bool locked = true;
 
 		public bool ShowContentsTab => !locked;
 

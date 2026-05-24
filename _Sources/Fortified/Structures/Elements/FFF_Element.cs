@@ -441,6 +441,7 @@ namespace Fortified.Structures
         public FactionDef factionDef;
 		public IntVec3 pos;
         public string lordTag = "";
+        public float sendSignalRadius = -1f;
 
 		public FloatRange pointsRange = new FloatRange(1000, 1000);
 		public List<PawnGenOption> options = new List<PawnGenOption>();
@@ -468,7 +469,7 @@ namespace Fortified.Structures
                             break;
                         }
                     }
-					tasks.Add(new Task_SpawnPawnGroupInRoom { pos = pos.RotatedBy(rot) + offset, faction = faction, pawns = list.ToList(), lordTag = lordTag });
+					tasks.Add(new Task_SpawnPawnGroupInRoom { pos = pos.RotatedBy(rot) + offset, faction = faction, pawns = list.ToList(), lordTag = lordTag, sendSignalRadius = sendSignalRadius });
 				}
 			}
 			return tasks;
