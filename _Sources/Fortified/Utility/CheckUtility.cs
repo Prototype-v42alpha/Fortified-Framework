@@ -7,13 +7,6 @@ using System;
 namespace Fortified;
 public static partial class CheckUtility
 {
-
-    private const bool DebugLog = false;
-    private static void DLog(string message)
-    {
-        if (DebugLog)
-            Verse.Log.Message($"[CheckUtility] {message}");
-    }
     public static bool InRange(LocalTargetInfo A, LocalTargetInfo B, float squaredRange)
     {
         return IntVec3Utility.DistanceToSquared(A.Cell, B.Cell) <= squaredRange;
@@ -91,12 +84,10 @@ public static partial class CheckUtility
         }
         if (extension.EnableWeaponFilter)
         {
-            DLog("EnableWeaponFilter");
             return extension.CanUse(weapon);
         }
         else 
         {
-            DLog("Heavy");
            return extension.CanUseAsHeavyWeapon(weapon, (mech as Pawn).BodySize);
         }
     }
@@ -118,6 +109,7 @@ public static partial class CheckUtility
         {
             return false;
         }
+
 
         // 檢查科技等級過濾
         if (mechExtension.EnableTechLevelFilter && !mechExtension.UsableTechLevels.Contains(weapon.def.techLevel))
