@@ -11,6 +11,7 @@ namespace Fortified;
 public static class FFF_AssetLoader
 {
     public static Shader PaintShader;
+    private const string PaintBundleName = "fortified_shaders";
 
     static FFF_AssetLoader()
     {
@@ -42,20 +43,52 @@ public static class FFF_AssetLoader
     // 从模组资源包加载着色器
     private static Shader LoadShaderFromModAssets()
     {
+        Shader fallback = null;
         foreach (ModContentPack mod in LoadedModManager.RunningModsListForReading)
         {
             if (!mod.PackageId.ToLower().Contains("aoba.framework")) continue;
+            if (mod.assetBundles?.loadedAssetBundles == null) continue;
 
             foreach (AssetBundle bundle in mod.assetBundles.loadedAssetBundles)
             {
-                if (bundle.name != "fortified_shaders") continue;
+                if (!IsPaintBundle(bundle)) continue;
 
-                var shader = bundle.LoadAsset<Shader>("Assets/Shaders/FF_StandardPaintable.shader");
-                if (shader != null) return shader;
+                var shader = LoadShader(bundle);
+                if (shader == null) continue;
 
-                return bundle.LoadAllAssets<Shader>().FirstOrDefault();
+                if (bundle.name == PaintBundleName + CurrentBundleSuffix()) return shader;
+                fallback ??= shader;
             }
         }
-        return null;
+        return fallback;
+    }
+
+    private static bool IsPaintBundle(AssetBundle bundle)
+    {
+        if (bundle == null) return false;
+
+        string name = bundle.name;
+        return name == PaintBundleName || name == PaintBundleName + CurrentBundleSuffix();
+    }
+
+    private static Shader LoadShader(AssetBundle bundle)
+    {
+        var shader = bundle.LoadAsset<Shader>("Assets/Shaders/FF_StandardPaintable.shader");
+        return shader ?? bundle.LoadAllAssets<Shader>().FirstOrDefault();
+    }
+
+    private static string CurrentBundleSuffix()
+    {
+        switch (Application.platform)
+        {
+            case RuntimePlatform.LinuxPlayer:
+            case RuntimePlatform.LinuxEditor:
+                return "_linux";
+            case RuntimePlatform.OSXPlayer:
+            case RuntimePlatform.OSXEditor:
+                return "_mac";
+            default:
+                return "_win";
+        }
     }
 }

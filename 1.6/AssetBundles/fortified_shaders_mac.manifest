@@ -1,0 +1,20 @@
+ManifestFileVersion: 0
+CRC: 3897121260
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 8c686c04fb1cecd205c67f72d37fa9f5
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 0df1dec30b5d061d422d3e6493d27647
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 8c686c04fb1cecd205c67f72d37fa9f5
+HashAppended: 0
+ClassTypes:
+- Class: 48
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Shaders/FF_StandardPaintable.shader
+Dependencies: []
