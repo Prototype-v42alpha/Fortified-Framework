@@ -14,44 +14,35 @@ namespace Fortified
         private static readonly AccessTools.FieldRef<MainTabWindow_Architect, List<ArchitectCategoryTab>> DesPanelsCachedRef =
             AccessTools.FieldRefAccess<MainTabWindow_Architect, List<ArchitectCategoryTab>>("desPanelsCached");
 
-        private static readonly AccessTools.FieldRef<MainTabWindow_Architect, QuickSearchWidget> QuickSearchWidgetRef =
-            AccessTools.FieldRefAccess<MainTabWindow_Architect, QuickSearchWidget>("quickSearchWidget");
-
         // 你的目標分類 defName
         private static readonly HashSet<string> HiddenInNonDevMode = new(StringComparer.Ordinal)
         {
             TargetCategoryDefName
         };
 
-        // Prefix 直接接管原方法：少一次「先建後刪」
-        public static bool Prefix(MainTabWindow_Architect __instance)
+        // Postfix 保留原來由其他模組加入的面板，只在非開發模式時移除目標分類
+        public static void Postfix(MainTabWindow_Architect __instance)
         {
-            var list = DesPanelsCachedRef(__instance);
-            var filter = QuickSearchWidgetRef(__instance).filter;
             bool devMode = Prefs.DevMode;
+            if (devMode)
+                return; // 開發模式下不處理，保留所有面板
 
-            // 盡量重用既有 List，降低 GC
-            list.Clear();
+            var list = DesPanelsCachedRef(__instance);
+            if (list == null || list.Count == 0)
+                return;
 
-            foreach (var def in DefDatabase<DesignationCategoryDef>.AllDefs.OrderByDescending(d => d.order))
-            {
-                if (!devMode && HiddenInNonDevMode.Contains(def.defName))
-                    continue;
-
-                list.Add(new ArchitectCategoryTab(def, filter));
-            }
+            // 保留其他模組可能加入的面板，只移除我們要隱藏的分類
+            list.RemoveAll(tab => tab.def != null && HiddenInNonDevMode.Contains(tab.def.defName));
 
             // 若目前選中分類不在新列表中，清掉
             if (__instance.selectedDesPanel != null)
             {
                 var selectedDefName = __instance.selectedDesPanel.def?.defName;
-                if (selectedDefName != null && (!devMode && HiddenInNonDevMode.Contains(selectedDefName)))
+                if (selectedDefName != null && HiddenInNonDevMode.Contains(selectedDefName))
                 {
                     __instance.selectedDesPanel = null;
                 }
             }
-
-            return false; // 跳過原版 CacheDesPanels
         }
     }
 
