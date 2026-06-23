@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  <FFF.BuildingMover.Dir0>向前移动</FFF.BuildingMover.Dir0>
+  <FFF.BuildingMover.Dir1>向后移动</FFF.BuildingMover.Dir1>
+  <FFF.BuildingMover.Dir2>向右移动</FFF.BuildingMover.Dir2>
+  <FFF.BuildingMover.Dir3>向左移动</FFF.BuildingMover.Dir3>
+  <FFF.BuildingMover.Desc>若目标格空闲，沿朝向移动该建筑。</FFF.BuildingMover.Desc>
+  <FFF.BuildingMover.Blocked>目标位置被阻挡。</FFF.BuildingMover.Blocked>
+  <FFF.BuildingMover.Rotate>旋转</FFF.BuildingMover.Rotate>
+  <FFF.BuildingMover.RotateDesc>若有空间，顺时针旋转该建筑。</FFF.BuildingMover.RotateDesc>
+  <FFF.BuildingMover.Place.Toggle>往复轨道：在两端之间来回移动</FFF.BuildingMover.Place.Toggle>
+  <FFF.BuildingMover.Place.OneWay>沿朝向轴移动</FFF.BuildingMover.Place.OneWay>
+  <FFF.BuildingMover.Place.Crush>碾碎路径上的阻挡物</FFF.BuildingMover.Place.Crush>
+  <FFF.BuildingMover.Place.Mine>碾过矿脉时采集矿物</FFF.BuildingMover.Place.Mine>
+  <DMS.MachineCabinet.Door.Open>开门</DMS.MachineCabinet.Door.Open>
+  <DMS.MachineCabinet.Door.Close>关门</DMS.MachineCabinet.Door.Close>
+  <DMS.MachineCabinet.Door.OpenDesc>滑动开门，挡路者被推到旁边并受到淤伤。</DMS.MachineCabinet.Door.OpenDesc>
+  <DMS.MachineCabinet.Charge.Label>雷霆大冲锋！</DMS.MachineCabinet.Charge.Label>
+  <DMS.MachineCabinet.Charge.Desc>向前冲锋，碾碎一切阻挡，并从岩层中撕出矿物。</DMS.MachineCabinet.Charge.Desc>
+</LanguageData>

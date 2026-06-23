@@ -58,6 +58,9 @@
 
     <Publicize Include="Assembly-CSharp:RimWorld.CompTargetable.selectedTarget" />
     <Publicize Include="Assembly-CSharp:RimWorld.LordToil_Siege.SetAsDefender" />
+    <Publicize Include="Assembly-CSharp:Verse.RegionDirtyer.Notify_ThingAffectingRegionsSpawned" />
+    <Publicize Include="Assembly-CSharp:Verse.RegionDirtyer.Notify_ThingAffectingRegionsDespawned" />
+    <Publicize Include="Assembly-CSharp:Verse.RegionDirtyer.Notify_WalkabilityChanged" />
   </ItemGroup>
   <ItemGroup>
     <Reference Update="System">
