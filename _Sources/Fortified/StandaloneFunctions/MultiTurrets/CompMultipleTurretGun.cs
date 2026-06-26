@@ -47,7 +47,10 @@ namespace Fortified
         {
             base.CompTick();
             if (!this.parent.Spawned) return;
-            turrets.ForEach(t => t.Tick());
+            for (int i = 0; i < turrets.Count; i++)
+            {
+                turrets[i].Tick();
+            }
         }
         public override IEnumerable<Gizmo> CompGetWornGizmosExtra()
         {
@@ -198,8 +201,10 @@ namespace Fortified
     {
         public bool HasTarget => currentTarget != null;
         public Thing Thing => this.parent;
-        public Verb CurrentEffectiveVerb => this.GunCompEq.PrimaryVerb;
-        public CompEquippable GunCompEq => this.turret.TryGetComp<CompEquippable>();
+        // 缓存主武器verb避免每tick线性扫描
+        public Verb CurrentEffectiveVerb => cachedPrimaryVerb ??= this.GunCompEq.PrimaryVerb;
+        // 缓存装备组件避免每tick遍历comp
+        public CompEquippable GunCompEq => cachedGunCompEq ??= this.turret.TryGetComp<CompEquippable>();
         public LocalTargetInfo LastAttackedTarget => this.lastAttackedTarget;
         public int LastAttackTargetTick => this.lastAttackTargetTick;
         public Pawn PawnOwner
@@ -217,28 +222,31 @@ namespace Fortified
                 return wearer;
             }
         }
-        private bool CanShoot
+        private bool CanShoot(Pawn owner)
         {
-            get
+            if (owner != null)
             {
-                if (PawnOwner != null)
-                {
-                    if (!PawnOwner.Spawned || PawnOwner.Downed || PawnOwner.Dead || !PawnOwner.Awake()) return false;
-                    if (PawnOwner.stances.stunner.Stunned) return false;
-                    if (this.TurretDestroyed) return false;
-                    if (PawnOwner.IsColonyMechPlayerControlled && !this.fireAtWill) return false;
-                }
-                CompCanBeDormant compCanBeDormant = this.parent.TryGetComp<CompCanBeDormant>();
-                return compCanBeDormant == null || compCanBeDormant.Awake;
+                if (!owner.Spawned || owner.Downed || owner.Dead || !owner.Awake()) return false;
+                if (owner.stances.stunner.Stunned) return false;
+                if (IsTurretDestroyed(owner)) return false;
+                if (owner.IsColonyMechPlayerControlled && !this.fireAtWill) return false;
             }
+            if (!dormantResolved)
+            {
+                cachedDormant = this.parent.TryGetComp<CompCanBeDormant>();
+                dormantResolved = true;
+            }
+            return cachedDormant == null || cachedDormant.Awake;
         }
         private bool WarmingUp => this.burstWarmupTicksLeft > 0;
-        public bool TurretDestroyed
+        public bool TurretDestroyed => IsTurretDestroyed(PawnOwner);
+        // 复用已取的owner避免重复模式匹配
+        private bool IsTurretDestroyed(Pawn owner)
         {
-            get
-            {
-                return (PawnOwner != null && this.CurrentEffectiveVerb.verbProps.linkedBodyPartsGroup != null && this.CurrentEffectiveVerb.verbProps.ensureLinkedBodyPartsGroupAlwaysUsable && PawnCapacityUtility.CalculateNaturalPartsAverageEfficiency(PawnOwner.health.hediffSet, this.CurrentEffectiveVerb.verbProps.linkedBodyPartsGroup) <= 0f);
-            }
+            return owner != null
+                && this.CurrentEffectiveVerb.verbProps.linkedBodyPartsGroup != null
+                && this.CurrentEffectiveVerb.verbProps.ensureLinkedBodyPartsGroupAlwaysUsable
+                && PawnCapacityUtility.CalculateNaturalPartsAverageEfficiency(owner.health.hediffSet, this.CurrentEffectiveVerb.verbProps.linkedBodyPartsGroup) <= 0f;
         }
         public SubTurretProperties TurretProp
         {
@@ -255,6 +263,11 @@ namespace Fortified
         {
             this.turretProp = prop;
             this.turret ??= ThingMaker.MakeThing(this.TurretProp.turret, null);
+            // 重置缓存防换枪后失效
+            cachedGunCompEq = null;
+            cachedPrimaryVerb = null;
+            cachedDormant = null;
+            dormantResolved = false;
             this.UpdateGunVerbs();
         }
         private void UpdateGunVerbs()
@@ -273,18 +286,19 @@ namespace Fortified
         }
         public void Tick()
         {
-            if (this.CanShoot == false)
+            Pawn owner = PawnOwner;
+            if (CanShoot(owner) == false)
             {
                 return;
             }
 
             if (CheckTarget())
             {
-                this.curRotation = (this.currentTarget.Cell.ToVector3Shifted() - PawnOwner.DrawPos).AngleFlat() + this.TurretProp.angleOffset;
+                this.curRotation = (this.currentTarget.Cell.ToVector3Shifted() - owner.DrawPos).AngleFlat() + this.TurretProp.angleOffset;
             }
             else
             {
-                this.curRotation = this.TurretProp.angleOffset + this.TurretProp.IdleAngleOffset + PawnOwner.Rotation.AsAngle;
+                this.curRotation = this.TurretProp.angleOffset + this.TurretProp.IdleAngleOffset + owner.Rotation.AsAngle;
             }
             this.CurrentEffectiveVerb.VerbTick();
             if (this.CurrentEffectiveVerb.state != VerbState.Bursting)
@@ -438,6 +452,12 @@ namespace Fortified
         private LocalTargetInfo lastAttackedTarget = LocalTargetInfo.Invalid;
         private int lastAttackTargetTick;
         private SubTurretProperties turretProp;
+
+        // 逻辑热路径缓存
+        private CompEquippable cachedGunCompEq;
+        private Verb cachedPrimaryVerb;
+        private CompCanBeDormant cachedDormant;
+        private bool dormantResolved;
 
         public float curRotation;
     }
