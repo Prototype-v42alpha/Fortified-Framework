@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- 超重型机兵威慑导致的图内逃跑 -->
+  <MentalStateDef ParentName="BaseMentalState">
+    <defName>FFF_FleeInPlace</defName>
+    <label>fleeing in fear</label>
+    <stateClass>MentalState</stateClass>
+    <category>Misc</category>
+    <minTicksBeforeRecovery>80</minTicksBeforeRecovery>
+    <maxTicksBeforeRecovery>200</maxTicksBeforeRecovery>
+    <recoveryMtbDays>0.3</recoveryMtbDays>
+    <blockNormalThoughts>true</blockNormalThoughts>
+    <nameColor>(0.65, 0.9, 0.93)</nameColor>
+    <baseInspectLine>Mental state: Fleeing in fear</baseInspectLine>
+  </MentalStateDef>
+
+</Defs>

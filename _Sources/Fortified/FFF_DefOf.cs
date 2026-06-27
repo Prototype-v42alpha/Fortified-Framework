@@ -27,6 +27,8 @@ public static class FFF_DefOf
 
     public static DutyDef FFF_DefendRoom;
 
+    public static MentalStateDef FFF_FleeInPlace;
+
 	public static HediffDef FFF_Camouflage;
     public static FleckDef FFF_Fleck_DeflectShell;
 }
