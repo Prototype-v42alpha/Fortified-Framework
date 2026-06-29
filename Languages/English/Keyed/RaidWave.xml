@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- RaidWave system -->
+  <FFF_RaidWave_LetterLabel>Raid Wave Incoming</FFF_RaidWave_LetterLabel>
+  <FFF_RaidWave_LetterText>A raid wave from {0} has arrived and is now attacking your colony.</FFF_RaidWave_LetterText>
+
+  <FFF_RaidWave_Alert>Raid Wave Inbound</FFF_RaidWave_Alert>
+  <FFF_RaidWave_AlertDesc>A raid wave from {0} is en route and will arrive shortly.</FFF_RaidWave_AlertDesc>
+
+  <FFF_RaidWave_Cooldown>Raid wave unavailable for {0}.</FFF_RaidWave_Cooldown>
+  <FFF_RaidWave_NoGameComponent>FFF: RaidWave game component not found.</FFF_RaidWave_NoGameComponent>
+
+  <!-- Confirm dialog shown before triggering via UseEffect -->
+  <FFF_RaidWave_ConfirmDialog>Calling {WAVE} will send the following forces against your colony:
+
+{PAWNS}
+
+Proceed?</FFF_RaidWave_ConfirmDialog>
+
+</LanguageData>

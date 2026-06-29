@@ -39,7 +39,7 @@
   </ThingDef>
 
   <!-- 1x1 休眠容器 -->
-  <ThingDef ParentName="FFF_MechCapsuleBase">
+  <ThingDef Name="FFF_MechCapsule_Small" ParentName="FFF_MechCapsuleBase">
     <defName>FFF_MechCapsule_Small</defName>
     <label>deactivated mech (small)</label>
     <description>A deactivated mechanoid in hibernation mode. A mechanitor can attempt to hack and control it.</description>
@@ -50,7 +50,7 @@
   </ThingDef>
 
   <!-- 2x2 休眠容器 -->
-  <ThingDef ParentName="FFF_MechCapsuleBase">
+  <ThingDef Name="FFF_MechCapsule_Medium" ParentName="FFF_MechCapsuleBase">
     <defName>FFF_MechCapsule_Medium</defName>
     <label>deactivated mech (medium)</label>
     <description>A deactivated mechanoid in hibernation mode. A mechanitor can attempt to hack and control it.</description>
@@ -61,7 +61,7 @@
   </ThingDef>
 
   <!-- 3x3 休眠容器 -->
-  <ThingDef ParentName="FFF_MechCapsuleBase">
+  <ThingDef Name="FFF_MechCapsule_Large" ParentName="FFF_MechCapsuleBase">
     <defName>FFF_MechCapsule_Large</defName>
     <label>deactivated mech (large)</label>
     <description>A deactivated mechanoid in hibernation mode. A mechanitor can attempt to hack and control it.</description>
@@ -72,7 +72,7 @@
   </ThingDef>
 
   <!-- 4x4 休眠容器 -->
-  <ThingDef ParentName="FFF_MechCapsuleBase">
+  <ThingDef Name="FFF_MechCapsule_Huge" ParentName="FFF_MechCapsuleBase">
     <defName>FFF_MechCapsule_Huge</defName>
     <label>deactivated mech (huge)</label>
     <description>A deactivated mechanoid in hibernation mode. A mechanitor can attempt to hack and control it.</description>
@@ -83,7 +83,7 @@
   </ThingDef>
 
   <!-- 5x5 休眠容器 -->
-  <ThingDef ParentName="FFF_MechCapsuleBase">
+  <ThingDef Name="FFF_MechCapsule_Colossal" ParentName="FFF_MechCapsuleBase">
     <defName>FFF_MechCapsule_Colossal</defName>
     <label>deactivated mech (colossal)</label>
     <description>A deactivated mechanoid in hibernation mode. A mechanitor can attempt to hack and control it.</description>

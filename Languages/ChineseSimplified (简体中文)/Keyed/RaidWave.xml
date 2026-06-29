@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- RaidWave system -->
+  <FFF_RaidWave_LetterLabel>突袭波次来袭</FFF_RaidWave_LetterLabel>
+  <FFF_RaidWave_LetterText>来自{0}的突袭波次已抵达，正在攻击你的殖民地。</FFF_RaidWave_LetterText>
+
+  <FFF_RaidWave_Alert>突袭波次逼近</FFF_RaidWave_Alert>
+  <FFF_RaidWave_AlertDesc>来自{0}的突袭波次正在赶来，即将抵达。</FFF_RaidWave_AlertDesc>
+
+  <FFF_RaidWave_Cooldown>突袭波次冷却中，还需{0}。</FFF_RaidWave_Cooldown>
+  <FFF_RaidWave_NoGameComponent>FFF：未找到 RaidWave 游戏组件。</FFF_RaidWave_NoGameComponent>
+
+  <!-- Confirm dialog shown before triggering via UseEffect -->
+  <FFF_RaidWave_ConfirmDialog>召唤{WAVE}将派遣以下势力攻击你的殖民地：
+
+{PAWNS}
+
+确认继续？</FFF_RaidWave_ConfirmDialog>
+
+</LanguageData>

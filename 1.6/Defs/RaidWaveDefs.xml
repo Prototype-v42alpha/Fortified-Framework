@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Default QuestScriptDef used by RaidWaveDef when no custom quest is specified.
+       Callers may set RaidWaveDef.quest to a different QuestScriptDef to override. -->
+  <QuestScriptDef>
+    <defName>FFF_RaidWave_Default</defName>
+    <rootNode Class="Fortified.QuestNode_Root_RaidWave" />
+  </QuestScriptDef>
+
+</Defs>
