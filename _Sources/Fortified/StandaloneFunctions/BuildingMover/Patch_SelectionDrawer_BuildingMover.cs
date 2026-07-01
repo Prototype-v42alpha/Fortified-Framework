@@ -6,6 +6,7 @@ using Verse;
 namespace Fortified
 {
     // 滑动时选择框跟随贴图
+    [StaticConstructorOnStartup]
     [HarmonyPatch(typeof(SelectionDrawer), nameof(SelectionDrawer.DrawSelectionBracketFor))]
     internal static class Patch_SelectionDrawer_BuildingMover
     {

@@ -407,40 +407,59 @@ namespace Fortified
         /// </summary>
         public static void TryApply(HarmonyLib.Harmony harmony)
         {
-            System.Reflection.MethodBase target = FindTarget();
-            if (target == null)
-            {
-                Log.Warning("[FFF] Patch_DisableShuttleLaunch: could not find patch target on CompShuttle. Airspace blockade shuttle prevention is disabled.");
-                return;
-            }
-
-            var postfix = new HarmonyLib.HarmonyMethod(
-                typeof(Patch_DisableShuttleLaunch),
-                nameof(Postfix));
-            harmony.Patch(target, postfix: postfix);
-        }
-
-        // 以反射動態定位目標方法，支援多版本 RimWorld
-        private static System.Reflection.MethodBase FindTarget()
-        {
             const System.Reflection.BindingFlags bf =
                 System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance;
 
-            // 嘗試 get_IsBlocked（屬性 getter）
-            var getter = typeof(CompShuttle).GetProperty("IsBlocked", bf)?.GetGetMethod();
-            if (getter != null) return getter;
+            // 新版：CanLaunch getter 返回 AcceptanceReport
+            var canLaunch = typeof(CompShuttle).GetProperty("CanLaunch", bf)?.GetGetMethod();
+            if (canLaunch != null)
+            {
+                harmony.Patch(canLaunch, postfix: new HarmonyLib.HarmonyMethod(
+                    typeof(Patch_DisableShuttleLaunch), nameof(Postfix_Report)));
+                return;
+            }
 
-            // 退而求其次：攔截 LoadingInProgressOrReadyToLaunch getter
-            getter = typeof(CompShuttle).GetProperty("LoadingInProgressOrReadyToLaunch", bf)?.GetGetMethod();
-            return getter; // null 亦可，由呼叫端處理
+            // 旧版：bool getter
+            var boolGetter = FindLegacyBoolTarget(bf);
+            if (boolGetter != null)
+            {
+                harmony.Patch(boolGetter, postfix: new HarmonyLib.HarmonyMethod(
+                    typeof(Patch_DisableShuttleLaunch), nameof(Postfix_Bool)));
+                return;
+            }
+
+            Log.Warning("[FFF] Patch_DisableShuttleLaunch: could not find patch target on CompShuttle. Airspace blockade shuttle prevention is disabled.");
         }
 
-        static void Postfix(CompShuttle __instance, ref bool __result)
+        // 旧版 bool getter 定位
+        private static System.Reflection.MethodBase FindLegacyBoolTarget(System.Reflection.BindingFlags bf)
+        {
+            var getter = typeof(CompShuttle).GetProperty("IsBlocked", bf)?.GetGetMethod();
+            if (getter != null) return getter;
+            return typeof(CompShuttle).GetProperty("LoadingInProgressOrReadyToLaunch", bf)?.GetGetMethod();
+        }
+
+        // 判定空域封鎖中
+        private static bool IsBlockedNow(CompShuttle shuttle)
+        {
+            Map map = shuttle.parent?.Map;
+            if (map == null) return false;
+            return map.GetComponent<MapComponent_AlertCounter>()?.IsAirspaceBlocked == true;
+        }
+
+        // 新版：封鎖期間拒絕起飛
+        static void Postfix_Report(CompShuttle __instance, ref AcceptanceReport __result)
+        {
+            if (!__result.Accepted) return;
+            if (IsBlockedNow(__instance))
+                __result = "FFF_Alert_AirspaceBlockade_Start".Translate();
+        }
+
+        // 旧版：封鎖期間標記為受阻
+        static void Postfix_Bool(CompShuttle __instance, ref bool __result)
         {
             if (__result) return;
-            Map map = __instance.parent?.Map;
-            if (map == null) return;
-            if (map.GetComponent<MapComponent_AlertCounter>()?.IsAirspaceBlocked == true)
+            if (IsBlockedNow(__instance))
                 __result = true;
         }
     }

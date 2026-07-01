@@ -9,6 +9,7 @@ namespace Fortified
 {
     // 瞄准时替换主武器图为手持装备图
     // 让挂CompAimingEquipmentGraphic的腰带类apparel在warmup时借主武器渲染位显示举枪图
+    [StaticConstructorOnStartup]
     [HarmonyPatch(typeof(PawnRenderUtility), nameof(PawnRenderUtility.DrawEquipmentAndApparelExtras))]
     public static class Patch_PawnRenderUtility_DrawAimingApparel
     {
