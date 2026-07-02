@@ -5,7 +5,7 @@
        Callers may set RaidWaveDef.quest to a different QuestScriptDef to override. -->
   <QuestScriptDef>
     <defName>FFF_RaidWave_Default</defName>
-    <rootNode Class="Fortified.QuestNode_Root_RaidWave" />
+    <root Class="Fortified.QuestNode_Root_RaidWave" />
   </QuestScriptDef>
 
 </Defs>
