@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+
+  <FFF.AmmoSwitch.Label>{0}</FFF.AmmoSwitch.Label>
+  <FFF.AmmoSwitch.Desc>點擊切換彈藥類型</FFF.AmmoSwitch.Desc>
+  <FFF.AmmoSwitch.AmmoTooltip>{0} - {1}</FFF.AmmoSwitch.AmmoTooltip>
+  <FFF.AmmoSwitch.DefaultAmmo>預設彈藥</FFF.AmmoSwitch.DefaultAmmo>
+  <FFF.AmmoSwitch.DefaultProjectile>預設彈丸</FFF.AmmoSwitch.DefaultProjectile>
+  <FFF.AmmoSwitch.StatFactor>精度係數</FFF.AmmoSwitch.StatFactor>
+  <FFF.AmmoSwitch.UsingDefault>使用預設</FFF.AmmoSwitch.UsingDefault>
+</LanguageData>

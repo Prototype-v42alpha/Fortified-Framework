@@ -28,4 +28,9 @@
     
     <!-- EN: View Usable Weapons -->
   <FFF.ViewUsableWeapons>查看可用武器</FFF.ViewUsableWeapons>
+
+    <!-- EN: Weapon not supported -->
+  <FFF.WeaponNotSupported>武器不受支持</FFF.WeaponNotSupported>
+    <!-- EN: Mech frame not supported -->
+  <FFF.FrameNotSupported>机械框架不受支持</FFF.FrameNotSupported>
 </LanguageData>

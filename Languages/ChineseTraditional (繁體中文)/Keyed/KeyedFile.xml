@@ -98,4 +98,15 @@
   <FFF.Message.CannotPlaceWithoutWall>需要放置於牆體或門上</FFF.Message.CannotPlaceWithoutWall>
   <FFF.Message.MustOnACoverBuilding>需要放置在掩體上</FFF.Message.MustOnACoverBuilding>
 
+  <!-- EN: Estimated raid time: {0} -->
+  <FFF_NextRaidIn>預計發起襲擊時間: {0}</FFF_NextRaidIn>
+  <!-- EN: Estimated strike time: {0} -->
+  <FFF_NextStrikeIn>預計投射打擊時間: {0}</FFF_NextStrikeIn>
+  <!-- EN: Air support status: {0} -->
+  <FFF_NextStrikeStatus>空襲支援狀態: {0}</FFF_NextStrikeStatus>
+  <!-- EN: Standby (Waiting for target) -->
+  <FFF_Status_Standby>待機 (等待目標)</FFF_Status_Standby>
+  <!-- EN: Local monitoring (Offline) -->
+  <FFF_Site_LocalMonitoring>本地監控中 (離線)</FFF_Site_LocalMonitoring>
+
 </LanguageData>

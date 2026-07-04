@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+
+  <FFF_Camouflage_Label>迷彩</FFF_Camouflage_Label>
+  <FFF_Camouflage_Desc>切换迷彩模式。</FFF_Camouflage_Desc>
+  <FFF_Camouflage_CooldownDesc>距离迷彩重置剩余时间: {0}。</FFF_Camouflage_CooldownDesc>
+  <FFF_MessageLadarTriggered>周界扫描仪侦测到一个隐形生物。</FFF_MessageLadarTriggered>
+  <FFF_LadarDetectedInvisible>附近有隐形物体</FFF_LadarDetectedInvisible>
+
+</LanguageData>
