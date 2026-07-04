@@ -19,13 +19,13 @@ public partial class CompBuildingMover : ThingComp
     private int slidePending;
     // 是否正在滑动
     private bool sliding;
-    // 轨道当前偏移格数 0为原位
+    // 轨道当前偏移
     private int trackOffset;
     // 本次滑动是否碾压
     private bool slideCrush;
     // 本次滑动总格数
     private int slideTotalCells;
-    // 本次滑动已耗tick
+    // 本次滑动耗时
     private int slideTicksElapsed;
     // 下一格已确认可进入
     private bool nextCellConfirmed;
@@ -33,11 +33,11 @@ public partial class CompBuildingMover : ThingComp
     private bool doorOpen;
     // 感应门无人计时
     private int doorEmptyTicks;
-    // 本次滑动耗时覆盖 0用Props
+    // 滑动耗时覆盖
     private int slideDurationOverride;
     // 感应门目标开度
     private int sensorDoorTargetOpen;
-    // 当前动作来源信号项 -1无
+    // 来源信号索引
     private int pendingSignalActionIndex = -1;
     // 移动组件已禁用
     private bool disabled;
@@ -58,7 +58,7 @@ public partial class CompBuildingMover : ThingComp
     // 感应门是否敞开
     public bool DoorOpen => !disabled && doorOpen;
 
-    // 取建筑当前滑动偏移 无则零
+    // 获取滑动偏移
     public static Vector3 GetSlideOffset(Thing thing)
     {
         if (!(thing is ThingWithComps twc)) return Vector3.zero;
@@ -69,7 +69,7 @@ public partial class CompBuildingMover : ThingComp
         return Vector3.zero;
     }
 
-    // 取建筑的感应门组件 无则null
+    // 获取感应门组件
     public static CompBuildingMover GetSensorDoor(Thing thing)
     {
         if (!(thing is ThingWithComps twc)) return null;
@@ -80,7 +80,7 @@ public partial class CompBuildingMover : ThingComp
         return null;
     }
 
-    // 建筑是否有任一comp正在滑动
+    // 检查建筑滑动
     public static bool AnySliding(Thing thing)
     {
         if (!(thing is ThingWithComps twc)) return false;
@@ -91,7 +91,7 @@ public partial class CompBuildingMover : ThingComp
         return false;
     }
 
-    // 判定pawn能否开此门 沿用原版门规则
+    // 判断开门权限
     public bool PawnCanOpen(Pawn p)
     {
         if (disabled) return false;
@@ -104,14 +104,14 @@ public partial class CompBuildingMover : ThingComp
         return GenAI.MachinesLike(owner, p);
     }
 
-    // 门未完全敞开时物理阻挡所有pawn 授权只决定能否触发开门
+    // 判断物理阻挡
     public bool BlocksPawnNow(Pawn p)
     {
         if (disabled) return true;
         return CurrentSensorDoorOpenDistance() <= 0 || sliding;
     }
 
-    // pawn走到门前触发开门
+    // 触发接近开门
     public void NotifyApproachAndOpen(Pawn p)
     {
         if (!PawnCanOpen(p)) return;
@@ -123,7 +123,7 @@ public partial class CompBuildingMover : ThingComp
     {
         if (!PawnCanOpen(p)) return;
         doorEmptyTicks = 0;
-        // 门完整打开 寻路代价仅引导走更快的缝
+        // 请求完整开门
         RequestOpenTo(MaxSensorDoorOpenDistance());
     }
 
@@ -144,9 +144,9 @@ public partial class CompBuildingMover : ThingComp
         sensorDoorTargetOpen = 0;
         slideDurationOverride = Props.sensorDoorOpenTicks;
         RefreshDoorPathCost();
-        bool moved = TryMoveInternal(-dir, true, CurrentSensorDoorOpenDistance());
-        doorOpen = false;
-        return moved;
+        // 等待归位关门
+        // 保持重试状态
+        return TryMoveInternal(-dir, true, CurrentSensorDoorOpenDistance());
     }
 
     // 手动开关感应门
@@ -171,13 +171,13 @@ public partial class CompBuildingMover : ThingComp
         return ResolveDirections(Props, parent.Rotation);
     }
 
-    // 解析可移动方向 静态供PlaceWorker复用
+    // 解析静态方向
     public static IEnumerable<IntVec3> ResolveDirections(CompProperties_BuildingMover props, Rot4 rot)
     {
         return ResolveDirections(props, rot, props.axis);
     }
 
-    // 解析可移动方向 指定轴向
+    // 按轴解析方向
     public static IEnumerable<IntVec3> ResolveDirections(CompProperties_BuildingMover props, Rot4 rot, BuildingMoveAxis axis)
     {
         switch (axis)
@@ -205,7 +205,7 @@ public partial class CompBuildingMover : ThingComp
         }
     }
 
-    // 解析相对朝向单方向 供各模块复用
+    // 解析相对方向
     public static IntVec3 ResolveRelativeDir(BuildingRelativeDir dir, Rot4 rot, IntVec3 customDir, IntVec3 moveReverse)
     {
         switch (dir)
@@ -219,7 +219,7 @@ public partial class CompBuildingMover : ThingComp
         }
     }
 
-    // 检测沿方向移动后目标格是否空闲
+    // 检测目标占位
     private bool CanMoveTo(IntVec3 dir, int dist)
     {
         if (parent.Map == null) return false;
@@ -245,14 +245,14 @@ public partial class CompBuildingMover : ThingComp
             if (t == parent) continue;
             if (t is Pawn && parent.def.passability == Traversability.Impassable) return false;
             if (t.def.category != ThingCategory.Building && t.def.category != ThingCategory.Item) continue;
-            // 碾压后仍残留的建筑物品即未清除的阻挡物
+            // 检测残留阻挡
             if (forCrush) return false;
             if (GenSpawn.SpawningWipes(parent.def, t.def)) return false;
         }
         return true;
     }
 
-    // 计算沿方向可移动的最大格数
+    // 计算可移动格数
     private int MaxMovableDistance(IntVec3 dir, int wanted)
     {
         int ok = 0;
@@ -270,7 +270,7 @@ public partial class CompBuildingMover : ThingComp
         TryMoveInternal(dir, Props.crushOutbound, WantedDistance());
     }
 
-    // 指定距离移动入口 供演出调用
+    // 指定距离移动
     public void TryMove(IntVec3 dir, int distance)
     {
         TryMoveInternal(dir, Props.crushOutbound, distance);
@@ -291,7 +291,7 @@ public partial class CompBuildingMover : ThingComp
             : BeginSlide(dist);
     }
 
-    // 瞬移逐格推进 碾不穿则止
+    // 执行瞬移推进
     private bool ExecuteTeleport(IntVec3 dir, int dist, bool crush)
     {
         bool moved = false;
@@ -317,7 +317,6 @@ public partial class CompBuildingMover : ThingComp
         sliding = true;
         parent.DirtyMapMesh(parent.Map);
         DirtyDamageLayer();
-        Props.moveSound?.PlayOneShot(SoundInfo.InMap(parent));
         return true;
     }
 
@@ -345,7 +344,7 @@ public partial class CompBuildingMover : ThingComp
         return TryMoveInternal(dir, crush, wanted);
     }
 
-    // 计算仅受地图边界限制的最大格数
+    // 计算边界距离
     private int MaxDistanceInBounds(IntVec3 dir, int wanted)
     {
         int ok = 0;
@@ -375,14 +374,14 @@ public partial class CompBuildingMover : ThingComp
         if (disabled) return;
         if (Props.sensorDoor)
         {
-            // 先记录关闭锚点 再挂补丁刷新代价使补丁值进入寻路Job数组
+            // 初始化门寻路
             EnsureSensorDoorAnchor();
             RegisterSensorDoorRuntime();
             RefreshDoorPathCost();
         }
     }
 
-    // 刷新门占格寻路代价与可达缓存
+    // 刷新门寻路
     private void RefreshDoorPathCost()
     {
         if (parent.Map == null) return;
@@ -424,7 +423,7 @@ public partial class CompBuildingMover : ThingComp
         if (Props.sensorDoor)
         {
             DeregisterSensorDoorRuntime();
-            // 拆除搬运旋转后重新放置时按新位置重设锚点
+            // 重置门洞锚点
             sensorDoorAnchorSet = false;
         }
     }
@@ -443,7 +442,7 @@ public partial class CompBuildingMover : ThingComp
     // 感应门自动关闭检测
     private void TickSensorDoor()
     {
-        // 外部comp平移建筑后重锚定门洞
+        // 同步门洞锚点
         SyncSensorDoorAnchorIfMoved();
         if (!doorOpen || !Props.sensorDoorAutoClose) return;
         if (!parent.IsHashIntervalTick(15)) return;
@@ -453,7 +452,7 @@ public partial class CompBuildingMover : ThingComp
         if (doorEmptyTicks >= Props.sensorDoorCloseDelay) CloseDoor();
     }
 
-    // 门通路上是否有pawn
+    // 检测门洞小人
     private bool AnyPawnInDoorway()
     {
         CellRect rect = Props.sensorDoor ? SensorDoorFootprint() : parent.OccupiedRect();
@@ -465,7 +464,7 @@ public partial class CompBuildingMover : ThingComp
         return false;
     }
 
-    // 取方向相对主轴的符号
+    // 获取方向符号
     private int DirSign(IntVec3 dir)
     {
         List<IntVec3> dirs = Props.sensorDoor
@@ -490,7 +489,7 @@ public partial class CompBuildingMover : ThingComp
         }
     }
 
-    // 范围内是否存在触发小人
+    // 检测触发小人
     private bool AnyTriggerPawnNear()
     {
         foreach (Thing t in GenRadial.RadialDistinctThingsAround(parent.Position, parent.Map, Props.proximityRadius, true))
@@ -538,7 +537,7 @@ public partial class CompBuildingMover : ThingComp
         return true;
     }
 
-    // 检测指定旋转下占位是否空闲
+    // 检测旋转占位
     private bool CanOccupyWithRot(IntVec3 center, Rot4 rot)
     {
         CellRect rect = GenAdj.OccupiedRect(center, rot, parent.def.Size);

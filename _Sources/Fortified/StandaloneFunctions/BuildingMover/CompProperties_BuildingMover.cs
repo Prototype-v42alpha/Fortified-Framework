@@ -27,7 +27,7 @@ public enum BuildingMoveAxis
     FacingSides,    // 朝向左右两侧
     FacingFourWay,  // 朝向前后左右四向
     MapEastWest,    // 固定地图东西向
-    Custom          // Props指定方向
+    Custom          // 配置指定方向
 }
 
 // 相对朝向单方向
@@ -37,7 +37,7 @@ public enum BuildingRelativeDir
     Backward,   // 建筑背面
     Left,       // 建筑左侧
     Right,      // 建筑右侧
-    Custom,     // Props指定绝对偏移
+    Custom,     // 配置绝对偏移
     MoveReverse // 当前移动反向
 }
 
@@ -54,17 +54,17 @@ public enum BuildingMoverAction
 // 信号到动作的映射项
 public class BuildingMoverSignalAction
 {
-    // 监听的信号tag
+    // 监听信号标记
     public string signalTag;
     // 收到后执行的动作
     public BuildingMoverAction action = BuildingMoverAction.Toggle;
-    // Move方向 复用相对方向枚举
+    // 移动相对方向
     public BuildingRelativeDir moveDir = BuildingRelativeDir.Forward;
-    // Move为Custom时的绝对偏移
+    // 自定义移动偏移
     public IntVec3 customDirection = IntVec3.East;
-    // Move距离 0用Props.moveDistance
+    // 移动距离覆盖
     public int moveDistance = 0;
-    // 动作完成后发出的信号tag 可空
+    // 完成信号标记
     public string sendSignalOnComplete;
 }
 
@@ -81,7 +81,7 @@ public class CompProperties_BuildingMover : CompProperties
     // 水平方向定义
     public BuildingMoveAxis axis = BuildingMoveAxis.FacingSides;
 
-    // Custom方向偏移
+    // 自定义方向偏移
     public IntVec3 customDirection = IntVec3.East;
 
     // 单次移动格数
@@ -114,16 +114,16 @@ public class CompProperties_BuildingMover : CompProperties
     // 碾压矿脉采集矿物
     public bool mineWhileCrushing = false;
 
-    // 采矿产量系数 1为满额
+    // 采矿产量系数
     public float mineYieldFactor = 1f;
 
     // 搬运碾过掉落物
     public bool haulCrushedDrops = false;
 
-    // 掉落物搬运方向 默认移动反向
+    // 掉落物搬运方向
     public BuildingRelativeDir haulDropDirection = BuildingRelativeDir.MoveReverse;
 
-    // 搬运方向Custom时的绝对偏移
+    // 自定义搬运偏移
     public IntVec3 haulDropCustomDir = IntVec3.South;
 
     // 碾压伤害类型 默认钝击
@@ -138,10 +138,10 @@ public class CompProperties_BuildingMover : CompProperties
     // 滑动速度
     public float slideCellsPerTick = 0.05f;
 
-    // 移动总耗时 大于0时覆盖逐格速度
+    // 移动总耗时
     public int moveDurationTicks = 0;
 
-    // 速度缓动曲线 输入进度0~1输出速度倍率
+    // 速度缓动曲线
     public SimpleCurve slideSpeedCurve;
 
     // 碾压把小人推到旁边
@@ -150,7 +150,7 @@ public class CompProperties_BuildingMover : CompProperties
     // 信号触发标签
     public string listenSignalTag = "Fortified.BuildingMover";
 
-    // 信号动作映射表 收到对应信号执行配置动作
+    // 信号动作映射
     public List<BuildingMoverSignalAction> signalActions;
 
     // 信号移动后禁用
@@ -171,6 +171,13 @@ public class CompProperties_BuildingMover : CompProperties
     // 移动音效
     public SoundDef moveSound;
 
+    // 滑动烟尘粒子
+    public FleckDef slideFleckDef;
+    // 烟尘生成间隔
+    public int slideFleckIntervalTicks = 3;
+    // 烟尘缩放
+    public float slideFleckScale = 1.5f;
+
     // 按钮图标路径
     public string gizmoIconPath;
 
@@ -188,28 +195,28 @@ public class CompProperties_BuildingMover : CompProperties
     // 旋转按钮图标路径
     public string rotateIconPath;
 
-    // 感应门模式 让授权pawn可把本建筑当寻路通路
+    // 启用感应门
     public bool sensorDoor = false;
 
-    // 感应门让路移动方向 默认朝向右侧
+    // 感应门移动方向
     public BuildingMoveAxis sensorDoorAxis = BuildingMoveAxis.FacingSides;
 
     // 感应门让路格数
     public int sensorDoorDistance = 1;
 
-    // 感应门让路总耗时tick
+    // 感应门移动耗时
     public int sensorDoorOpenTicks = 60;
 
-    // 自动关闭 false为手动门保持敞开
+    // 感应门自动关闭
     public bool sensorDoorAutoClose = true;
 
-    // 无人后自动关闭延迟tick
+    // 自动关闭延迟
     public int sensorDoorCloseDelay = 120;
 
-    // 仅授权阵营可开 沿用原版门阵营规则
+    // 检查开门阵营
     public bool sensorDoorCheckFaction = true;
 
-    // 关门寻路代价 高代价促使未授权者绕行
+    // 关门寻路代价
     public int sensorDoorPathCost = 50;
 
     // 每格等待代价
@@ -223,7 +230,7 @@ public class CompProperties_BuildingMover : CompProperties
         compClass = typeof(CompBuildingMover);
     }
 
-    // 信号配置需def开启receivesSignals 否则收不到信号
+    // 验证信号接收
     public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
     {
         foreach (string e in base.ConfigErrors(parentDef)) yield return e;
@@ -232,14 +239,14 @@ public class CompProperties_BuildingMover : CompProperties
             yield return parentDef.defName + " 配置了信号触发(allowSignal/signalActions)但未设 receivesSignals=true 无法接收信号";
     }
 
-    // 放置预览自动绘制移动路径 随comp挂载生效
+    // 绘制放置路径
     public override void DrawGhost(IntVec3 center, Rot4 rot, ThingDef thingDef, Color ghostCol, AltitudeLayer drawAltitude, Thing thing = null)
     {
         base.DrawGhost(center, rot, thingDef, ghostCol, drawAltitude, thing);
         BuildingMoverGhostDrawer.DrawPath(this, thingDef, center, rot);
     }
 
-    // 自动注册放置文字PlaceWorker 免去XML手动声明
+    // 注册放置提示
     public override void ResolveReferences(ThingDef parentDef)
     {
         base.ResolveReferences(parentDef);

@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LanguageData>
   
-  <!-- EN: supported body size -->
+  <!-- 体型标签 -->
   <FFF_HeavyGears.label>supported body size</FFF_HeavyGears.label>
-  <!-- EN: Required pawn body size to equip this weapon. -->
+  <!-- 体型说明 -->
   <FFF_HeavyGears.description>Required pawn body size to equip this weapon.</FFF_HeavyGears.description>
   
-  <!-- EN: mass carry capacity -->
+  <!-- 负重标签 -->
   <FFF_MassCarryCapacity.label>mass carry capacity</FFF_MassCarryCapacity.label>
-  <!-- EN: The total mass this person can carry in their inventory and as equipment. -->
+  <!-- 负重说明 -->
   <FFF_MassCarryCapacity.description>The total mass this person can carry in their inventory and as equipment.</FFF_MassCarryCapacity.description>
   
-  <!-- EN: supported weapons -->
+  <!-- 武器标签 -->
   <FFF_UsableWeapons.label>supported weapons</FFF_UsableWeapons.label>
-  <!-- EN: Usable weapons that are supported by the OS of this model. -->
+  <!-- 武器说明 -->
   <FFF_UsableWeapons.description>Usable weapons that are supported by the OS of this model.</FFF_UsableWeapons.description>
-  
+
+  <FFF_FearResistance.label>fear resistance</FFF_FearResistance.label>
+  <FFF_FearResistance.description>Determines the effect of fear on this pawn when facing large mechanoids. Raise to 100% to fully resist.</FFF_FearResistance.description>
+
 </LanguageData>

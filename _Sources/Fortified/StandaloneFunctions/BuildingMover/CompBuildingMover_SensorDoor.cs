@@ -8,12 +8,12 @@ public partial class CompBuildingMover
 {
     private static readonly List<CompBuildingMover> ActiveSensorDoors = new List<CompBuildingMover>();
 
-    // 门关闭中心 不随滑动偏移
+    // 门关闭中心
     private IntVec3 sensorDoorClosedCenter;
     // 锚点已记录
     private bool sensorDoorAnchorSet;
 
-    // 门洞格恒为Portal 仅圈可开启的列 用常量距离保持静态
+    // 判断门洞格
     public bool IsSensorDoorPortalCell(IntVec3 cell)
     {
         if (disabled) return false;
@@ -22,7 +22,7 @@ public partial class CompBuildingMover
         return need > 0 && need <= Props.sensorDoorDistance;
     }
 
-    // 记录门关闭锚点 反推滑动偏移
+    // 记录关闭锚点
     public void EnsureSensorDoorAnchor()
     {
         if (sensorDoorAnchorSet || !Props.sensorDoor) return;
@@ -31,17 +31,17 @@ public partial class CompBuildingMover
         sensorDoorAnchorSet = true;
     }
 
-    // 外部comp平移后重锚定门洞 跟随建筑新位置
+    // 同步移动锚点
     public void SyncSensorDoorAnchorIfMoved()
     {
         if (!Props.sensorDoor || !sensorDoorAnchorSet || parent.Map == null) return;
-        // 等所有comp移动结束再重锚 避免滑动途中每tick重建
+        // 等待滑动结束
         if (AnySliding(parent)) return;
         IntVec3 dir = SensorDoorOpenDir();
         int off = Mathf.Max(0, trackOffset);
         if (sensorDoorClosedCenter + dir * off == parent.Position) return;
 
-        // 失效旧门洞region
+        // 刷新旧门洞
         Map map = parent.Map;
         foreach (IntVec3 c in SensorDoorFootprint().ClipInsideMap(map))
             map.regionDirtyer.Notify_WalkabilityChanged(c, true);
@@ -49,7 +49,7 @@ public partial class CompBuildingMover
         RefreshDoorPathCost();
     }
 
-    // 门关闭时占格 静态Portal归类基准
+    // 获取关闭占格
     private CellRect SensorDoorFootprint()
     {
         if (!sensorDoorAnchorSet) return parent.OccupiedRect();
@@ -60,14 +60,51 @@ public partial class CompBuildingMover
     {
         int need = RequiredOpenDistance(cell);
         if (need <= 0) return 10000;
-        // 门体已滑开露出 视为普通路面 不加门代价
+        // 已露出门洞
         if (cell.GetEdifice(parent.Map) != parent) return 1;
-        // 门体仍压着 按需等待格数加代价 引导走更快露出的列
+        // 计算等待代价
         int wait = Mathf.Max(0, need - CurrentSensorDoorOpenDistance());
+        // 检测开门阻挡
+        if (wait > 0 && !HasOpenPathForCells(wait)) return 10000;
+        // 固定开启代价
+        if (doorOpen) return Props.sensorDoorPathCost;
         return Props.sensorDoorPathCost + wait * Props.sensorDoorWaitCostPerCell;
     }
 
-    // 通行只看门体是否物理压住此格 门会完整打开
+    // 检查开门路径
+    private bool HasOpenPathForCells(int dist)
+    {
+        IntVec3 dir = SensorDoorOpenDir();
+        if (dir == IntVec3.Zero || parent.Map == null) return false;
+        CellRect self = parent.OccupiedRect();
+        for (int d = 1; d <= dist; d++)
+        {
+            foreach (IntVec3 c in self.MovedBy(dir * d))
+            {
+                if (self.Contains(c) || !c.InBounds(parent.Map)) continue;
+                List<Thing> list = c.GetThingList(parent.Map);
+                for (int i = 0; i < list.Count; i++)
+                {
+                    Thing t = list[i];
+                    if (t == parent) continue;
+                    if (t.def.category == ThingCategory.Building)
+                    {
+                        if (GenSpawn.SpawningWipes(parent.def, t.def)) continue;
+                        if (Props.crushBuildings && (t.def.destroyable || Props.crushIndestructible)) continue;
+                        return false;
+                    }
+                    if (t.def.category == ThingCategory.Item)
+                    {
+                        if (Props.crushItems) continue;
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    // 检查门洞通行
     public bool CanPassDoorCell(IntVec3 cell)
     {
         if (!IsSensorDoorPortalCell(cell)) return false;

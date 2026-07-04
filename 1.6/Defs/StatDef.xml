@@ -31,4 +31,62 @@
     <defaultBaseValue>1.0</defaultBaseValue>
     <minValue>0</minValue>
   </StatDef>
-</Defs>	
+
+  <StatDef>
+    <defName>FFF_FearResistance</defName>
+    <label>fear resistance</label>
+    <description>Determines the effect of fear on this pawn when facing large mechanoids. Raise to 100% to fully resist.</description>
+    <category>PawnResistances</category>
+    <defaultBaseValue>0</defaultBaseValue>
+    <minValue>-1</minValue>
+    <maxValue>1</maxValue>
+    <toStringStyle>PercentZero</toStringStyle>
+    <showIfUndefined>true</showIfUndefined>
+    <displayPriorityInCategory>20</displayPriorityInCategory>
+    <parts>
+      <!-- 崩溃阈值曲线 -->
+      <li Class="Fortified.StatPart_StatToCurve">
+        <inputStat>MentalBreakThreshold</inputStat>
+        <curve>
+          <points>
+            <li>(0.20,  0.50)</li>
+            <li>(0.45,  0.00)</li>
+            <li>(0.70, -0.50)</li>
+          </points>
+        </curve>
+      </li>
+      <!-- 疼痛阈值曲线 -->
+      <li Class="Fortified.StatPart_StatToCurve">
+        <inputStat>PainShockThreshold</inputStat>
+        <curve>
+          <points>
+            <li>(0.40, -0.30)</li>
+            <li>(0.80,  0.00)</li>
+            <li>(1.50,  0.30)</li>
+          </points>
+        </curve>
+      </li>
+      <!-- 疼痛系数曲线 -->
+      <li Class="Fortified.StatPart_PainFactor">
+        <curve>
+          <points>
+            <li>(0.10,  0.40)</li>
+            <li>(1.00,  0.00)</li>
+            <li>(2.00, -0.40)</li>
+          </points>
+        </curve>
+      </li>
+      <!-- 压制抗性曲线 -->
+      <li Class="Fortified.StatPart_StatToCurve" MayRequire="ceteam.combatextended">
+        <inputStat>SuppressionResistance</inputStat>
+        <curve>
+          <points>
+            <li>(0.50, -0.30)</li>
+            <li>(1.00,  0.00)</li>
+            <li>(2.00,  0.40)</li>
+          </points>
+        </curve>
+      </li>
+    </parts>
+  </StatDef>
+</Defs>

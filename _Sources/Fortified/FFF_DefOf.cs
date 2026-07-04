@@ -1,4 +1,4 @@
-﻿// 当白昼倾坠之时
+﻿// 定义框架引用
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -31,6 +31,8 @@ public static class FFF_DefOf
 
 	public static HediffDef FFF_Camouflage;
     public static FleckDef FFF_Fleck_DeflectShell;
+
+    public static StatDef FFF_FearResistance;
 }
 
 [StaticConstructorOnStartup]
