@@ -51,4 +51,7 @@
   <!-- EN: Microgravity -->
   <FFF.MicroGravity>微重力環境</FFF.MicroGravity>
 
+  <!-- EN: Requires pressure: {0} -->
+  <FFF.PressureRestriction>需要壓力: {0}</FFF.PressureRestriction>
+
 </LanguageData>

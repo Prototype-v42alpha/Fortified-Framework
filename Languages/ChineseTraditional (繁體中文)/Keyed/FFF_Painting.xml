@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <FFF_PaintSystemTitle>塗裝與著色系統</FFF_PaintSystemTitle>
+  <FFF_ChangePaint>更改塗裝</FFF_ChangePaint>
+  <FFF_ChangePaintDesc>打開自定義塗裝介面。</FFF_ChangePaintDesc>
+  <FFF_NoDye>附近沒有可用的染料</FFF_NoDye>
+  <FFF_CancelPaint>取消塗裝</FFF_CancelPaint>
+  <FFF_CancelPaintDesc>取消等待中的塗裝任務</FFF_CancelPaintDesc>
+  <FFF_PaintRequestSent>塗裝任務已下達</FFF_PaintRequestSent>
+  <FFF_ConfirmPaint>確認著色</FFF_ConfirmPaint>
+  <FFF_CamoScheme>迷彩方案</FFF_CamoScheme>
+  <FFF_2Columns>2列</FFF_2Columns>
+  <FFF_4Columns>4列</FFF_4Columns>
+  <FFF_6Columns>6列</FFF_6Columns>
+  <FFF_CamoStandard>標準</FFF_CamoStandard>
+  <FFF_CamoStandardDesc>標準 (無迷彩)</FFF_CamoStandardDesc>
+  <FFF_Color1>顏色1 (R)</FFF_Color1>
+  <FFF_Color2>顏色2 (G)</FFF_Color2>
+  <FFF_Color3>顏色3 (B)</FFF_Color3>
+  <FFF_Red>紅</FFF_Red>
+  <FFF_Green>綠</FFF_Green>
+  <FFF_Blue>藍</FFF_Blue>
+  <FFF_BaseBrightness>底色提亮</FFF_BaseBrightness>
+  <FFF_OverlayMultiply> [疊乘]</FFF_OverlayMultiply>
+  <FFF_OverlayDirect> [直接]</FFF_OverlayDirect>
+  <FFF_OverlayTitle>疊加層</FFF_OverlayTitle>
+  <FFF_OverlayNone>無疊加層</FFF_OverlayNone>
+
+  <FFF_CopyPaintConfig>複製配置</FFF_CopyPaintConfig>
+  <FFF_PaintConfigCopied>配置已複製</FFF_PaintConfigCopied>
+  <FFF_PastePaintConfig>貼上配置</FFF_PastePaintConfig>
+  <FFF_PastePaintConfigDesc>貼上已複製的著色配置</FFF_PastePaintConfigDesc>
+</LanguageData>

@@ -33,5 +33,8 @@
   
   <!-- EN: returning to platform -->
   <FFF_ReturnToDronePlatform.reportString>返回平台</FFF_ReturnToDronePlatform.reportString>
-  
+
+  <!-- EN: Replenishing -->
+  <FFF_Replenish.reportString>补给中</FFF_Replenish.reportString>
+
 </LanguageData>

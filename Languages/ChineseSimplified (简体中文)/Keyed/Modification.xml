@@ -33,4 +33,10 @@
   <!-- EN: Disposable ceramic armor protects the mecha from damage as ablative armor until its durability is exhausted and needs replacement. -->
   <FFF.PlatingTooltip>能够抵御大多数伤害的一次性防护片，其上限值与机械体体型正相关，无法自然恢复耐久。</FFF.PlatingTooltip>
 
+  <!-- Weapon mod targeting rejection reasons -->
+  <FFF.Mod.CannotUseDueToNotSupport>此改装件无法应用于此处</FFF.Mod.CannotUseDueToNotSupport>
+  <FFF.Mod.NotAGun>目标不是武器</FFF.Mod.NotAGun>
+  <FFF.Mod.NotModifiable>该武器不支持改装</FFF.Mod.NotModifiable>
+  <FFF.Mod.NotValidForThisWeapon>该改装件不适用于此武器</FFF.Mod.NotValidForThisWeapon>
+
 </LanguageData>
